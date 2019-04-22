@@ -1,9 +1,9 @@
 import Vue from "vue";
 import Vuex from "vuex";
-import studentModule from './studentModule.js'
+import ProModule from './ProModule.js'
 Vue.use(Vuex);
 export default new Vuex.Store({
   modules:{
-    studentModule
+    ProModule
   }
 });
