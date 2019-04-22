@@ -1,14 +1,14 @@
 <template>
-  <el-dialog title="修改学生" :visible.sync="supplier.visible">
+  <el-dialog title="修改学生">
     <el-form>
       <el-form-item label="姓名" :label-width="formLabelWidth">
         <el-input v-model="name" autocomplete="off"></el-input>
       </el-form-item>
       <el-form-item label="电话" :label-width="formLabelWidth">
-        <el-input v-model="phone" autocomplete="off"></el-input>
+        <el-input v-model="age" autocomplete="off"></el-input>
       </el-form-item>
     <el-form-item label="地址" :label-width="formLabelWidth">
-        <el-input v-model="address" autocomplete="off"></el-input>
+        <el-input v-model="gender" autocomplete="off"></el-input>
       </el-form-item>
     </el-form>
     <div slot="footer" class="btn">
@@ -28,7 +28,7 @@ export default {
     ...mapState(["supplier"]),
     name: {
       set(name) {
-        this.setStudent({
+        this.setSupplier({
           ...this.supplier,
           name
         });
@@ -39,7 +39,7 @@ export default {
     },
     age: {
       set(age) {
-        this.setStudent({
+        this.setSupplier({
           ...this.supplier,
           age
         });
@@ -50,7 +50,7 @@ export default {
     },
     gender: {
       set(gender) {
-        this.setStudent({
+        this.setSupplier({
           ...this.supplier,
           gender
         });
@@ -61,12 +61,12 @@ export default {
     }
   },
   methods: {
-    ...mapMutations(["setStudent", "setUpdateStuVis"]),
-    ...mapActions(["updateStudent", "getStudents"]),
+    ...mapMutations(["setSupplier", "setUpdateStuVis"]),
+    ...mapActions(["updateSupplier", "getSupplier"]),
     update(id) {
-      this.updateStudent(this.supplier);
+      this.updateSupplier(this.supplier);
       this.setUpdateStuVis(false);
-      this.getStudents();
+      this.getSupplier();
     }
   },
   data() {
