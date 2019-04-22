@@ -23,7 +23,7 @@
     </el-table-column>
     <el-table-column label="豪华" width="150" align="center">
       <template slot-scope="scope">
-        <span style="margin-left: 10px">{{ scope.row.price[2].height }}</span>
+        <span style="margin-left: 10px">￥{{ scope.row.price[2].height }}</span>
       </template>
     </el-table-column>
     <el-table-column label="操作">
@@ -36,18 +36,21 @@
 </template>
 
 <script>
-import { createNamespacedHelpers } from "vuex";
-const { mapActions, mapState } = createNamespacedHelpers("serviceModule");
+import { createNamespacedHelpers} from "vuex";
+const { mapActions, mapState, mapMutations } = createNamespacedHelpers(
+  "serviceModule"
+);
 export default {
   computed: {
-    ...mapState(["serviceType", "shopId","pagenation"])
+    ...mapState(["serviceType", "shopId", "pagenation"])
   },
   created() {
     let shopId = this.shopId;
     this.getServiceType({ page: 1, rows: 5, type: "", value: "", shopId });
   },
   methods: {
-    ...mapActions(["getServiceType","deleteServiceType","getUpdateService"]),
+    ...mapActions(["getServiceType", "deleteServiceType", "getUpdateService"]),
+    ...mapMutations(["setUpdateServiceTypeVis"]),
     del(id) {
       this.$confirm("此操作将永久删除该服务, 是否继续?", "提示", {
         confirmButtonText: "确定",
@@ -55,8 +58,14 @@ export default {
         type: "warning"
       })
         .then(() => {
-          this.deleteServiceType(id)
-          this.getServiceType({ page: this.pagenation.curpage,rows:5,type:"",value:"",shopId:this.shopId });
+          this.deleteServiceType(id);
+          this.getServiceType({
+            page: this.pagenation.curpage,
+            rows: 5,
+            type: "",
+            value: "",
+            shopId: this.shopId
+          });
         })
         .catch(() => {
           this.$message({
@@ -64,7 +73,8 @@ export default {
             message: "已取消删除"
           });
         });
-    },handleEdit(id){
+    },
+    handleEdit(id) {
       this.getUpdateService(id);
     }
   }

@@ -7,8 +7,8 @@ export default {
       name: "",
       time: "",
       low: "",
-      middle:"",
-      height:"",
+      middle: "",
+      height: "",
       id: "",
       visible: false
     },
@@ -31,9 +31,13 @@ export default {
     },
     setSearchRule(state, searchRule) {
       state.searchRule = searchRule;
-    },setUpdateServiceType(state, data) {
-      state.serviceTypeOne = data;
     },
+    setUpdateServiceType(state, data) {
+      state.serviceTypeOne = { ...data, visible: true };
+    },
+    setUpdateServiceTypeVis(state, visible) {
+      state.serviceTypeOne = { ...state.serviceTypeOne, visible };
+    }
   },
   actions: {
     getServiceType({ commit }, rule = {}) {
@@ -77,11 +81,22 @@ export default {
           time: res.data.time,
           low,
           middle,
-          height
+          height,
+          id
         };
-        console.log(res.data)
         commit("setUpdateServiceType", data);
       });
+    },
+    updateServiceType({ commit }, data) {
+      axios({
+        method: "put",
+        url: "/service/updateServiceType/" + data.id,
+        data: {
+          name: data.name,
+          time: data.time,
+          price: data.price
+        }
+      }).then(res => {});
     }
   }
 };
