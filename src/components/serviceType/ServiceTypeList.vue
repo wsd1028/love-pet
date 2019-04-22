@@ -28,7 +28,7 @@
     </el-table-column>
     <el-table-column label="操作">
       <template slot-scope="scope">
-        <el-button type="primary" icon="el-icon-edit" circle></el-button>
+        <el-button type="primary" icon="el-icon-edit" circle @click="handleEdit(scope.row._id)"></el-button>
         <el-button type="danger" icon="el-icon-delete" circle @click="del(scope.row._id)"></el-button>
       </template>
     </el-table-column>
@@ -47,7 +47,7 @@ export default {
     this.getServiceType({ page: 1, rows: 5, type: "", value: "", shopId });
   },
   methods: {
-    ...mapActions(["getServiceType","deleteServiceType"]),
+    ...mapActions(["getServiceType","deleteServiceType","getUpdateService"]),
     del(id) {
       this.$confirm("此操作将永久删除该服务, 是否继续?", "提示", {
         confirmButtonText: "确定",
@@ -64,6 +64,8 @@ export default {
             message: "已取消删除"
           });
         });
+    },handleEdit(id){
+      this.getUpdateService(id);
     }
   }
 };

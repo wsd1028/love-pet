@@ -31,7 +31,9 @@ export default {
     },
     setSearchRule(state, searchRule) {
       state.searchRule = searchRule;
-    }
+    },setUpdateServiceType(state, data) {
+      state.serviceTypeOne = data;
+    },
   },
   actions: {
     getServiceType({ commit }, rule = {}) {
@@ -61,6 +63,25 @@ export default {
         url: "/service/add",
         data: addMess
       }).then(res => {});
+    },
+    getUpdateService({ commit }, id) {
+      axios({
+        method: "get",
+        url: "/service/serviceType/" + id
+      }).then(res => {
+        let low = res.data.price[0].low;
+        let middle = res.data.price[1].middle;
+        let height = res.data.price[2].height;
+        let data = {
+          name: res.data.name,
+          time: res.data.time,
+          low,
+          middle,
+          height
+        };
+        console.log(res.data)
+        commit("setUpdateServiceType", data);
+      });
     }
   }
 };
