@@ -1,12 +1,32 @@
 <template>
   <div>
-    <h1>服务类型</h1>
+    <AddServiceType/>
+    <Search/>
+    <Update/>
+    <ServiceTypeList/>
+    <Page/>
   </div>
 </template>
 
 <script>
-export default {};
+import AddServiceType from "./AddServiceType";
+import Page from "./Page";
+import Search from "./Search";
+import Update from "./Update";
+import ServiceTypeList from "./ServiceTypeList";
+
+
+export default {
+ components: {
+    AddServiceType,
+    Update,
+    Search,
+    ServiceTypeList,
+    Page
+  },
+}
 </script>
 
-<style scoped>
+<style>
+
 </style>
