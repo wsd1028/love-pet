@@ -5,6 +5,9 @@ import Login from "./components/login";
 import Register from "./components/register";
 import Manage from "./components/manage";
 import Order from "./components/order";
+import Sent from "./components/Sent";
+import PendingTrade from "./components/PendingTrade";
+import PendingServe from "./components/PendingServe";
 import PetMaster from "./components/petMaster";
 import Product from "./components/product";
 import Service from "./components/service";
@@ -27,16 +30,23 @@ const routes = [
       { path: "/manage/petMaster", component: PetMaster },
       { path: "/manage/shopSys", component: ShopSys },
       { path: "/manage/supplier", component: Supplier }
-
     ]
-  },{
+  },
+  {
     path: "/shopManage",
     component: ShopManage,
     children: [
       { path: "/shopManage/product", component: Product },
       { path: "/shopManage/service", component: Service },
-      { path: "/shopManage/order", component: Order }
-
+      {
+        path: "/shopManage/order",
+        component: Order,
+        children: [
+          { path: "/shopManage/order/Sent", component: Sent },
+          { path: "/shopManage/order/PendingTrade", component: PendingTrade },
+          { path: "/shopManage/order/PendingServe", component: PendingServe }
+        ]
+      }
     ]
   }
 ];
