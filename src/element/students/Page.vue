@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-pagination background layout="prev, pager, next" :page-size="1" :total="pagenation.maxpage"  @current-change="page" :current-page="pagenation.curpage"></el-pagination>
+    <el-pagination background layout="prev, pager, next" :page-size="1" :total="pagenation.maxpage"  @current-change="" :current-page="pagenation.curpage"></el-pagination>
   </div>
 </template>
 
