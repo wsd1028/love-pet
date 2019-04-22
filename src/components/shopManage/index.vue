@@ -23,11 +23,11 @@
                 <span>商品订单</span>
               </template>
               <el-menu-item-group>
-                <el-menu-item index="/shopManage/order/Sent">
+                <el-menu-item index="/shopManage/sent">
                   <i class="el-icon-circle-check"></i>
                   <span>已发货</span>
                 </el-menu-item>
-                <el-menu-item index="/shopManage/order/PendingTrade">
+                <el-menu-item index="/shopManage/pendingTrade">
                   <i class="el-icon-loading"></i>
                   <span>未发货</span>
                 </el-menu-item>
@@ -39,11 +39,11 @@
                 <span>服务订单</span>
               </template>
               <el-menu-item-group>
-                <el-menu-item index="/shopManage/order">
+                <el-menu-item index="/shopManage/completedServe">
                   <i class="el-icon-circle-check"></i>
                   <span>已完成</span>
                 </el-menu-item>
-                <el-menu-item index="/shopManage/order/PendingServe">
+                <el-menu-item index="/shopManage/pendingServe">
                   <i class="el-icon-loading"></i>
                   <span>待完成</span>
                 </el-menu-item>
@@ -53,10 +53,13 @@
         </el-menu>
       </el-aside>
       <el-main>
-        <router-view></router-view>
+        <router-view>
+          
+        </router-view>
       </el-main>
     </el-container>
   </el-container>
+  
 </template>
 
 <script>
