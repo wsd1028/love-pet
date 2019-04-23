@@ -4,21 +4,21 @@
     <SearchPro></SearchPro>
     <ProList></ProList>
     <PagePro></PagePro>
-    <!-- <UpdatePro></UpdatePro> -->
+    <UpdatePro></UpdatePro>
   </div>
 </template>
 
 <script>
 import ProList from "./ProList";
 import ProAdd from "./ProAdd";
-// import UpdatePro from "./UpdatePro"
+import UpdatePro from "./UpdatePro"
 import SearchPro from "./SearchPro";
 import PagePro from "./PagePro";
 export default {
   components: {
     ProList,
     ProAdd,
-    // UpdatePro,
+    UpdatePro,
     SearchPro,
     PagePro
   }

@@ -1,5 +1,5 @@
   <template>
-  <el-table :data="products" style="width: 100%" max-height="250">
+  <el-table :data="products" style="width: 100%" max-height="380">
     <el-table-column fixed align="center" prop="name" label="商品名称" width="100">
       <template slot-scope="scope">
         <span style="margin-left: 10px">{{ scope.row.name }}</span>
@@ -104,8 +104,7 @@ export default {
     this.getProducts();
   },
   methods: {
-    // ...mapActions(["deleteProduct", "getProducts", "getUpdateStudent"]),
-    ...mapActions(["deleteProduct", "getProducts"]),
+    ...mapActions(["deleteProduct", "getProducts", "getUpdateProduct"]),
     handleDelete(id) {
       this.$confirm("此操作将永久删除该商品, 是否继续?", "提示", {
         confirmButtonText: "确定",
@@ -129,7 +128,9 @@ export default {
           });
         });
     },
-    handleEdit() {}
+    handleEdit(id) {
+      this.getUpdateProduct(id);
+    }
   }
 };
 </script>
