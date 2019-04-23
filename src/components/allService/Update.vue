@@ -126,7 +126,6 @@ export default {
     let data={...this.service,serviceTypeId:this.serviceTypeId}
         this.updateService(data);
         this.setUpdateServiceVis(false);
-        console.log( this.pagenation.curpage)
         this.getServices({ page: this.pagenation.curpage, shopId });
     }
   },
