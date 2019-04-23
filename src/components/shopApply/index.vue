@@ -23,7 +23,7 @@
           <el-form-item class="formItem" label="营业执照号码" prop="number">
             <el-input v-model="ruleForm.number"></el-input>
           </el-form-item>
-          <el-form-item class="formItem" label="营业执照图片" prop="image">
+          <!-- <el-form-item class="formItem" label="营业执照图片" prop="image">
             <el-upload
               class="upload-demo"
               action="https://jsonplaceholder.typicode.com/posts/"
@@ -39,26 +39,40 @@
               <el-button size="small" type="primary">点击上传</el-button>
               <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
             </el-upload>
-          </el-form-item>
+          </el-form-item>-->
           <!-- <el-form-item class="formItem" label="店铺头像" prop="headImg">
             <el-upload
               class="avatar-uploader border"
-              action="https://jsonplaceholder.typicode.com/posts/"
+              action="/upload"
               :show-file-list="false"
-              :on-success="headImage"
+              :on-success="handleAvatarSuccess"
+              :before-upload="beforeAvatarUpload"
             >
               <img v-if="ruleForm.headImg" :src="ruleForm.headImg" class="avatar">
               <i v-else class="el-icon-plus avatar-uploader-icon"></i>
             </el-upload>
-          </el-form-item>-->
+          </el-form-item> -->
           <el-form-item class="formItem" label="营业地址" prop="address">
             <el-input v-model="ruleForm.address"></el-input>
           </el-form-item>
           <el-form-item class="formItem" label="法人" prop="boss">
             <el-input v-model="ruleForm.boss"></el-input>
           </el-form-item>
-          <el-form-item class="formItem" v-model.number="ruleForm.age" label="联系电话" prop="phone">
+          <el-form-item class="formItem" v-model.number="ruleForm.phone" label="联系电话" prop="phone">
             <el-input type="phone" v-model="ruleForm.phone"></el-input>
+          </el-form-item>
+          <el-form-item class="formItem" label="经营范围" prop="feature">
+            <el-checkbox-group v-model="ruleForm.feature">
+              <el-checkbox label="宠物美容" name="feature"></el-checkbox>
+              <el-checkbox label="宠物洗澡" name="feature"></el-checkbox>
+              <el-checkbox label="宠物粮食" name="feature"></el-checkbox>
+              <el-checkbox label="宠物零食" name="feature"></el-checkbox>
+              <el-checkbox label="宠物玩具" name="feature"></el-checkbox>
+              <el-checkbox label="宠物服装" name="feature"></el-checkbox>
+              <el-checkbox label="宠物医疗" name="feature"></el-checkbox>
+              <el-checkbox label="宠物看管" name="feature"></el-checkbox>
+              <el-checkbox label="宠物销售" name="feature"></el-checkbox>
+            </el-checkbox-group>
           </el-form-item>
           <el-form-item>
             <el-button type="primary" @click="submitForm('ruleForm')">立即创建</el-button>
@@ -75,6 +89,7 @@
 </template>
 
 <script>
+import axios from "axios";
 export default {
   data() {
     var validatePhone = (rule, value, callback) => {
@@ -108,7 +123,8 @@ export default {
         headImg: "",
         address: "",
         boss: "",
-        phone: ""
+        phone: "",
+        feature: []
       },
 
       dialogVisible: false,
@@ -131,7 +147,15 @@ export default {
           { required: true, message: "请输入店铺头像", trigger: "blur" }
         ],
         boss: [{ required: true, message: "请输入法人姓名", trigger: "blur" }],
-        phone: [{ validator: validatePhone, trigger: "blur" }]
+        phone: [{ validator: validatePhone, trigger: "blur" }],
+        feature: [
+          {
+            type: "array",
+            required: true,
+            message: "请至少选择一个类型",
+            trigger: "change"
+          }
+        ]
       }
     };
   },
@@ -139,11 +163,22 @@ export default {
     submitForm(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
-          // console.log(123);
-          // console.log("ruleForm", this.ruleForm);
+          let feature = this.ruleForm.feature.join(",");
+          console.log(types);
+          // http://api.map.baidu.com/geocoder/v2/?address=地址&output=json&ak=秘钥
+          // axios({
+          //   url:"/shopApply",
+          //   method:"post",
+          //   data:{...this.ruleForm,status:"audit",feature:feature,vipLevel:"1级",commission:"0.5",shopWaiter:[],comment:[]}
+          // }).then((res)=>{
+          //   console.log(res.data)
+          // })
 
           alert("submit!");
         } else {
+          console.log(736483);
+          console.log({ ...this.ruleForm });
+          // console.log(this.ruleForm.type);
           // console.log("headUrl", this.headUrl);
           // console.log("ruleForm", this.ruleForm);
           console.log("image", this.ruleForm.image);
@@ -156,34 +191,20 @@ export default {
       this.$refs[formName].resetFields();
     },
     handleAvatarSuccess(res, file) {
-      // console.log("file",file);
-      this.ruleForm.image = URL.createObjectURL(file.raw);
-    },
-    // headImage(res, file) {
-    //   this.ruleForm.headImg = URL.createObjectURL(file.raw);
-    // },
-    // change(file) {
-    //   console.log(file.name);
-    // },
-    // uploadUrl() {
-    //   return "http://localhost:3000/upLoad";
-    // }
-    handleRemove(file, fileList) {
-      console.log(file, fileList);
-    },
-    handlePreview(file) {
-      console.log(file);
-    },
-    handleExceed(files, fileList) {
-      this.$message.warning(
-        `当前限制选择 3 个文件，本次选择了 ${
-          files.length
-        } 个文件，共选择了 ${files.length + fileList.length} 个文件`
-      );
-    },
-    beforeRemove(file, fileList) {
-      return this.$confirm(`确定移除 ${file.name}？`);
-    }
+        this.ruleForm.headImg = URL.createObjectURL(file.raw);
+      },
+      beforeAvatarUpload(file) {
+        const isJPG = file.type === 'image/jpeg';
+        const isLt2M = file.size / 1024 / 1024 < 2;
+
+        if (!isJPG) {
+          this.$message.error('上传头像图片只能是 JPG 格式!');
+        }
+        if (!isLt2M) {
+          this.$message.error('上传头像图片大小不能超过 2MB!');
+        }
+        return isJPG && isLt2M;
+      }
   }
 };
 </script>
@@ -214,12 +235,7 @@ export default {
   color: rgb(0, 157, 255);
 }
 
-.avatar-uploader .el-upload {
-  border-radius: 6px;
-  cursor: pointer;
-  position: relative;
-  overflow: hidden;
-}
+
 .border {
   border: 1px dashed #d9d9d9;
   border-radius: 6px;
@@ -227,20 +243,27 @@ export default {
   height: 128px;
 }
 
-.avatar-uploader .el-upload:hover {
-  border-color: #409eff;
-}
-.avatar-uploader-icon {
-  font-size: 28px;
-  color: #8c939d;
-  width: 128px;
-  height: 128px;
-  line-height: 128px;
-  text-align: center;
-}
-.avatar {
-  width: 128px;
-  height: 128px;
-  display: block;
-}
+ .avatar-uploader .el-upload {
+    border: 1px dashed #d9d9d9;
+    border-radius: 6px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+  }
+  .avatar-uploader .el-upload:hover {
+    border-color: #409EFF;
+  }
+  .avatar-uploader-icon {
+    font-size: 28px;
+    color: #8c939d;
+    width: 128px;
+    height: 128px;
+    line-height: 128px;
+    text-align: center;
+  }
+  .avatar {
+    width: 128px;
+    height: 128px;
+    display: block;
+  }
 </style>
