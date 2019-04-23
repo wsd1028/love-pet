@@ -1,6 +1,13 @@
 <template>
   <div>
-    <el-pagination background layout="prev, pager, next" :page-size="1" :total="pagenation.maxpage"  @current-change="page" :current-page="pagenation.curpage"></el-pagination>
+    <el-pagination
+      background
+      layout="prev, pager, next"
+      :page-size="1"
+      :total="pagenation.maxpage"
+      @current-change="page"
+      :current-page="pagenation.curpage"
+    ></el-pagination>
   </div>
 </template>
 
@@ -12,11 +19,11 @@ export default {
     ...mapState(["pagenation", "searchRule"])
   },
   methods: {
-    ...mapActions(["getStudents"]),
+    ...mapActions(["getProducts"]),
     page(page) {
       let type = this.searchRule.type || "";
       let value = this.searchRule.value || "";
-      this.getStudents({ page, type, value });
+      this.setProducts({ page, type, value });
     }
   }
 };
