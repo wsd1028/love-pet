@@ -1,12 +1,12 @@
 <template>
   <div>
-    <el-pagination background layout="prev, pager, next" :page-size="1" :total="pagenation.maxpage"  @current-change="" :current-page="pagenation.curpage"></el-pagination>
+    <el-pagination background layout="prev, pager, next" :page-size="1" :total="pagenation.maxpage"  @current-change="page" :current-page="pagenation.curpage"></el-pagination>
   </div>
 </template>
 
 <script>
 import { createNamespacedHelpers } from "vuex";
-const { mapActions, mapState } = createNamespacedHelpers("studentModule");
+const { mapActions, mapState } = createNamespacedHelpers("ProModule");
 export default {
   computed: {
     ...mapState(["pagenation", "searchRule"])
