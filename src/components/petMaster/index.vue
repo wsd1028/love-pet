@@ -100,8 +100,8 @@ export default {
       type: "",
       cur_page: 1,
       values: "",
-      classA:"classA",
-      classB:"classB"
+      classA: "classA",
+      classB: "classB"
     };
   },
   created() {
@@ -134,19 +134,17 @@ export default {
       console.log(this.type, this.value);
       this.setPetMaster({ type: this.type, value: this.value });
     },
-    defriend(){
-      this.$alert('是否拉黑此用户?','提示', {
-           showCancelButton: true,
-          confirmButtonText: '确定',
-          cancelButtonText:"取消",
-          callback: action => {
-            
-            this.$message({
-              
-              message: `已拉黑`
-            });
-          }
-        });
+    defriend() {
+      this.$alert("是否拉黑此用户?", "提示", {
+        showCancelButton: true,
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        callback: action => {
+          this.$message({
+            message: `已拉黑`
+          });
+        }
+      });
     },
     handleSizeChange(val) {
       // console.log("ok")
@@ -164,10 +162,10 @@ export default {
 </script>
 
 <style scoped>
-.classA{
-  display:  none;
+.classA {
+  display: none;
 }
-.classB{
+.classB {
   display: block;
 }
 </style>
