@@ -77,6 +77,17 @@
 <script>
 export default {
   data() {
+    var validatePhone = (rule, value, callback) => {
+      if (value === "") {
+        callback(new Error("手机号不能为空"));
+      } else {
+        if (/^1[3-9]\d{9}$/.test(value)) {
+          callback();
+        } else {
+          callback(new Error("手机号格式不正确"));
+        }
+      }
+    };
     return {
       fileList: [
         {
@@ -99,7 +110,7 @@ export default {
         boss: "",
         phone: ""
       },
-      
+
       dialogVisible: false,
       rules: {
         name: [
@@ -120,9 +131,7 @@ export default {
           { required: true, message: "请输入店铺头像", trigger: "blur" }
         ],
         boss: [{ required: true, message: "请输入法人姓名", trigger: "blur" }],
-        phone: [
-           { required: true, message: "请输入手机号码", trigger: "blur" }
-        ]
+        phone: [{ validator: validatePhone, trigger: "blur" }]
       }
     };
   },
