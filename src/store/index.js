@@ -1,24 +1,27 @@
 import Vue from "vue";
 import Vuex from "vuex";
-<<<<<<< HEAD
-import ProModule from './ProModule.js'
-import serviceModule from './serviceModule.js'
-=======
+Vue.use(Vuex);
+
+import shopApply from "./shopApply.js";
+import shops from "./shops.js";
+import ProModule from "./ProModule.js";
+import serviceModule from "./serviceModule.js";
+import allServiceModule from "./allServiceModule.js";
+import orderModule from "./orderModule";
+import usersModule from "./usersModule.js";
 import supplierModule from './supplierModule.js'
->>>>>>> wb
+
 Vue.use(Vuex);
 
 export default new Vuex.Store({
-<<<<<<< HEAD
-  modules:{
-    ProModule,
-    serviceModule
-  }
-
-});
-=======
   modules: {
-    supplierModule
+    orderModule,
+    shopApply,
+    shops,
+    ProModule,
+    serviceModule,
+    supplierModule,
+    allServiceModule,
+    usersModule
   }
 });
->>>>>>> wb

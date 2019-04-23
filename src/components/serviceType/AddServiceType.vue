@@ -1,6 +1,6 @@
 <template>
   <div class="div">
-    <el-button type="primary" @click=" dialogFormVisible= true">增加学生</el-button>
+    <el-button type="primary" @click=" dialogFormVisible= true">增加服务类型</el-button>
     <el-dialog title="增加" :visible.sync="dialogFormVisible">
       <el-form :model="form" ref="addForm">
         <el-form-item label="名称" :label-width="formLabelWidth">
