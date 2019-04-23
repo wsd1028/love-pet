@@ -11,8 +11,21 @@
       <el-aside width="200px" style="background-color: rgb(238, 241, 246)">
         <el-menu router :default-active="url" :default-openeds="[`${url}`]">
           <el-menu-item index="/manage/userSys">用户管理</el-menu-item>
-          <el-menu-item index="/manage/petMaster">宠主管理</el-menu-item>
-          <el-menu-item index="/manage/shopSys">门店管理</el-menu-item>
+          <el-menu-item index="/manage/petMaster">宠主管理
+          </el-menu-item>
+
+
+           <el-submenu index="/manage/shopSys">
+            <template slot="title">门店管理</template>
+            <el-menu-item-group>
+              <el-menu-item index="/manage/shops">营业门店</el-menu-item>
+              <el-menu-item index="/manage/blackShops">黑名单门店</el-menu-item>
+              <el-menu-item index="/manage/audit">门店审核</el-menu-item>
+            </el-menu-item-group>
+          </el-submenu>
+
+          <el-menu-item index="/manage/shopSys">门店管理
+          </el-menu-item>
           <el-menu-item index="/manage/supplier">供应商管理</el-menu-item>
         </el-menu>
       </el-aside>
