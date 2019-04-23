@@ -104,6 +104,7 @@ export default {
     this.getProducts();
   },
   methods: {
+    // ...mapActions(["deleteProduct", "getProducts", "getUpdateStudent"]),
     ...mapActions(["deleteProduct", "getProducts"]),
     handleDelete(id) {
       this.$confirm("此操作将永久删除该商品, 是否继续?", "提示", {
@@ -117,7 +118,7 @@ export default {
         })
         .then(() => {
           this.$message({
-            type: "info",
+            type: "success",
             message: "删除成功"
           });
         })

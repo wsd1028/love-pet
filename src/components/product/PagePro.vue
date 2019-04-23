@@ -1,13 +1,9 @@
 <template>
   <div>
-    <el-pagination
-      background
-      layout="prev, pager, next"
-      :page-size="1"
-      :total="pagenation.maxpage"
-      @current-change="page"
-      :current-page="pagenation.curpage"
-    ></el-pagination>
+    <el-pagination background layout="prev, pager, next"
+     :page-size="1" :total="pagenation.maxpage"
+       @current-change="page" 
+       :current-page="pagenation.curpage"></el-pagination>
   </div>
 </template>
 
@@ -23,7 +19,7 @@ export default {
     page(page) {
       let type = this.searchRule.type || "";
       let value = this.searchRule.value || "";
-      this.setProducts({ page, type, value });
+      this.getProducts({ page, type, value });
     }
   }
 };

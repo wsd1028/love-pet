@@ -4,10 +4,14 @@ import VueRouter from "vue-router";
 import Login from "./components/login";
 import Register from "./components/register";
 import Manage from "./components/manage";
-import Order from "./components/order";
+import Sent from "./components/sent";
+import PendingTrade from "./components/pendingTrade";
+import PendingServe from "./components/pendingServe";
+import CompletedServe from "./components/completedServe";
 import PetMaster from "./components/petMaster";
 import Product from "./components/product";
-import Service from "./components/service";
+import AllService from "./components/allService";
+import ServiceType from "./components/serviceType";
 import ShopApply from "./components/shopApply";
 import ShopManage from "./components/shopManage";
 import ShopSys from "./components/shopSys";
@@ -27,16 +31,18 @@ const routes = [
       { path: "/manage/petMaster", component: PetMaster },
       { path: "/manage/shopSys", component: ShopSys },
       { path: "/manage/supplier", component: Supplier }
-
     ]
-  },{
+  },
+  {
     path: "/shopManage",
     component: ShopManage,
     children: [
       { path: "/shopManage/product", component: Product },
       { path: "/shopManage/service", component: Service },
-      { path: "/shopManage/order", component: Order }
-
+      { path: "/shopManage/completedServe", component: CompletedServe },
+      { path: "/shopManage/sent", component: Sent },
+      { path: "/shopManage/pendingTrade", component: PendingTrade },
+      { path: "/shopManage/pendingServe", component: PendingServe }
     ]
   }
 ];

@@ -50,9 +50,7 @@ export default {
     // }
   },
   actions: {
-    getProducts({
-      commit
-    }, rule = {}) {
+    getProducts({ commit }, rule = {}) {
       let page = rule.page || 1;
       let rows = rule.rows || 5;
       let type = rule.type || "";
@@ -67,7 +65,7 @@ export default {
           value
         }
       }).then(res => {
-        commit("getProducts", res.data.rows);
+        commit("setProducts", res.data.rows);
         commit("setPagenation", res.data);
       });
     },
@@ -78,13 +76,13 @@ export default {
     //     data: addMess
     //   }).then(res => {});
     // },
-    deleteProduct({
-      commit
-    }, id) {
+    deleteProduct({ commit }, id) {
       axios({
         method: "delete",
         url: "/product/delete/" + id
-      }).then(res => {});
+      }).then(res => {
+          
+      });
     },
     // getUpdateStudent({ commit }, id) {
     //   axios({
