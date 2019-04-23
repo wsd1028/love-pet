@@ -1,4 +1,5 @@
 <template>
+<div></div>
   <!-- <el-dialog title="修改学生" :visible.sync="serviceType.visible">
     <el-form>
       <el-form-item label="名称" :label-width="formLabelWidth">
