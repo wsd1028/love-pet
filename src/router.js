@@ -37,19 +37,12 @@ const routes = [
       { path: "/manage/userSys", component: UserSys },
       { path: "/manage/petMaster", component: PetMaster },
       { path: "/manage/shopSys", component: ShopSys },
-<<<<<<< HEAD
-      { path: "/manage/supplier", component: Supplier }
-=======
-<<<<<<< HEAD
+      { path: "/manage/supplier", component: Supplier },
       { path: "/manage/supplier", component: Supplier },
       { path: "/manage/shops", component: Shops },
       { path: "/manage/audit", component: Audit },
       { path: "/manage/blackShops", component: BlackShops },
-
-=======
       { path: "/manage/supplier", component: Supplier }
->>>>>>> 4dca283f7190582e30282cd0802918d6870c5944
->>>>>>> f52e8e5d4ac4870c64b408d7837315ca09f4c7c5
     ]
   },
   {
@@ -57,19 +50,12 @@ const routes = [
     component: ShopManage,
     children: [
       { path: "/shopManage/product", component: Product },
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
       { path: "/shopManage/service", component: Service },
-<<<<<<< HEAD
-      { path: "/shopManage/order", component: Order }
-=======
+      { path: "/shopManage/order", component: Order },
       { path: "/shopManage/completedServe", component: CompletedServe },
       { path: "/shopManage/sent", component: Sent },
       { path: "/shopManage/pendingTrade", component: PendingTrade },
-      { path: "/shopManage/pendingServe", component: PendingServe }
-=======
->>>>>>> 4dca283f7190582e30282cd0802918d6870c5944
+      { path: "/shopManage/pendingServe", component: PendingServe },
       { path: "/shopManage/allService", component: AllService },
       { path: "/shopManage/serviceType", component: ServiceType },
       {
@@ -81,11 +67,6 @@ const routes = [
           { path: "/shopManage/order/PendingServe", component: PendingServe }
         ]
       }
-<<<<<<< HEAD
-=======
->>>>>>> 1e3789ef98d5162cc682f1cae281e9dcc8d16737
->>>>>>> 4dca283f7190582e30282cd0802918d6870c5944
->>>>>>> f52e8e5d4ac4870c64b408d7837315ca09f4c7c5
     ]
   }
 ];
