@@ -110,10 +110,5 @@ export default {
 };
 </script>
 
-<<<<<<< HEAD
-<style>
-
-=======
 <style scoped>
->>>>>>> fca3839f9949dfdfff37ea69f10865c0f682dc88
 </style>

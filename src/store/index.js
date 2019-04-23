@@ -9,8 +9,6 @@ import serviceModule from "./serviceModule.js";
 import allServiceModule from "./allServiceModule.js";
 import orderModule from "./orderModule";
 import usersModule from "./usersModule.js";
-import ProModule from "./ProModule.js";
-import serviceModule from "./serviceModule.js";
 import userSysModule from "./userSysModule.js";
 import supplierModule from './supplierModule.js'
 
