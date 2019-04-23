@@ -1,29 +1,35 @@
 <template>
-  <el-table :data="serviceType" style="width: 100%">
-    <el-table-column label="类型" width="150" align="center">
+  <el-table :data="services" style="width: 100%">
+      <el-table-column label="名称" width="130" align="center">
       <template slot-scope="scope">
         <span style="margin-left: 10px">{{ scope.row.name }}</span>
       </template>
     </el-table-column>
-    <el-table-column label="花费时间" width="150" align="center">
+    <el-table-column label="类型" width="130" align="center">
+      <template slot-scope="scope">
+        <span style="margin-left: 10px">{{ scope.row.serviceType.name }}</span>
+      </template>
+    </el-table-column>
+    <el-table-column label="开放时间段" width="130" align="center">
       <template slot-scope="scope">
         <i class="el-icon-time"></i>
-        <span style="margin-left: 10px">{{ scope.row.time }}</span>
+        <span style="margin-left: 10px">{{ scope.row.schedule }}</span>
       </template>
     </el-table-column>
-    <el-table-column label="普通" width="150" align="center">
+    <el-table-column label="耗时" width="130" align="center">
       <template slot-scope="scope">
-        <span style="margin-left: 10px">￥{{ scope.row.price[0].low }}</span>
+        <i class="el-icon-time"></i>
+        <span style="margin-left: 10px">{{ scope.row.useTime }}</span>
       </template>
     </el-table-column>
-    <el-table-column label="中等" width="150" align="center">
+    <el-table-column label="价格" width="130" align="center">
       <template slot-scope="scope">
-        <span style="margin-left: 10px">￥{{ scope.row.price[1].middle }}</span>
+        <span style="margin-left: 10px">￥{{ scope.row.price }}</span>
       </template>
     </el-table-column>
-    <el-table-column label="豪华" width="150" align="center">
+    <el-table-column label="服务人员" width="130" align="center">
       <template slot-scope="scope">
-        <span style="margin-left: 10px">￥{{ scope.row.price[2].height }}</span>
+        <span style="margin-left: 10px">{{ scope.row.waiter }}</span>
       </template>
     </el-table-column>
     <el-table-column label="操作">
@@ -38,32 +44,28 @@
 <script>
 import { createNamespacedHelpers} from "vuex";
 const { mapActions, mapState, mapMutations } = createNamespacedHelpers(
-  "serviceModule"
+  "allServiceModule"
 );
 export default {
-  computed: {
-    ...mapState(["serviceType", "shopId", "pagenation"])
+computed: {
+    ...mapState(["shopId","services","pagenation"])
   },
   created() {
     let shopId = this.shopId;
-    this.getServiceType({ page: 1, rows: 5, type: "", value: "", shopId });
+    this.getServices({shopId})
   },
   methods: {
-    ...mapActions(["getServiceType", "deleteServiceType", "getUpdateService"]),
-    ...mapMutations(["setUpdateServiceTypeVis"]),
-    del(id) {
+      ...mapActions(["getServices","deleteServices"]),
+       del(id) {
       this.$confirm("此操作将永久删除该服务, 是否继续?", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
         type: "warning"
       })
         .then(() => {
-          this.deleteServiceType(id);
-          this.getServiceType({
+          this.deleteServices(id);
+          this.getServices({
             page: this.pagenation.curpage,
-            rows: 5,
-            type: "",
-            value: "",
             shopId: this.shopId
           });
         })
@@ -74,12 +76,10 @@ export default {
           });
         });
     },
-    handleEdit(id) {
-      this.getUpdateService(id);
-    }
   }
-};
+}
 </script>
 
 <style scoped>
+
 </style>
