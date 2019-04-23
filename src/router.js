@@ -16,8 +16,12 @@ import UserSys from "./components/userSys";
 
 Vue.use(VueRouter);
 const routes = [
-  { path: "/", component: Login },
+  { path: "/", component: Manage },
   { path: "/register", component: Register },
+  {
+    path: "/login",
+    component: Login
+  },
   { path: "/shopApply", component: ShopApply },
   {
     path: "/manage",
@@ -27,16 +31,15 @@ const routes = [
       { path: "/manage/petMaster", component: PetMaster },
       { path: "/manage/shopSys", component: ShopSys },
       { path: "/manage/supplier", component: Supplier }
-
     ]
-  },{
+  },
+  {
     path: "/shopManage",
     component: ShopManage,
     children: [
       { path: "/shopManage/product", component: Product },
       { path: "/shopManage/service", component: Service },
       { path: "/shopManage/order", component: Order }
-
     ]
   }
 ];
