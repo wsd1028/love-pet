@@ -1,5 +1,5 @@
 <template>
-  <el-table :data="students" style="width: 100%" >
+  <el-table :data="students" style="width: 100%">
     <el-table-column label="姓名" width="180">
       <template slot-scope="scope">
         <span style="margin-left: 10px">{{ scope.row.name }}</span>
@@ -28,13 +28,13 @@
 import { createNamespacedHelpers } from "vuex";
 const { mapActions, mapState } = createNamespacedHelpers("studentModule");
 export default {
-  data(){
-    return{
-      loading2:true
-    }
+  data() {
+    return {
+      loading2: true
+    };
   },
   computed: {
-    ...mapState(["students","pagenation"])
+    ...mapState(["students", "pagenation"])
   },
   created() {
     this.getStudents();
@@ -49,7 +49,7 @@ export default {
       })
         .then(() => {
           this.deleteStudent(id);
-          this.getStudents({page:this.pagenation.curpage});
+          this.getStudents({ page: this.pagenation.curpage });
         })
         .catch(() => {
           this.$message({

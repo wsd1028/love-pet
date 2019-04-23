@@ -16,6 +16,7 @@ import UpdateStudent from "./UpdateStudent";
 import SearchStudent from "./SearchStudent";
 import StudentList from "./StudentList";
 import Page from "./Page";
+
 export default {
   components: {
     AddStudent,

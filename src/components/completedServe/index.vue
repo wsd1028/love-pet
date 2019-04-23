@@ -1,16 +1,7 @@
 <template>
   <el-card class="box-card">
     <div slot="header" class="clearfix">
-      <div style="margin-top: 15px;">
-        <el-input placeholder="请输入查询内容" v-model="input3" class="input-with-select">
-          <el-select v-model="select" slot="prepend" placeholder="请选择查询类型">
-            <el-option label="用户姓名" value="1"></el-option>
-            <el-option label="订单号" value="2"></el-option>
-            <el-option label="用户电话" value="3"></el-option>
-          </el-select>
-          <el-button slot="append" icon="el-icon-search"></el-button>
-        </el-input>
-      </div>
+      <CompletedServeSearch/>
     </div>
     <el-table :data="tableData" style="width: 100%;" max-height="250" border>
       <el-table-column align="center" fixed prop="date" label="订单号" width="350"></el-table-column>
@@ -24,7 +15,11 @@
 </template>
 
 <script>
+import CompletedServeSearch from "./CompletedServeSearch";
 export default {
+  components: {
+    CompletedServeSearch
+  },
   methods: {
     deleteRow(index, rows) {
       rows.splice(index, 1);
@@ -97,14 +92,4 @@ export default {
 };
 </script>
 <style scoped>
-.box-card {
-  height: 100%;
-}
-.el-select .el-input {
-  width: 150px;
-}
-.input-with-select {
-  background-color: #fff;
-  width: 700px;
-}
 </style>
