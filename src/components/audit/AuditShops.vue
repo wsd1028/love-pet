@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-table :data="blackList" style="width: 100%" >
+    <el-table :data="audit" style="width: 100%" >
       <el-table-column label="门店名称" width="180" align="center">
         <template slot-scope="scope">
           <span style="margin-left: 10px">{{ scope.row.name }}</span>
@@ -36,16 +36,6 @@
           <span style="margin-left: 10px" align="center">{{ scope.row.phone }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="VIP等级" width="100" align="center">
-        <template slot-scope="scope">
-          <span style="margin-left: 10px">{{ scope.row.vipLevel }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column label="佣金比例" width="100" align="center">
-        <template slot-scope="scope">
-          <span style="margin-left: 10px">{{ scope.row.commission }}%</span>
-        </template>
-      </el-table-column>
       <el-table-column label="门店地址" width="250" align="center">
         <template slot-scope="scope">
           <span style="margin-left: 10px">{{ scope.row.address }}</span>
@@ -54,12 +44,7 @@
 
       <el-table-column label="操作" width="150" fixed="right" align="center">
         <template slot-scope="scope">
-          <el-button
-            type="primary"
-            plain
-            icon="el-icon-edit"
-            @click="recoverShop(scope.row._id)"
-          >恢复门店</el-button>
+          <el-button type="primary" plain icon="el-icon-edit" @click="blackShop(scope.row._id)">通过审核</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -72,15 +57,17 @@ import { createNamespacedHelpers } from "vuex";
 const { mapActions, mapState, mapMutations } = createNamespacedHelpers("shops");
 export default {
   computed: {
-    ...mapState(["blackList"])
+    ...mapState(["audit"])
+    // ...mapMutations(["setBlackList"])
   },
   created() {
-    this.getShops({ status: "no" });
+    this.getShops({status:"audit"});
   },
   methods: {
     ...mapActions(["getShops"]),
-    recoverShop(id) {
-      this.$confirm("是否将该店铺恢复为正常营业？", "提示", {
+    
+    blackShop(id) {
+      this.$confirm("是否通过该店铺的审核？", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
         type: "warning"
@@ -93,19 +80,18 @@ export default {
               status: "yes"
             }
           }).then(res => {
-            this.$nextTick(
-            this.getShops({ status: "no" })
-            )
+            this.getShops({status:"audit"});
           });
           this.$message({
             type: "success",
-            message: "操作成功!"
+            message: "通过成功!"
           });
         })
         .catch(() => {
+
           this.$message({
             type: "info",
-            message: "已取消"
+            message: "已取消通过"
           });
         });
     }

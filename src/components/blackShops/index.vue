@@ -2,7 +2,6 @@
   <div>
     <SearchBlackShop/>
     <ShopsBlackList/>
-
     <Page/>
   </div>
 </template>
