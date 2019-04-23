@@ -1,12 +1,152 @@
 <template>
-  <div>
-    <h1>登陆</h1>
-  </div>
+  <el-card class="box-card">
+    <h1>登录</h1>
+    <el-form :model="ruleForm2" status-icon :rules="rules2" ref="ruleForm2" label-width="100px" class="demo-ruleForm">
+      <el-form-item label="手机号" prop="phone">
+        <el-input type="text" v-model="ruleForm2.phone" autocomplete="off"></el-input>
+      </el-form-item>
+      <el-form-item label="密码" prop="pwd">
+        <el-input type="password" v-model="ruleForm2.pwd" autocomplete="off"></el-input>
+      </el-form-item>
+      <el-form-item label="角色" prop="role">
+        <el-select value="value" v-model="ruleForm2.role" placeholder="请选择角色">
+          <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
+          </el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item>
+        <el-button type="primary" @click="submitForm('ruleForm2')">提交</el-button>
+        <el-button @click="resetForm('ruleForm2')">重置</el-button>
+      </el-form-item>
+    </el-form>
+  </el-card>
 </template>
 
 <script>
-export default {};
+import axios from "axios";
+export default {
+  data() {
+    var validatePass = (rule, value, callback) => {
+      if (!value) {
+        callback(new Error("密码不能为空"));
+      } else {
+        callback();
+      }
+    };
+    let validatePhone = (rule, value, callback) => {
+      if (!value) {
+        callback(new Error("手机号不能为空"));
+      } else {
+        callback();
+      }
+    };
+    let validateRole = (rule, value, callback) => {
+      if (!value) {
+        return callback(new Error("角色不能为空"));
+      } else {
+        callback();
+      }
+    };
+    return {
+      ruleForm2: {
+        pwd: "",
+        phone: "",
+        role: ""
+      },
+      rules2: {
+        pwd: [{ validator: validatePass, trigger: "blur" }],
+        phone: [{ validator: validatePhone, trigger: "blur" }],
+        role: [{ validator: validateRole, trigger: "blur" }]
+      },
+      options: [
+        {
+          value: "manager",
+          label: "平台管理员"
+        },
+        {
+          value: "shopWaiter",
+          label: "门店管理员"
+        }
+      ],
+      value: ""
+    };
+  },
+  methods: {
+    submitForm(formName) {
+      this.$refs[formName].validate(valid => {
+        // console.log(this.$refs[formName].model);
+        // console.log(this.$refs[formName].model.role); //选择的是哪个角色
+        if (valid) {
+          if (this.$refs[formName].model.role == "manager") {
+            axios({
+              method: "post",
+              url: "/login",
+              data: {
+                phone: this.$refs[formName].model.phone,
+                pwd: this.$refs[formName].model.pwd
+              }
+            }).then(res => {
+              console.log(res.data);
+              if (res.data.status == 1) {
+                alert("恭喜登录成功!进入系统管理界面");
+                this.$router.push("manage");
+              } else {
+                alert("该平台管理员账号不存在，请重新输入");
+              }
+            });
+          } else {
+            //店铺管理员
+            //店家已申请店铺
+            let phone = this.$refs[formName].model.phone;
+            let pwd = this.$refs[formName].model.pwd;
+            axios({
+              method: "get",
+              url: "/login/shopUsers"
+            }).then(res => {
+              for (let i = 0; i < res.data.length; i++) {
+                if (res.data[i].phone == phone && res.data[i].pwd == pwd) {
+                  //已申请账户
+                  console.log(res.data[i]);
+                  if (res.data[i].shops.$id) {
+                    //有账户，有店
+                    alert("已开店，进入门店管理界面");
+                    this.$router.push("shopSys");
+                    return;
+                  } else {
+                    //有账号，但未开店
+                    alert("该账户已注册账号，还未申请开店，进入店铺申请界面");
+                    this.$router.push("shopApply");
+                    return;
+                  }
+                }
+              }
+              alert("店家未注册，进入注册界面");
+              this.$router.push("register");
+            });
+
+            //店家未申请店铺
+          }
+        } else {
+          console.log("error submit!!");
+          return false;
+        }
+      });
+    },
+    resetForm(formName) {
+      this.$refs[formName].resetFields();
+    }
+  }
+};
 </script>
 
 <style scoped>
+.box-card {
+  width: 480px;
+  margin: 50px auto;
+}
+h1 {
+  text-align: center;
+}
 </style>
+
+
