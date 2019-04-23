@@ -7,8 +7,8 @@ export default {
       name: "",
       time: "",
       low: "",
-      middle:"",
-      height:"",
+      middle: "",
+      height: "",
       id: "",
       visible: false
     },
@@ -31,6 +31,12 @@ export default {
     },
     setSearchRule(state, searchRule) {
       state.searchRule = searchRule;
+    },
+    setUpdateServiceType(state, data) {
+      state.serviceTypeOne = { ...data, visible: true };
+    },
+    setUpdateServiceTypeVis(state, visible) {
+      state.serviceTypeOne = { ...state.serviceTypeOne, visible };
     }
   },
   actions: {
@@ -60,6 +66,36 @@ export default {
         method: "post",
         url: "/service/add",
         data: addMess
+      }).then(res => {});
+    },
+    getUpdateService({ commit }, id) {
+      axios({
+        method: "get",
+        url: "/service/serviceType/" + id
+      }).then(res => {
+        let low = res.data.price[0].low;
+        let middle = res.data.price[1].middle;
+        let height = res.data.price[2].height;
+        let data = {
+          name: res.data.name,
+          time: res.data.time,
+          low,
+          middle,
+          height,
+          id
+        };
+        commit("setUpdateServiceType", data);
+      });
+    },
+    updateServiceType({ commit }, data) {
+      axios({
+        method: "put",
+        url: "/service/updateServiceType/" + data.id,
+        data: {
+          name: data.name,
+          time: data.time,
+          price: data.price
+        }
       }).then(res => {});
     }
   }
