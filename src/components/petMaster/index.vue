@@ -1,118 +1,143 @@
 <template>
-    <div>
-        <SearchPetMastor @show="show" @setSearchInfo="setSearchInfo"></SearchPetMastor>
-        <PetMastorList :students="students" @show="show" @setStudent="setStudent"></PetMastorList>
-        <Page :pagination="pagination" @show="show" :searchInfo="searchInfo"></Page>
-    </div>
+<div>
+ <el-input style="width:500px" placeholder="请输入内容" v-model="value" class="input-with-select">
+    <el-select   v-model="values" slot="prepend" placeholder="请选择" @input="searchType" :checkout="true">
+      <el-option  v-for="item in options" :key="item.value" :label="item.label" :value="item.values" :checkout="true"></el-option>
+      
+    </el-select>
+    <el-button slot="append" icon="el-icon-search" @click="searchBtn"></el-button>
+  </el-input>
+  <el-table
+    :data="users"
+    style="width: 100%">
+    <el-table-column
+        prop="phone"
+      label="电话"
+      width="130">
+    </el-table-column>
+    <el-table-column
+        prop="name"  
+      label="昵称"
+      width="110">
+    </el-table-column>
+     <el-table-column
+        prop="realName"       
+      label="姓名"
+      width="110">
+    </el-table-column>
+     <el-table-column
+        prop="vip"
+      label="会员卡"
+      width="110">
+    </el-table-column>
+    <el-table-column
+        prop="headImg"
+      label="头像"
+      width="110">
+    </el-table-column>
+    <el-table-column
+        prop="address"
+      label="送货地址"
+      width="110">
+    </el-table-column>
+    <el-table-column
+        prop="score"
+      label="积分"
+      width="110">
+    </el-table-column>
+    <el-table-column
+        prop="pet"
+      label="宠物信息"
+      width="110">
+    </el-table-column>
+    <el-table-column label="操作">
+      <template slot-scope="scope">
+        <el-button
+          size="mini"
+          @click="handleEdit(scope.row)">拉黑</el-button>
+        <el-button
+          size="mini"
+          type="danger"
+          @click="del(scope.row._id)">取消</el-button>
+      </template>
+    </el-table-column>
+  </el-table>
+</div>
 </template>
 
 <script>
 import axios from "axios";
-import PetMastorList from "./PetMastor.vue"
-import SearchPetMastor from "./SearchPetMastor.vue"
-import Page from "./Page"
-
+import { createNamespacedHelpers } from "vuex";
+const { mapActions, mapState, mapMutations } = createNamespacedHelpers(
+  "usersModule"
+);
 export default {
   data() {
     return {
-      users: [],
-      user: {},
-      pagination: {},
-      searchInfo:{
-          type:"",
-          value:""
+      // student: {},
+      // pagination: {},
+      value: "",
+      values: "",
+      search: {
+        value: ""
       },
+      options: [{ values: "昵称" }, { values: "姓名" }, { values: "会员卡" }]
     };
-  },
-  components: {
-    
-    PetMastorList,
-    SearchPetMastor,
-    Page
-  },
-  methods: {
-    show(page = 1, rows = 5, type, value) {
-      axios({
-        method: "get",
-        url: "/petMastor",
-        params: {
-          page,
-          rows,
-          type,
-          value
-        }
-      }).then(res => {
-        console.log(res.data);
-        this.users = res.data.rows;
-        this.pagination = res.data;
-      });
-    },
-    setUser(user) {
-      this.user = user;
-    },
-    setSearchInfo(info) {
-      this.searchInfo = info;
-    }
   },
   created() {
-    this.show();
-  }
-};
-</script>
-
-<style>
-</style>
-<template>
-    <div>
-        <SearchPetMastor @show="show" @setSearchInfo="setSearchInfo"></SearchPetMastor>
-        <PetMastorList :students="students" @show="show" @setStudent="setStudent"></PetMastorList>
-        <Page :pagination="pagination" @show="show" :searchInfo="searchInfo"></Page>
-    </div>
-</template>
-
-<script>
-import axios from "axios";
-import PetMastorList from "./PetMastor.vue"
-import SearchPetMastor from "./SearchPetMastor.vue"
-import Page from "./Page"
-
-export default {
-  data() {
-    return {
-      users: [],
-      user: {},
-      pagination: {},
-      searchInfo:{
-          type:"",
-          value:""
-      },
-    };
+    this.setUsers();
   },
-  components: {
-    
-    PetMastorList,
-    SearchPetMastor,
-    Page
+  computed: {
+    ...mapState(["users", "user"])
   },
+  watch: {
+    "search.value"() {
+      this.type = this.search.value;
+    }
+  },
+
   methods: {
-    show(page = 1, rows = 5, type, value) {
+    ...mapMutations(["setVisible", "setUser"]),
+    ...mapActions(["setUsers"]),
+    show() {
       axios({
         method: "get",
-        url: "/petMastor",
-        params: {
-          page,
-          rows,
-          type,
-          value
-        }
+        url: "/petMaster"
+        // params: {
+        //   page,
+        //   rows,
+        //   type,
+        //   value
+        // }
       }).then(res => {
-        console.log(res.data);
-        this.users = res.data.rows;
-        this.pagination = res.data;
+        // console.log(res.data);
+        this.users = res.data;
+        // this.pagination = res.data;
       });
     },
-    setUser(user) {
-      this.user = user;
+    searchType(e) {
+      this.type = e;
+    },
+    // searchBtn(){
+    //   let typeNwe =this.type;
+    //   let valueNew =this.value
+    //      axios({
+    //     method: "get",
+    //     url: "/petMaster",
+    //     params: {
+    //      typeNwe,
+    //      valueNew
+    //     }
+    //   }).then(res => {
+    //     console.log(res.data);
+    //     this.users = res.data;
+    //     // this.pagination = res.data;
+    //   });
+    // },
+
+    searchBtn() {
+      console.log(this.type, this.value);
+      this.setUsers({ type: this.type, value: this.value });
     },
     setSearchInfo(info) {
       this.searchInfo = info;
