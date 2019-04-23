@@ -4,6 +4,7 @@ import shopApply from "./shopApply.js";
 import shops from "./shops.js";
 import ProModule from "./ProModule.js";
 import serviceModule from "./serviceModule.js";
+import allServiceModule from "./allServiceModule.js";
 import orderModule from "./orderModule";
 Vue.use(Vuex);
 
@@ -13,6 +14,7 @@ export default new Vuex.Store({
     shopApply,
     shops,
     ProModule,
-    serviceModule
+    serviceModule,
+    allServiceModule
   }
 });
