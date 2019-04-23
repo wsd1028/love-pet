@@ -28,6 +28,7 @@ const routes = [
     component: Login
   },
   { path: "/shopApply", component: ShopApply },
+  { path: "/login", component: Login },  
   {
     path: "/manage",
     component: Manage,
@@ -35,10 +36,14 @@ const routes = [
       { path: "/manage/userSys", component: UserSys },
       { path: "/manage/petMaster", component: PetMaster },
       { path: "/manage/shopSys", component: ShopSys },
+<<<<<<< HEAD
       { path: "/manage/supplier", component: Supplier },
       { path: "/manage/shops", component: Shops },
       { path: "/manage/audit", component: Audit },
       { path: "/manage/blackShops", component: BlackShops }
+=======
+      { path: "/manage/supplier", component: Supplier }
+>>>>>>> wangjing
     ]
   },
   {
@@ -46,12 +51,30 @@ const routes = [
     component: ShopManage,
     children: [
       { path: "/shopManage/product", component: Product },
+<<<<<<< HEAD
+=======
+      // { path: "/shopManage/service", component: Service },
+      { path: "/shopManage/completedServe", component: CompletedServe },
+>>>>>>> wangjing
       { path: "/shopManage/sent", component: Sent },
       { path: "/shopManage/completedServe", component: CompletedServe },
       { path: "/shopManage/pendingTrade", component: PendingTrade },
       { path: "/shopManage/pendingServe", component: PendingServe },
       { path: "/shopManage/allService", component: AllService },
+<<<<<<< HEAD
       { path: "/shopManage/serviceType", component: ServiceType }
+=======
+      { path: "/shopManage/serviceType", component: ServiceType },
+      // {
+      //   path: "/shopManage/order",
+      //   component: Order,
+      //   children: [
+      //     { path: "/shopManage/order/Sent", component: Sent },
+      //     { path: "/shopManage/order/PendingTrade", component: PendingTrade },
+      //     { path: "/shopManage/order/PendingServe", component: PendingServe }
+      //   ]
+      // }
+>>>>>>> wangjing
     ]
   }
 ];
