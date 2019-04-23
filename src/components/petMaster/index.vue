@@ -1,16 +1,18 @@
 <template>
-<div>
- <el-input style="width:500px" placeholder="请输入内容" v-model="value" class="input-with-select">
+  <div>
+  <el-input style="width:500px" placeholder="请输入内容" v-model="value" class="input-with-select">
     <el-select   v-model="values" slot="prepend" placeholder="请选择" @input="searchType" :checkout="true">
-      <el-option  v-for="item in options" :key="item.value" :label="item.label" :value="item.values" :checkout="true"></el-option>
-      
+     <el-option label="昵称" value="name"></el-option>
+     <el-option label="姓名" value="realName"></el-option>
+     <el-option label="VIP" value="vip"></el-option>
     </el-select>
     <el-button slot="append" icon="el-icon-search" @click="searchBtn"></el-button>
   </el-input>
   <el-table
-    :data="users"
+    :data="petMaster"
+     row-key="_id"
     style="width: 100%">
-    <el-table-column
+     <el-table-column
         prop="phone"
       label="电话"
       width="130">
@@ -50,104 +52,122 @@
       label="宠物信息"
       width="110">
     </el-table-column>
-    <el-table-column label="操作">
+  <el-table-column label="操作">
       <template slot-scope="scope">
         <el-button
           size="mini"
-          @click="handleEdit(scope.row)">拉黑</el-button>
-        <el-button
-          size="mini"
+          @click="defriend()"
           type="danger"
-          @click="del(scope.row._id)">取消</el-button>
+          :class="[scope.row.state==0?'classA':'classB']"
+          >拉黑</el-button>
+        <el-button
+        style="display:none"
+          size="mini"
+          type="success"
+           :class="[scope.row.state==1?'classA':'classB']"
+          @click="cancelRachel()"
+           >取消拉黑</el-button>
       </template>
     </el-table-column>
   </el-table>
-</div>
+  <div class="block" style="width:600px;margin:0 auto">
+    <el-pagination
+      @size-change="handleSizeChange"
+      @current-change="handleCurrentChange"
+      :current-page="cur_page"
+      :page-sizes="[5, 10, 15, 20]"
+      :page-size="pagination.eachpage"
+      layout="total, sizes, prev, pager, next, jumper"
+      :total="pagination.total">
+    </el-pagination>
+  </div>
+  </div>
 </template>
 
 <script>
 import axios from "axios";
 import { createNamespacedHelpers } from "vuex";
-const { mapActions, mapState, mapMutations } = createNamespacedHelpers(
+const { mapState, mapActions, mapMutations } = createNamespacedHelpers(
   "usersModule"
 );
 export default {
   data() {
     return {
-      // student: {},
-      // pagination: {},
-      value: "",
-      values: "",
       search: {
         value: ""
       },
-      options: [{ values: "昵称" }, { values: "姓名" }, { values: "会员卡" }]
+      value: "",
+      type: "",
+      cur_page: 1,
+      values: "",
+      classA:"classA",
+      classB:"classB"
     };
   },
   created() {
-    this.setUsers();
+    this.setPetMaster();
   },
   computed: {
-    ...mapState(["users", "user"])
+    ...mapState(["petMaster", "visible", "petMasterinfor"]),
+    ...mapState({ pagination: state => state.pagination })
+    // blacklist:{
+    //   set(blacklist){
+    //     this.setPetMasterinfor({
+    //          ...this.petMasterinfor,
+
+    //     })
+    //   }
+    // }
   },
   watch: {
     "search.value"() {
       this.type = this.search.value;
     }
   },
-
   methods: {
-    ...mapMutations(["setVisible", "setUser"]),
-    ...mapActions(["setUsers"]),
-    show() {
-      axios({
-        method: "get",
-        url: "/petMaster"
-        // params: {
-        //   page,
-        //   rows,
-        //   type,
-        //   value
-        // }
-      }).then(res => {
-        // console.log(res.data);
-        this.users = res.data;
-        // this.pagination = res.data;
-      });
-    },
+    ...mapActions(["setPetMaster"]),
+
     searchType(e) {
       this.type = e;
     },
-    // searchBtn(){
-    //   let typeNwe =this.type;
-    //   let valueNew =this.value
-    //      axios({
-    //     method: "get",
-    //     url: "/petMaster",
-    //     params: {
-    //      typeNwe,
-    //      valueNew
-    //     }
-    //   }).then(res => {
-    //     console.log(res.data);
-    //     this.users = res.data;
-    //     // this.pagination = res.data;
-    //   });
-    // },
-
     searchBtn() {
       console.log(this.type, this.value);
-      this.setUsers({ type: this.type, value: this.value });
+      this.setPetMaster({ type: this.type, value: this.value });
     },
-    setSearchInfo(info) {
-      this.searchInfo = info;
+    defriend(){
+      this.$alert('是否拉黑此用户?','提示', {
+           showCancelButton: true,
+          confirmButtonText: '确定',
+          cancelButtonText:"取消",
+          callback: action => {
+            
+            this.$message({
+              
+              message: `已拉黑`
+            });
+          }
+        });
+    },
+    handleSizeChange(val) {
+      // console.log("ok")
+      // console.log(`每页 ${val} 条`);
+      this.setPetMaster({ rows: val });
+    },
+    handleCurrentChange(val) {
+      // console.log("进来了")
+      // console.log(`当前页: ${val}`);
+      this.cur_page = val;
+      this.setPetMaster({ page: val });
     }
-  },
-  created() {
-    this.show();
   }
 };
 </script>
 
-<style>
+<style scoped>
+.classA{
+  display:  none;
+}
+.classB{
+  display: block;
+}
 </style>
