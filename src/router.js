@@ -19,36 +19,69 @@ import Supplier from "./components/supplier";
 import UserSys from "./components/userSys";
 
 Vue.use(VueRouter);
-const routes = [
-  { path: "/", component: Login },
-  { path: "/register", component: Register },
-  { path: "/shopApply", component: ShopApply },
+const routes = [{
+    path: "/",
+    component: Login
+  },
+  {
+    path: "/register",
+    component: Register
+  },
+  {
+    path: "/shopApply",
+    component: ShopApply
+  },
   {
     path: "/manage",
     component: Manage,
-    children: [
-      { path: "/manage/userSys", component: UserSys },
-      { path: "/manage/petMaster", component: PetMaster },
-      { path: "/manage/shopSys", component: ShopSys },
-      { path: "/manage/supplier", component: Supplier }
+    children: [{
+        path: "/manage/userSys",
+        component: UserSys
+      },
+      {
+        path: "/manage/petMaster",
+        component: PetMaster
+      },
+      {
+        path: "/manage/shopSys",
+        component: ShopSys
+      },
+      {
+        path: "/manage/supplier",
+        component: Supplier
+      }
     ]
   },
   {
     path: "/shopManage",
     component: ShopManage,
-    children: [
-      { path: "/shopManage/product", component: Product },
-      { path: "/shopManage/completedServe", component: CompletedServe },
-      { path: "/shopManage/allService", component: AllService },
-      { path: "/shopManage/serviceType", component: ServiceType },
+    children: [{
+        path: "/shopManage/product",
+        component: Product
+      },
       {
-        path: "/shopManage/order",
-        component: Order,
-        children: [
-          { path: "/shopManage/order/Sent", component: Sent },
-          { path: "/shopManage/order/PendingTrade", component: PendingTrade },
-          { path: "/shopManage/order/PendingServe", component: PendingServe }
-        ]
+        path: "/shopManage/completedServe",
+        component: CompletedServe
+      },
+      {
+        path: "/shopManage/allService",
+        component: AllService
+      },
+      {
+        path: "/shopManage/serviceType",
+        component: ServiceType
+      },
+      {
+        path: "/shopManage/order/Sent",
+        component: Sent
+      },
+      {
+        path: "/shopManage/order/PendingTrade",
+        component: PendingTrade
+      },
+      {
+        path: "/shopManage/order/PendingServe",
+        component: PendingServe
       }
     ]
   }
