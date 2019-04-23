@@ -2,8 +2,8 @@ import axios from "axios";
 export default {
   namespaced: true,
   state: {
-    students: [],
-    student: {
+    products: [],
+    product: {
       name: "",
       type: "",
       totalNum: "",
@@ -22,7 +22,7 @@ export default {
       image:"",
       visible: false
     },
-    userName: "",
+    // userName: "",
     searchRule: {
       type: "",
       value: ""
@@ -30,8 +30,8 @@ export default {
     pagenation: {}
   },
   mutations: {
-    setStudents(state, students) {
-      state.students = students;
+    setProducts(state, products) {
+      state.products = products;
     },
     // setUpdateStuVis(state, visible) {
     //   state.student = { ...state.student, visible };
@@ -39,9 +39,9 @@ export default {
     // setStudent(state, student) {
     //   state.student = { ...student, visible: true };
     // },
-    // setSearchRule(state, searchRule) {
-    //   state.searchRule = searchRule;
-    // },
+    setSearchRule(state, searchRule) {
+      state.searchRule = searchRule;
+    },
     setPagenation(state, pagenation) {
       state.pagenation = pagenation;
     },
@@ -50,7 +50,7 @@ export default {
     // }
   },
   actions: {
-    getStudents({ commit }, rule = {}) {
+    getProducts({ commit }, rule = {}) {
       let page = rule.page || 1;
       let rows = rule.rows || 5;
       let type = rule.type || "";
@@ -60,9 +60,8 @@ export default {
         url: "/product",
         params: { page, rows, type, value }
       }).then(res => {
-        console.log("12")
-        // commit("setStudents", res.data.rows);
-        // commit("setPagenation", res.data);
+        commit("setProducts", res.data.rows);
+        commit("setPagenation", res.data);
       });
     },
     // addStudent({ commit }, addMess) {
@@ -72,11 +71,13 @@ export default {
     //     data: addMess
     //   }).then(res => {});
     // },
-    deleteStudent({ commit }, id) {
+    deleteProduct({ commit }, id) {
       axios({
         method: "delete",
         url: "/product/delete/" + id
-      }).then(res => {});
+      }).then(res => {
+          
+      });
     },
     // getUpdateStudent({ commit }, id) {
     //   axios({
