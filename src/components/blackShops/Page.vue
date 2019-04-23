@@ -1,6 +1,6 @@
 <template>
   <div class="page">
-    <el-pagination background layout="prev, pager, next" :page-size="1" :total="pagination.maxpage"  @current-change="page" :current-page="pagination.curpage"></el-pagination>
+    <el-pagination background layout="prev, pager, next" :page-size="1" :total="paginationBlack.maxpage"  @current-change="page" :current-page="paginationBlack.curpage"></el-pagination>
   </div>
 </template>
 
@@ -9,14 +9,14 @@ import { createNamespacedHelpers } from "vuex";
 const { mapActions, mapState } = createNamespacedHelpers("shops");
 export default {
   computed: {
-    ...mapState(["pagination", "searchShop"])
+    ...mapState(["paginationBlack", "searchShop"])
   },
   methods: {
-    ...mapActions(["getSshops"]),
+    ...mapActions(["getShops"]),
     page(page) {
       let type = this.searchShop.type || "";
       let value = this.searchShop.value || "";
-      this.getShops({ page, type, value });
+      this.getShops({status:"no", page, type, value });
     }
   }
 };

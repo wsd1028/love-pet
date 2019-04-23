@@ -35,13 +35,13 @@ export default {
       let value = this.value;
       this.setSearch({ ...this.searchShop, type });
       this.setSearch({ ...this.searchShop, value });
-      this.getShops({status:"no",page:1,rows:5, type, value });
+      this.getShops({status:"audit",page:1,rows:5, type, value });
     }
   }
 };
 </script>
 
-<style scoped>
+<style>
 .div {
   display: inline-block;
   display: flex;
