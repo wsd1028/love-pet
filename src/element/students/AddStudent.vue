@@ -24,7 +24,7 @@
 
 <script>
 import { createNamespacedHelpers } from "vuex";
-const { mapActions, mapState } = createNamespacedHelpers("supplierModule");
+const { mapActions, mapState } = createNamespacedHelpers("studentsModule");
 export default {
   computed: {
     ...mapState(["pagenation"])

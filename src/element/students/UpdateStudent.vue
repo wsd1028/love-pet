@@ -1,5 +1,5 @@
 <template>
-  <el-dialog title="修改学生" :visible.sync="supplier.visible">
+  <el-dialog title="修改学生" :visible.sync="students.visible">
     <el-form>
       <el-form-item label="姓名" :label-width="formLabelWidth">
         <el-input v-model="name" autocomplete="off"></el-input>
@@ -21,7 +21,7 @@
 <script>
 import { createNamespacedHelpers } from "vuex";
 const { mapActions, mapState, mapMutations } = createNamespacedHelpers(
-  "supplierModule"
+  "studentsModule"
 );
 export default {
   computed: {

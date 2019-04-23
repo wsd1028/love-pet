@@ -17,10 +17,8 @@ export default {
     },
     pagenation: {}
   },
-
   mutations: {
     setSuppliers(state, suppliers) {
-      console.log("5636")
       state.suppliers = suppliers;
     },
     setUpdateStuVis(state, visible) {
@@ -49,7 +47,6 @@ export default {
     getSuppliers({
       commit
     }, rule = {}) {
-      console.log(23)
       let page = rule.page || 1;
       let rows = rule.rows || 5;
       let type = rule.type || "";
@@ -65,32 +62,34 @@ export default {
         }
       }).then(res => {
         commit("setSuppliers", res.data.rows);
-        // commit("setPagenation", res.data);
+        commit("setPagenation", res.data);
       });
     },
-    // addSupplier({ commit }, addMess) {
-    //   axios({
-    //     method: "post",
-    //     url: "/lovePet/addStu",
-    //     data: addMess
-    //   }).then(res => {});
-    // },
-    // deleteSupplier({ commit }, id) {
-    //   axios({
-    //     method: "delete",
-    //     url: "/lovePet/delete/" + id
-    //   }).then(res => {});
-    // },
-    // getUpdateSupplier({ commit }) {
-    //   axios({
-    //     method: "get",
-    //     url: "/supplier"
-    //   }).then(res => {
-    //     // console.log("")
-
-    //     commit("lovePet", res.data);
-    //   });
-    // }
+    addSupplier({
+      commit
+    }, addMess) {
+      axios({
+        method: "post",
+        url: "/supplier/addSuppliers",
+        data: addMess
+      }).then(res => {});
+    },
+    deleteSupplier({
+      commit
+    }, id) {
+      axios({
+        method: "delete",
+        url: "/supplier/delete/" + id
+      }).then(res => {});
+    },
+    getUpdateSupplier({ commit },id) {
+      axios({
+        method: "get",
+        url: "/supplier/"+id
+      }).then(res => {
+        commit("setSupplier", res.data);
+      });
+    },
     // removeSession({ commit }) {
     //   axios({
     //     method: "get",
@@ -99,16 +98,16 @@ export default {
     //     commit("setUserName", "");
     //   });
     // },
-    // updateStudent({ commit }, data) {
-    //   axios({
-    //     method: "put",
-    //     url: "/lovePet/" + data._id,
-    //     data: {
-    //       name: data.name,
-    //       age: data.age,
-    //       gender: data.gender
-    //     }
-    //   }).then(res => {});
-    // }
+    updateSupplier({ commit }, data) {
+      axios({
+        method: "put",
+        url: "/supplier/" + data._id,
+        data: {
+          name: data.name,
+          phone: data.phone,
+          adress: data.adress
+        }
+      }).then(res => {});
+    }
   }
 };

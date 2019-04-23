@@ -3,7 +3,7 @@
     <el-button class="title1" type="primary" @click="dialogFormVisible = true">增加供应商</el-button>
     <el-dialog title="增加" :visible.sync="dialogFormVisible">
       <el-form :model="form" ref="addForm">
-        <el-form-item label="姓名" :label-width="formLabelWidth">
+        <el-form-item label="供应商" :label-width="formLabelWidth">
           <el-input v-model="form.name" autocomplete="off"></el-input>
         </el-form-item>
         <el-form-item label="电话" :label-width="formLabelWidth">
@@ -40,7 +40,7 @@ export default {
     };
   },
   methods: {
-    ...mapActions(["addSupplier", "getSupplier"]),
+    ...mapActions(["addSupplier", "getSuppliers"]),
     addNo(form) {
       this.$refs[form].resetFields();
       this.dialogFormVisible = false;
@@ -51,12 +51,11 @@ export default {
       this.$refs[form].resetFields();
       this.dialogFormVisible = false;
       let page = this.pagenation.curpage;
-      this.getSupplier({ page });
+      this.getSuppliers({ page });
     }
   }
 };
 </script>
-
 <style scoped>
 .btn {
   display: block;

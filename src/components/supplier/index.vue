@@ -5,6 +5,8 @@
     <supSearch></supSearch>
     <supUpdate></supUpdate>
     <supList></supList>
+    <supPage></supPage>
+    
   </div>
 </template>
 
@@ -12,14 +14,16 @@
 import supList from "./supList";
 import supSearch from "./supSearch";
 import supAdd from "./supAdd";
-import supUpdate from "./supUpdate"
+import supUpdate from "./supUpdate";
+import supPage from "./supPage"
 
 export default {
   components: {
     supList,
     supAdd,
     supSearch,
-    supUpdate
+    supUpdate,
+    supPage,
   }
 };
 </script>

@@ -1,8 +1,20 @@
 <template>
-  <el-table :data="tableData" style="width: 100%">
-    <el-table-column prop="name" label="姓名" width="180"></el-table-column>
-    <el-table-column prop="phone" label="电话" width="180"></el-table-column>
-    <el-table-column prop="address" label="地址"></el-table-column>
+  <el-table :data="suppliers" style="width: 100%;" class="el1">
+    <el-table-column label="供应商" row-key="_id" width="200" style=" ">
+      <template slot-scope="scope">
+        <span style="margin-left: 10px">{{ scope.row.name }}</span>
+      </template>
+    </el-table-column>
+    <el-table-column label="电话" width="200">
+      <template slot-scope="scope">
+        <span>{{ scope.row.phone }}</span>
+      </template>
+    </el-table-column>
+    <el-table-column label="地址" width="200">
+      <template slot-scope="scope">
+        <span>{{ scope.row.adress }}</span>
+      </template>
+    </el-table-column>
     <el-table-column label="操作">
       <template slot-scope="scope">
         <el-button type="primary" icon="el-icon-edit" circle @click="handleEdit(scope.row._id)"></el-button>
@@ -11,51 +23,33 @@
     </el-table-column>
   </el-table>
 </template>
-
 <script>
 import { createNamespacedHelpers } from "vuex";
 const { mapActions, mapState } = createNamespacedHelpers("supplierModule");
 export default {
   data() {
     return {
-      tableData: [
-        {
-          name: "王小虎",
-          phone: "18728696959",
-          address: "上海市普陀区金沙江路 1518 弄"
-        },
-        {
-          name: "王小虎",
-          phone: "18728696959",
-          address: "上海市普陀区金沙江路 1518 弄"
-        },
-        {
-          name: "王小虎",
-          phone: "18728696959",
-          address: "上海市普陀区金沙江路 1518 弄"
-        },
-        {
-          name: "王小虎",
-          phone: "18728696959",
-          address: "上海市普陀区金沙江路 1518 弄"
-        }
-      ]
+      loading2: true
     };
   },
   created() {
     this.getSuppliers();
+    this.deleteSupplier();
+  },
+  computed: {
+    ...mapState(["suppliers", "pagenation"])
   },
   methods: {
-    ...mapActions(["getSuppliers"]),
+    ...mapActions(["getSuppliers","deleteSupplier","getUpdateSupplier"]),
     open2(id) {
-      this.$confirm("此操作将永久删除管理商户, 是否继续?", "提示", {
+      this.$confirm("此操作将永久删除此管理商户, 是否继续?", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
         type: "warning"
       })
         .then(() => {
-          // this.deleteSupplier(id);
-          // this.getSuppliers({ page: this.pagenation.curpage });
+          this.deleteSupplier(id);
+          this.getSuppliers({ page: this.pagenation.curpage });
         })
         .catch(() => {
           this.$message({
@@ -63,10 +57,17 @@ export default {
             message: "已取消删除"
           });
         });
+    },
+      handleEdit(id) {
+        console.log("刚认识修改")
+      this.getUpdateSupplier(id);
     }
   }
 };
 </script>
 
 <style scoped>
+.el1{
+  text-align: center
+}
 </style>

@@ -1,14 +1,14 @@
 <template>
-  <el-dialog title="修改学生">
+  <el-dialog title="修改供应商" :visible.sync="supplier.visible">
     <el-form>
       <el-form-item label="姓名" :label-width="formLabelWidth">
         <el-input v-model="name" autocomplete="off"></el-input>
       </el-form-item>
       <el-form-item label="电话" :label-width="formLabelWidth">
-        <el-input v-model="age" autocomplete="off"></el-input>
+        <el-input v-model="phone" autocomplete="off"></el-input>
       </el-form-item>
     <el-form-item label="地址" :label-width="formLabelWidth">
-        <el-input v-model="gender" autocomplete="off"></el-input>
+        <el-input v-model="adress" autocomplete="off"></el-input>
       </el-form-item>
     </el-form>
     <div slot="footer" class="btn">
@@ -17,7 +17,6 @@
     </div>
   </el-dialog>
 </template>
-
 <script>
 import { createNamespacedHelpers } from "vuex";
 const { mapActions, mapState, mapMutations } = createNamespacedHelpers(
@@ -37,36 +36,36 @@ export default {
         return this.supplier.name;
       }
     },
-    age: {
-      set(age) {
+    phone: {
+      set(phone) {
         this.setSupplier({
           ...this.supplier,
-          age
+          phone
         });
       },
       get() {
-        return this.supplier.age;
+        return this.supplier.phone;
       }
     },
-    gender: {
-      set(gender) {
+    adress: {
+      set(adress) {
         this.setSupplier({
           ...this.supplier,
-          gender
+          adress
         });
       },
       get() {
-        return this.supplier.gender;
+        return this.supplier.adress;
       }
     }
   },
   methods: {
     ...mapMutations(["setSupplier", "setUpdateStuVis"]),
-    ...mapActions(["updateSupplier", "getSupplier"]),
+    ...mapActions(["updateSupplier", "getSuppliers"]),
     update(id) {
       this.updateSupplier(this.supplier);
       this.setUpdateStuVis(false);
-      this.getSupplier();
+      this.getSuppliers();
     }
   },
   data() {
@@ -76,7 +75,6 @@ export default {
   }
 };
 </script>
-
 <style scoped>
 .btn {
   text-align: center;
