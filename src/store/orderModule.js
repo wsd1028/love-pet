@@ -36,6 +36,15 @@ export default {
         url: "/order/commodity",
         params: { page, rows, type, value, trade }
       }).then(res => {
+        for(let i = 0;i<res.data.rows.length;i++){
+          if(res.data.rows[i].status == "0"){
+            res.data.rows[i].status = "未发货"
+          }else if(res.data.rows[i].status == "1"){
+            res.data.rows[i].status = "已发货"
+          }else{
+            res.data.rows[i].status = "待收货"
+          }
+        }
         commit("setTrades", res.data.rows);
         commit("setPagenation", res.data);
       });

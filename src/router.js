@@ -10,8 +10,6 @@ import PendingServe from "./components/pendingServe";
 import CompletedServe from "./components/completedServe";
 import PetMaster from "./components/petMaster";
 import Product from "./components/product";
-import AllService from "./components/allService";
-import ServiceType from "./components/serviceType";
 import ShopApply from "./components/shopApply";
 import ShopManage from "./components/shopManage";
 import ShopSys from "./components/shopSys";
@@ -51,9 +49,7 @@ const routes = [
       { path: "/shopManage/completedServe", component: CompletedServe },
       { path: "/shopManage/sent", component: Sent },
       { path: "/shopManage/pendingTrade", component: PendingTrade },
-      { path: "/shopManage/pendingServe", component: PendingServe },
-      { path: "/shopManage/allService", component: AllService },
-      { path: "/shopManage/serviceType", component: ServiceType }
+      { path: "/shopManage/pendingServe", component: PendingServe }
     ]
   }
 ];
