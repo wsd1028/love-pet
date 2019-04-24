@@ -1,0 +1,13 @@
+<template>
+    <h1>商品销量额统计</h1>
+</template>
+
+<script>
+export default {
+
+}
+</script>
+
+<style scoped>
+
+</style>

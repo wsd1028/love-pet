@@ -1,4 +1,5 @@
 <template>
+<<<<<<< HEAD
 <<<<<<< HEAD:src/components/audit/index.vue
     <div>店铺状态审核</div>
 =======
@@ -18,8 +19,16 @@
     </el-table-column>
   </el-table>
 >>>>>>> wyd:src/components/PendingServe/PendingServeList.vue
+=======
+  <div>
+    <SearchShop/>
+    <AuditShops/>
+    <Page/>
+  </div>
+>>>>>>> b4a07d2211463878163c29abf7f0ea5f00f191f2
 </template>
 <script>
+<<<<<<< HEAD
 import axios from "axios";
 import { createNamespacedHelpers } from "vuex";
 const { mapActions, mapState } = createNamespacedHelpers("orderModule");
@@ -61,6 +70,16 @@ export default {
           }
         });
     }
+=======
+import AuditShops from "./AuditShops.vue";
+import SearchShop from './SearchShop.vue'
+import Page from './Page.vue'
+export default {
+  components: {
+    AuditShops,
+    SearchShop,
+    Page
+>>>>>>> b4a07d2211463878163c29abf7f0ea5f00f191f2
   }
 };
 </script>

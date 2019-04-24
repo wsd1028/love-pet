@@ -7,7 +7,7 @@
     <el-table-column align="center" prop="price" label="商品价格(元)" width="100"></el-table-column>
     <el-table-column align="center" prop="number" label="商品数量" width="100"></el-table-column>
     <el-table-column align="center" prop="address" label="收货地址" width="300"></el-table-column>
-    <el-table-column align="center" prop="address" label="评价" width="300"></el-table-column>
+    <el-table-column align="center" prop="comment" label="评价" width="300"></el-table-column>
   </el-table>
 </template>
 <script>

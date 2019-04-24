@@ -2,7 +2,6 @@
   <div>
     <SearchBlackShop/>
     <ShopsBlackList/>
-
     <Page/>
   </div>
 </template>
@@ -29,5 +28,5 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 </style>

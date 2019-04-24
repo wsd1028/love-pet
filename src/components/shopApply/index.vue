@@ -1,7 +1,7 @@
 <template>
   <div class="body">
     <header>
-      <el-steps :active="1">
+      <el-steps :active="active">
         <el-step title="步骤 1" description="门店信息登记"></el-step>
         <el-step title="步骤 2" description="正在审核中..."></el-step>
         <el-step title="步骤 3" description="审核完成！"></el-step>
@@ -25,57 +25,72 @@
           </el-form-item>
           <el-form-item class="formItem" label="营业执照图片" prop="image">
             <el-upload
-              class="upload-demo"
-              action="https://jsonplaceholder.typicode.com/posts/"
-              :on-preview="handlePreview"
-              :on-remove="handleRemove"
-              :before-remove="beforeRemove"
-              :on-success="handleAvatarSuccess"
-              multiple
-              :limit="3"
-              :on-exceed="handleExceed"
-              :file-list="fileList"
-            >
-              <el-button size="small" type="primary">点击上传</el-button>
-              <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
-            </el-upload>
-          </el-form-item>
-          <!-- <el-form-item class="formItem" label="店铺头像" prop="headImg">
-            <el-upload
               class="avatar-uploader border"
-              action="https://jsonplaceholder.typicode.com/posts/"
+              action="/shopApply/upload "
               :show-file-list="false"
-              :on-success="headImage"
+              :on-success="handleAvatarSuccessImage"
+              :before-upload="beforeAvatarUploadImage"
             >
-              <img v-if="ruleForm.headImg" :src="ruleForm.headImg" class="avatar">
+              <img v-if="images" :src="images" class="avatar">
               <i v-else class="el-icon-plus avatar-uploader-icon"></i>
             </el-upload>
-          </el-form-item>-->
+          </el-form-item>
+          <el-form-item class="formItem" label="店铺头像" prop="headImg">
+            <el-upload
+              class="avatar-uploader border"
+              action="/shopApply/upload "
+              :show-file-list="false"
+              :on-success="handleAvatarSuccess"
+              :before-upload="beforeAvatarUpload"
+            >
+              <img v-if="headImgs" :src="headImgs" class="avatar">
+              <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+            </el-upload>
+          </el-form-item>
           <el-form-item class="formItem" label="营业地址" prop="address">
             <el-input v-model="ruleForm.address"></el-input>
           </el-form-item>
           <el-form-item class="formItem" label="法人" prop="boss">
             <el-input v-model="ruleForm.boss"></el-input>
           </el-form-item>
-          <el-form-item class="formItem" v-model.number="ruleForm.age" label="联系电话" prop="phone">
+          <el-form-item class="formItem" v-model.number="ruleForm.phone" label="联系电话" prop="phone">
             <el-input type="phone" v-model="ruleForm.phone"></el-input>
           </el-form-item>
+          <el-form-item class="formItem" label="经营范围" prop="feature">
+            <el-checkbox-group v-model="ruleForm.feature">
+              <el-checkbox label="宠物美容" name="feature"></el-checkbox>
+              <el-checkbox label="宠物洗澡" name="feature"></el-checkbox>
+              <el-checkbox label="宠物粮食" name="feature"></el-checkbox>
+              <el-checkbox label="宠物零食" name="feature"></el-checkbox>
+              <el-checkbox label="宠物玩具" name="feature"></el-checkbox>
+              <el-checkbox label="宠物服装" name="feature"></el-checkbox>
+              <el-checkbox label="宠物医疗" name="feature"></el-checkbox>
+              <el-checkbox label="宠物看管" name="feature"></el-checkbox>
+              <el-checkbox label="宠物销售" name="feature"></el-checkbox>
+            </el-checkbox-group>
+          </el-form-item>
           <el-form-item>
-            <el-button type="primary" @click="submitForm('ruleForm')">立即创建</el-button>
+            <el-button type="primary" @click="submitForm('ruleForm')" :plain="true">立即创建</el-button>
             <el-button @click="resetForm('ruleForm')">重置</el-button>
           </el-form-item>
         </el-form>
       </div>
       <div class="right">
-        <span>已有账号？</span>
+        <span>已有店铺？</span>
         <p class="login">立即登录&nbsp;</p>
       </div>
     </section>
   </div>
 </template>
-
 <script>
+import axios from "axios";
+import { createNamespacedHelpers } from "vuex";
+const { mapActions, mapState, mapMutations } = createNamespacedHelpers("shops");
 export default {
+    computed: {
+    ...mapState(["userId"]),
+    ...mapMutations(["setUserId"])
+  },
   data() {
     var validatePhone = (rule, value, callback) => {
       if (value === "") {
@@ -89,18 +104,9 @@ export default {
       }
     };
     return {
-      fileList: [
-        {
-          name: "food.jpeg",
-          url:
-            "https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100"
-        },
-        {
-          name: "food2.jpeg",
-          url:
-            "https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100"
-        }
-      ],
+      active: 1,
+      images:"",
+      headImgs:"",
       ruleForm: {
         name: "",
         number: "",
@@ -108,9 +114,9 @@ export default {
         headImg: "",
         address: "",
         boss: "",
-        phone: ""
+        phone: "",
+        feature: []
       },
-
       dialogVisible: false,
       rules: {
         name: [
@@ -131,23 +137,79 @@ export default {
           { required: true, message: "请输入店铺头像", trigger: "blur" }
         ],
         boss: [{ required: true, message: "请输入法人姓名", trigger: "blur" }],
-        phone: [{ validator: validatePhone, trigger: "blur" }]
+        phone: [{ validator: validatePhone, trigger: "blur" }],
+        feature: [
+          {
+            type: "array",
+            required: true,
+            message: "请至少选择一个类型",
+            trigger: "change"
+          }
+        ]
       }
     };
   },
   methods: {
+
+    // getSession(){
+    //   axios({
+    //     url:"/shopApply/getSession",
+    //     method:"get"
+    //   }).then((res)=>{
+    //     if(res.data){
+    //       if(!this.shopManager){
+    // this.setUserId(res.data._id)
+    //       }
+    //     }
+    //   })
+    // },
     submitForm(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
-          // console.log(123);
-          // console.log("ruleForm", this.ruleForm);
-
-          alert("submit!");
+          let feature = this.ruleForm.feature.join(",");
+          console.log(111111);
+          axios({
+            url: "/shopApply",
+            method: "post",
+            data: {
+              ...this.ruleForm,
+              status: "audit",
+              location: { longitude: "104.07", latitude: "30.67" },
+              feature: feature,
+              vipLevel: "1级",
+              commission: "0.5",
+              shopWaiter: [],
+              comment: []
+            }
+          }).then(res => {
+            console.log(res.data);
+            this.$message({
+              message: "提交成功！",
+              type: "success"
+            });
+            // this.active = 2;
+            this.headImg = this.image = "";
+            this.$refs[formName].resetFields();
+            let shopsId = res.data._id;
+            
+            
+          //   axios({
+          //     url: "/shopApply/addShops/" + this.userId,
+          //     method: "post",
+          //     data: {
+          //       shopsId :shopsId,
+          //       status: "audit"
+          //     }
+          //   }).then(res => {
+          //     console.log(232323);
+          //     console.log(res.data);
+          //   });
+          });
         } else {
-          // console.log("headUrl", this.headUrl);
-          // console.log("ruleForm", this.ruleForm);
-          console.log("image", this.ruleForm.image);
-          // console.log("error submit!!");
+          console.log(736483);
+          this.$alert("请填写完整的信息", "提示", {
+            confirmButtonText: "确定"
+          });
           return false;
         }
       });
@@ -155,34 +217,41 @@ export default {
     resetForm(formName) {
       this.$refs[formName].resetFields();
     },
-    handleAvatarSuccess(res, file) {
-      // console.log("file",file);
-      this.ruleForm.image = URL.createObjectURL(file.raw);
+    handleAvatarSuccessImage(res, file) {
+      this.ruleForm.image = res;
+      this.images = "/upload/" + res;
+      
     },
-    // headImage(res, file) {
-    //   this.ruleForm.headImg = URL.createObjectURL(file.raw);
-    // },
-    // change(file) {
-    //   console.log(file.name);
-    // },
-    // uploadUrl() {
-    //   return "http://localhost:3000/upLoad";
-    // }
-    handleRemove(file, fileList) {
-      console.log(file, fileList);
+    beforeAvatarUploadImage(file) {
+      const isJPG = file.type === "image/jpeg";
+      const isLt2M = file.size / 1024 / 1024 < 2;
+
+      if (!isJPG) {
+        this.$message.error("上传头像图片只能是 JPG 格式!");
+      }
+      if (!isLt2M) {
+        this.$message.error("上传头像图片大小不能超过 2MB!");
+      }
+      return isJPG && isLt2M;
     },
-    handlePreview(file) {
-      console.log(file);
+    handleAvatarSuccess(res, file, fileList) {
+      this.ruleForm.headImg = res;
+      this.headImgs= "/upload/" + res;
+
+
+      this.dialogVisible = true;
     },
-    handleExceed(files, fileList) {
-      this.$message.warning(
-        `当前限制选择 3 个文件，本次选择了 ${
-          files.length
-        } 个文件，共选择了 ${files.length + fileList.length} 个文件`
-      );
-    },
-    beforeRemove(file, fileList) {
-      return this.$confirm(`确定移除 ${file.name}？`);
+    beforeAvatarUpload(file) {
+      const isJPG = file.type === "image/jpeg";
+      const isLt2M = file.size / 1024 / 1024 < 2;
+
+      if (!isJPG) {
+        this.$message.error("上传头像图片只能是 JPG 格式!");
+      }
+      if (!isLt2M) {
+        this.$message.error("上传头像图片大小不能超过 2MB!");
+      }
+      return isJPG && isLt2M;
     }
   }
 };
@@ -214,12 +283,6 @@ export default {
   color: rgb(0, 157, 255);
 }
 
-.avatar-uploader .el-upload {
-  border-radius: 6px;
-  cursor: pointer;
-  position: relative;
-  overflow: hidden;
-}
 .border {
   border: 1px dashed #d9d9d9;
   border-radius: 6px;
@@ -227,6 +290,13 @@ export default {
   height: 128px;
 }
 
+.avatar-uploader .el-upload {
+  border: 1px dashed #d9d9d9;
+  border-radius: 6px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
 .avatar-uploader .el-upload:hover {
   border-color: #409eff;
 }

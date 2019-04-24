@@ -2,27 +2,26 @@ import axios from "axios";
 export default {
   namespaced: true,
   state: {
-    students: [],
-    student: {
+    products: [],
+    product: {
       name: "",
       type: "",
       totalNum: "",
-      material:"",
+      material: "",
       petSize: "",
       petType: "",
       weight: "",
-      taste:"",
+      taste: "",
       effect: "",
       country: "",
       date: "",
-      freshDate:"",
+      freshDate: "",
       company: "",
       explain: "",
       price: "",
-      image:"",
+      image: "",
       visible: false
     },
-    userName: "",
     searchRule: {
       type: "",
       value: ""
@@ -30,80 +29,92 @@ export default {
     pagenation: {}
   },
   mutations: {
-    setStudents(state, students) {
-      state.students = students;
+    setProducts(state, products) {
+      state.products = products;
     },
-    // setUpdateStuVis(state, visible) {
-    //   state.student = { ...state.student, visible };
-    // },
-    // setStudent(state, student) {
-    //   state.student = { ...student, visible: true };
-    // },
-    // setSearchRule(state, searchRule) {
-    //   state.searchRule = searchRule;
-    // },
+    setUpdateProVis(state, visible) {
+      state.product = { ...state.product, visible };
+    },
+    setProduct(state, product) {
+      state.product = { ...product, visible: true };
+    },
+    setSearchRule(state, searchRule) {
+      state.searchRule = searchRule;
+    },
     setPagenation(state, pagenation) {
       state.pagenation = pagenation;
     },
-    // setUserName(state, userName) {
-    //   state.userName = userName;
-    // }
   },
   actions: {
-    getStudents({ commit }, rule = {}) {
+    getProducts({ commit }, rule = {}) {
       let page = rule.page || 1;
-      let rows = rule.rows || 5;
+      let rows = rule.rows || 3;
       let type = rule.type || "";
       let value = rule.value || "";
       axios({
         method: "get",
         url: "/product",
-        params: { page, rows, type, value }
+        params: {
+          page,
+          rows,
+          type,
+          value
+        }
       }).then(res => {
-        console.log("12")
-        // commit("setStudents", res.data.rows);
-        // commit("setPagenation", res.data);
+        commit("setProducts", res.data.rows);
+        commit("setPagenation", res.data);
       });
     },
-    // addStudent({ commit }, addMess) {
-    //   axios({
-    //     method: "post",
-    //     url: "/students/addStu",
-    //     data: addMess
-    //   }).then(res => {});
-    // },
-    deleteStudent({ commit }, id) {
+    // 增加
+    addProduct({ commit }, addMess) {
+      axios({
+        method: "post",
+        url: "/product/addPro",
+        data: addMess
+      }).then(res => {});
+    },
+    //删除
+    deleteProduct({ commit }, id) {
       axios({
         method: "delete",
         url: "/product/delete/" + id
-      }).then(res => {});
+      }).then(res => {
+          
+      });
     },
-    // getUpdateStudent({ commit }, id) {
-    //   axios({
-    //     method: "get",
-    //     url: "/students/" + id
-    //   }).then(res => {
-    //     commit("setStudent", res.data);
-    //   });
-    // },
-    // removeSession({ commit }) {
-    //   axios({
-    //     method: "get",
-    //     url: "/removeSession"
-    //   }).then(res => {
-    //     commit("setUserName", "");
-    //   });
-    // },
-    // updateStudent({ commit }, data) {
-    //   axios({
-    //     method: "put",
-    //     url: "/students/" + data._id,
-    //     data: {
-    //       name: data.name,
-    //       age: data.age,
-    //       gender: data.gender
-    //     }
-    //   }).then(res => {});
-    // }
+    //获取修改哪一行数据
+    getUpdateProduct({ commit }, id) {
+      axios({
+        method: "get",
+        url: "/product/" + id
+      }).then(res => {
+        commit("setProduct", res.data);
+      });
+    },
+    //修改
+    updateProduct({ commit }, data) {
+      axios({
+        method: "put",
+        url: "/product/" + data._id,
+        data: {
+          name: data.name,
+          type: data.type,
+          totalNum: data.totalNum,
+          material: data.material,
+          petSize: data.petSize,
+          petType: data.petType,
+          weight: data.weight,
+          taste: data.taste,
+          effect: data.effect,
+          country: data.country,
+          date: data.date,
+          freshDate: data.freshDate,
+          company: data.company,
+          explain: data.explain,
+          price: data.price,
+          image: data.image,
+        }
+      }).then(res => {});
+    }
   }
 };

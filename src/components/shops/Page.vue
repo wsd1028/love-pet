@@ -16,7 +16,7 @@ export default {
     page(page) {
       let type = this.searchShop.type || "";
       let value = this.searchShop.value || "";
-      this.getShops({ page,rows:5, type, value });
+      this.getShops({ page, type, value });
     }
   }
 };

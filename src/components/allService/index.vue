@@ -1,12 +1,32 @@
 <template>
   <div>
-    <h1>服务管理</h1>
+    <Add/>
+    <Search/>
+    <Update/>
+    <List/>
+    <Page/>
   </div>
 </template>
 
 <script>
-export default {};
+import Add from "./Add";
+import Page from "./Page";
+import Search from "./Search";
+import Update from "./Update";
+import List from "./List";
+
+
+export default {
+ components: {
+    Add,
+    Update,
+    Search,
+    List,
+    Page
+  },
+}
 </script>
 
-<style scoped>
+<style>
+
 </style>
