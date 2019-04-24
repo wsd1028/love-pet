@@ -68,7 +68,6 @@ const { mapActions, mapState, mapMutations } = createNamespacedHelpers("shops");
 export default {
   computed: {
     ...mapState(["shops", "blackList","status"])
-    // ...mapMutations(["setBlackList"])
   },
   created() {
     this.getShops({status:"yes"});
@@ -98,8 +97,6 @@ export default {
           });
         })
         .catch(() => {
-    console.log("shuju",this.shops)
-
           this.$message({
             type: "info",
             message: "已取消拉黑"

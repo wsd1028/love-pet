@@ -1,41 +1,41 @@
 <template>
   <el-table :data="services" style="width: 100%">
-    <el-table-column label="名称" width="130" align="center">
+    <el-table-column label="名称" width="125" :show-overflow-tooltip="true" align="center">
       <template slot-scope="scope">
         <span style="margin-left: 10px">{{ scope.row.name }}</span>
       </template>
     </el-table-column>
-    <el-table-column label="类型" width="130" align="center">
+    <el-table-column label="类型" width="125" :show-overflow-tooltip="true" align="center">
       <template slot-scope="scope">
         <span style="margin-left: 10px">{{ scope.row.serviceType.name }}</span>
       </template>
     </el-table-column>
-    <el-table-column label="开放时间段" width="130" align="center">
+    <el-table-column label="开放时间段" width="125" :show-overflow-tooltip="true" align="center">
       <template slot-scope="scope">
         <i class="el-icon-time"></i>
         <span style="margin-left: 10px">{{ scope.row.schedule }}</span>
       </template>
     </el-table-column>
-    <el-table-column label="耗时" width="130" align="center">
+    <el-table-column label="耗时" width="125" :show-overflow-tooltip="true" align="center">
       <template slot-scope="scope">
         <i class="el-icon-time"></i>
         <span style="margin-left: 10px">{{ scope.row.useTime }}</span>
       </template>
     </el-table-column>
-    <el-table-column label="价格" width="130" align="center">
+    <el-table-column label="价格" width="125" :show-overflow-tooltip="true" align="center">
       <template slot-scope="scope">
         <span style="margin-left: 10px">￥{{ scope.row.price }}</span>
       </template>
     </el-table-column>
-    <el-table-column label="服务人员" width="130" align="center">
+    <el-table-column label="服务人员" width="125" :show-overflow-tooltip="true" align="center">
       <template slot-scope="scope">
         <span style="margin-left: 10px">{{ scope.row.waiter }}</span>
       </template>
     </el-table-column>
     <el-table-column label="操作">
       <template slot-scope="scope">
-        <el-button type="primary" icon="el-icon-edit" circle @click="handleEdit(scope.row._id)"></el-button>
-        <el-button type="danger" icon="el-icon-delete" circle @click="del(scope.row._id)"></el-button>
+        <el-button type="primary" icon="el-icon-edit" plain @click="handleEdit(scope.row._id)">修改</el-button>
+        <el-button type="danger" icon="el-icon-delete" plain @click="del(scope.row._id)">删除</el-button>
       </template>
     </el-table-column>
   </el-table>

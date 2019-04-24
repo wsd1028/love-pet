@@ -5,7 +5,7 @@
       <el-option label="耗时" value="time"/>
     </el-select>
     <el-input v-model="value" placeholder="请输入内容" class="inputStyle"></el-input>
-    <el-button icon="el-icon-search" circle type="primary" @click="search"></el-button>
+    <el-button icon="el-icon-search" plain type="primary" @click="search">搜索</el-button>
   </div>
 </template>
 
@@ -44,7 +44,6 @@ export default {
   display: inline-block;
 }
 .select {
-  width: 94px;
   display: inline-block;
 }
 .inputStyle {
