@@ -7,8 +7,7 @@ import Manage from "./components/manage";
 import Sent from "./components/Sent";
 import PendingTrade from "./components/PendingTrade";
 import PendingServe from "./components/PendingServe";
-import AllService  from "./components/allService";
-import ServiceType   from "./components/serviceType";
+import AuditShop from './components/auditShop'
 
 import CompletedServe from "./components/completedServe";
 import ServiceType from "./components/serviceType";
