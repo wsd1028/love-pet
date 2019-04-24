@@ -1,21 +1,21 @@
 <template>
   <el-table :data="suppliers" style="width: 100%;" class="el1">
-    <el-table-column label="供应商" row-key="_id" width="200" style=" ">
+    <el-table-column label="供应商" row-key="_id" width="150" style=" ">
       <template slot-scope="scope">
         <span>{{ scope.row.name }}</span>
       </template>
     </el-table-column>
-    <el-table-column label="电话" width="200">
+    <el-table-column label="电话" width="150">
       <template slot-scope="scope">
         <span>{{ scope.row.phone }}</span>
       </template>
     </el-table-column>
-    <el-table-column label="地址" width="200">
+    <el-table-column label="地址" width="150">
       <template slot-scope="scope">
         <span>{{ scope.row.adress }}</span>
       </template>
     </el-table-column>
-    <el-table-column label="法人" width="200">
+    <el-table-column label="法人" width="150">
       <template slot-scope="scope">
         <span>{{ scope.row.pepole }}</span>
       </template>
@@ -27,8 +27,8 @@
     </el-table-column>
     <el-table-column label="操作">
       <template slot-scope="scope">
-        <el-button type="primary" icon="el-icon-edit" circle @click="handleEdit(scope.row._id)"></el-button>
-        <el-button type="danger" icon="el-icon-delete" circle @click="open2(scope.row._id)"></el-button>
+        <el-button type="primary" icon="el-icon-edit" plain @click="handleEdit(scope.row._id)"></el-button>
+        <el-button type="danger" icon="el-icon-delete" plain @click="open2(scope.row._id)"></el-button>
       </template>
     </el-table-column>
   </el-table>

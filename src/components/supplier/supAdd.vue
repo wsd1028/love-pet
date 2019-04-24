@@ -30,8 +30,8 @@
           </el-dialog>
         </el-form-item>
         <el-form-item class="btn">
-          <el-button @click="addNo('addForm')">取 消</el-button>
-          <el-button type="primary" @click="add('addForm')">确 定</el-button>
+          <el-button  @click="addNo('addForm')">取 消</el-button>
+          <el-button type="primary"  plain @click="add('addForm')" >确 定</el-button>
         </el-form-item>
       </el-form>
     </el-dialog>
