@@ -65,9 +65,6 @@ const routes = [
       { path: "/shopManage/completedServe", component: CompletedServe },
       { path: "/shopManage/sent", component: Sent },
       { path: "/shopManage/pendingTrade", component: PendingTrade },
-<<<<<<< HEAD
-      { path: "/shopManage/pendingServe", component: PendingServe }
-=======
       { path: "/shopManage/pendingServe", component: PendingServe },
       { path: "/shopManage/allService", component: AllService },
       { path: "/shopManage/serviceType", component: ServiceType },
@@ -80,7 +77,6 @@ const routes = [
       { path: "/shopManage/allServiceSaleStatistics", component: AllServiceSaleStatistics },
 
 
->>>>>>> b4a07d2211463878163c29abf7f0ea5f00f191f2
     ]
   }
 ];
