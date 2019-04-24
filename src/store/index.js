@@ -18,11 +18,15 @@ import usersModule from "./usersModule.js";
 import ProModule from "./ProModule.js";
 import serviceModule from "./serviceModule.js";
 import userSysModule from "./userSysModule.js";
+<<<<<<< HEAD
 >>>>>>> wangjing
 =======
 import supplierModule from './supplierModule.js'
 
 >>>>>>> 8b2836c622a7c642439f49142a88f1666cfdfd74
+=======
+import shopManagerModule from "./shopManagerModule.js";
+>>>>>>> wangjing
 Vue.use(Vuex);
 
 export default new Vuex.Store({
@@ -39,7 +43,12 @@ export default new Vuex.Store({
 =======
     ProModule,
     serviceModule,
+<<<<<<< HEAD
     userSysModule
+>>>>>>> wangjing
+=======
+    userSysModule,
+    shopManagerModule
 >>>>>>> wangjing
   }
 });

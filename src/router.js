@@ -15,9 +15,16 @@ import ShopManage from "./components/shopManage";
 import ShopSys from "./components/shopSys";
 import Supplier from "./components/supplier";
 import UserSys from "./components/userSys";
+<<<<<<< HEAD
 import Audit from "./components/audit";
 import Shops from "./components/shops";
 import BlackShops from "./components/blackShops";
+=======
+import ShopManager from "./components/ShopManager";
+import Audit from './components/audit'
+import Shops from './components/shops'
+import BlackShops from './components/blackShops'
+>>>>>>> wangjing
 
 Vue.use(VueRouter);
 <<<<<<< HEAD
@@ -67,6 +74,7 @@ const routes = [
     component: Manage,
     children: [
       { path: "/manage/userSys", component: UserSys },
+      { path: "/manage/shopManager", component: ShopManager },
       { path: "/manage/petMaster", component: PetMaster },
       { path: "/manage/shopSys", component: ShopSys },
 <<<<<<< HEAD
