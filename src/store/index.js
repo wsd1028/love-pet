@@ -12,7 +12,7 @@ import usersModule from "./usersModule.js";
 import userSysModule from "./userSysModule.js";
 import supplierModule from './supplierModule.js'
 import shopManagerModule from "./shopManagerModule.js";
-import supplierModule from './supplierModule.js'
+
 
 Vue.use(Vuex);
 
