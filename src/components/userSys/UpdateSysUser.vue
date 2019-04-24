@@ -1,7 +1,7 @@
 <template>
     <div>
         <!-- <el-button type="primary" @click="visible = true">修改</el-button> -->
-        <el-dialog title="修改平台管理员" :visible.sync="editVisible" width="550px">
+        <el-dialog title="修改平台管理员" :visible.sync="editVisible" width="550px" style="font-weight:bold;">
             <el-form :model="oneUser">
                 <el-form-item label="姓名" :label-width="formLabelWidth">
                     <el-input v-model="oneUser.name" autocomplete="off" style="width:300px"></el-input>
