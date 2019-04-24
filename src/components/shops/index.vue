@@ -23,10 +23,9 @@ export default {
     ...mapState(["shops"])
   },
   methods: {
-    // ...mapActions(["getStudents"])
   }
 };
 </script>
 
-<style>
+<style scoped>
 </style>

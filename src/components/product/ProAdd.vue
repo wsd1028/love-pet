@@ -34,13 +34,23 @@
           <el-input v-model="form.country" autocomplete="off"></el-input>
         </el-form-item>
         <el-form-item label="出厂日期:" :label-width="formLabelWidth">
-          <el-input v-model="form.date" autocomplete="off"></el-input>
+          <el-date-picker
+            type="date"
+            placeholder="选择日期"
+            v-model="form.date"
+            value-format="yyyy-MM-dd"
+            style="width: 100%;"
+            prop="date1"
+          ></el-date-picker>
         </el-form-item>
         <el-form-item label="保质期:" :label-width="formLabelWidth">
           <el-input v-model="form.freshDate" autocomplete="off"></el-input>
         </el-form-item>
         <el-form-item label="供应商:" :label-width="formLabelWidth">
-          <el-input v-model="form.company" autocomplete="off"></el-input>
+          <!-- <el-input v-model="form.company" autocomplete="off"></el-input> -->
+          <el-select v-model="form.company" placeholder="请选择供应商" autocomplete="off" class="select">          
+              <el-option v-for="item in supplier" v-bind:key="item._id" :label="item.name" :value="item.name"/>
+          </el-select>
         </el-form-item>
         <el-form-item label="特色说明:" :label-width="formLabelWidth">
           <el-input v-model="form.explain" autocomplete="off"></el-input>
@@ -49,7 +59,18 @@
           <el-input v-model="form.price" autocomplete="off"></el-input>
         </el-form-item>
         <el-form-item label="图片:" :label-width="formLabelWidth">
-          <el-input v-model="form.image" autocomplete="off"></el-input>
+          <el-upload
+            action="/product/upload"
+            list-type="picture-card"
+            :on-success="handleAvatarSuccess"
+            :on-preview="handlePictureCardPreview"
+            :on-remove="handleRemove"
+          >
+            <i class="el-icon-plus"></i>
+          </el-upload>
+          <el-dialog :visible.sync="dialogVisible" size="tiny">
+            <img width="100%" :src="dialogImageUrl" alt>
+          </el-dialog>
         </el-form-item>
 
         <el-form-item class="btn">
@@ -61,7 +82,12 @@
   </div>
 </template>
 <script>
+import { createNamespacedHelpers } from "vuex";
+const { mapActions, mapState } = createNamespacedHelpers("ProModule");
 export default {
+  computed: {
+    ...mapState(["pagenation", "supplier"])
+  },
   data() {
     return {
       dialogFormVisible: false,
@@ -83,25 +109,66 @@ export default {
         price: "",
         image: ""
       },
-      formLabelWidth: "90px"
+      formLabelWidth: "90px",
+      rules: {
+        name: [
+          {
+            required: true,
+            message: "请输入内容",
+            trigger: "blur"
+          }
+        ],
+        date1: [
+          {
+            type: "date",
+            required: true,
+            message: "请选择日期",
+            trigger: "change"
+          }
+        ]
+      },
+      dialogImageUrl: "",
+      dialogVisible: false
     };
   },
+  created() {
+    this.getSupplier();
+    console.log(this.supplier);
+  },
   methods: {
+    ...mapActions(["addProduct", "getProducts", "getSupplier"]),
     addNo(form) {
+      this.$refs[form].resetFields();
       this.dialogFormVisible = false;
     },
     add(form) {
+      let data = { ...this.form };
+      this.addProduct(data);
+      this.$refs[form].resetFields();
       this.dialogFormVisible = false;
+      let page = this.pagenation.curpage;
+      this.getProducts({ page });
+    },
+    handleAvatarSuccess(response, file, fileList) {
+      this.dialogImageUrl = "/upload/" + response;
+      this.form.image = response;
+    },
+    handleRemove(file, fileList) {
+      console.log(file, fileList);
+    },
+    handlePictureCardPreview(file) {
+      this.dialogImageUrl = file.url;
+      this.dialogVisible = true;
     }
   }
 };
 </script>
 
 <style scoped>
-.btn{
+.btn {
   text-align: center;
 }
-.div{
+.div {
   display: inline-block;
   margin-right: 14px;
 }
