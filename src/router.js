@@ -32,9 +32,14 @@ import AllServiceSaleStatistics from './components/allServiceSaleStatistics'
 
 Vue.use(VueRouter);
 const routes = [
-  { path: "/", component: Manage },
+  { path: "/", component: Login },
   { path: "/register", component: Register },
-  { path: "/login", component: Login },
+  { path: "/auditShop", component: AuditShop },
+
+  {
+    path: "/login",
+    component: Login
+  },
   { path: "/shopApply", component: ShopApply },
   {
     path: "/manage",

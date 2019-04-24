@@ -3,8 +3,10 @@
 <div style="margin-top: 15px;">
   <el-input placeholder="请输入内容" v-model="input5" class="input-with-select">
     <el-select v-model="select" slot="prepend" placeholder="请选择" class="select">
-      <el-option label="姓名" value="name"></el-option>
+      <el-option label="真实姓名" value="realName"></el-option>
       <el-option label="手机号" value="phone"></el-option>
+      <el-option label="登录名" value="loginName"></el-option>
+      <!-- <el-option label="门店状态" value="status"></el-option> -->
     </el-select>
     <el-button slot="append" icon="el-icon-search" @click="search"></el-button>
   </el-input>

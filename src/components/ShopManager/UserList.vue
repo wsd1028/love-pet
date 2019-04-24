@@ -2,7 +2,7 @@
   <el-table :data="shopManagers" border style="width: 100%">
     <el-table-column prop="realName" label="真实姓名" width="130">
     </el-table-column>
-       <el-table-column prop="loginName" label="登录名" width="130">
+    <el-table-column prop="loginName" label="登录名" width="130">
     </el-table-column>
     <el-table-column prop="email" label="邮箱" width="180">
     </el-table-column>
@@ -10,11 +10,14 @@
     </el-table-column>
     <el-table-column prop="phone" label="手机号" width="150">
     </el-table-column>
-    <el-table-column prop="pwd" label="状态" width="130">
+    <el-table-column label="门店状态" width="130">
+      <template slot-scope="scope">
+        <span>{{ scope.row.status=="null"?"未申请":scope.row.status=="yes"?"可使用":scope.row.status=="audit"?"待审核":scope.row.status=="failed"?"不可用":"" }}</span>
+      </template>
     </el-table-column>
     <el-table-column label="操作">
       <template slot-scope="scope">
-        <el-button type="primary" plain size="mini" @click="handleEdit(scope.$index, scope.row)">修改</el-button>
+        <!-- <el-button type="primary" plain size="mini" @click="handleEdit(scope.$index, scope.row)" >修改</el-button> -->
         <el-button size="mini" type="danger" plain @click="handleDelete(scope.$index, scope.row)">删除</el-button>
       </template>
     </el-table-column>
