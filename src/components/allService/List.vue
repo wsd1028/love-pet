@@ -1,6 +1,6 @@
 <template>
   <el-table :data="services" style="width: 100%">
-      <el-table-column label="名称" width="130" align="center">
+    <el-table-column label="名称" width="130" align="center">
       <template slot-scope="scope">
         <span style="margin-left: 10px">{{ scope.row.name }}</span>
       </template>
@@ -42,21 +42,21 @@
 </template>
 
 <script>
-import { createNamespacedHelpers} from "vuex";
+import { createNamespacedHelpers } from "vuex";
 const { mapActions, mapState, mapMutations } = createNamespacedHelpers(
   "allServiceModule"
 );
 export default {
-computed: {
-    ...mapState(["shopId","services","pagenation"])
+  computed: {
+    ...mapState(["shopId", "services", "pagenation"])
   },
   created() {
     let shopId = this.shopId;
-    this.getServices({shopId})
+    this.getServices({ shopId });
   },
   methods: {
-      ...mapActions(["getServices","deleteServices"]),
-       del(id) {
+    ...mapActions(["getServices", "deleteServices","getUpdateService"]),
+    del(id) {
       this.$confirm("此操作将永久删除该服务, 是否继续?", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
@@ -75,11 +75,12 @@ computed: {
             message: "已取消删除"
           });
         });
-    },
+    },handleEdit(id){
+       this.getUpdateService(id);
+    }
   }
-}
+};
 </script>
 
 <style scoped>
-
 </style>

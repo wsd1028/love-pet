@@ -68,7 +68,7 @@ export default {
         data: addMess
       }).then(res => {});
     },
-    getUpdateService({ commit }, id) {
+    getUpdateServiceType({ commit }, id) {
       axios({
         method: "get",
         url: "/service/serviceType/" + id

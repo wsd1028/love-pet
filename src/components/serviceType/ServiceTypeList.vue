@@ -49,7 +49,7 @@ export default {
     this.getServiceType({ page: 1, rows: 5, type: "", value: "", shopId });
   },
   methods: {
-    ...mapActions(["getServiceType", "deleteServiceType", "getUpdateService"]),
+    ...mapActions(["getServiceType", "deleteServiceType", "getUpdateServiceType"]),
     ...mapMutations(["setUpdateServiceTypeVis"]),
     del(id) {
       this.$confirm("此操作将永久删除该服务, 是否继续?", "提示", {
@@ -75,7 +75,7 @@ export default {
         });
     },
     handleEdit(id) {
-      this.getUpdateService(id);
+      this.getUpdateServiceType(id);
     }
   }
 };
