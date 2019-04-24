@@ -3,8 +3,8 @@
     <el-pagination
       background
       layout="prev, pager, next"
-      :page-size="1"
-      :total="pagenation.maxpage"
+      :page-size="pagenation.eachpage"
+      :total="pagenation.total"
       @current-change="page"
       :current-page="pagenation.curpage"
     ></el-pagination>
@@ -23,7 +23,8 @@ export default {
     page(page) {
       let type = this.searchRule.type || "";
       let value = this.searchRule.value || "";
-      this.getTrades({ page, type, value });
+      let trade = "pending";
+      this.getTrades({ page, type, value, trade });
     }
   }
 };
