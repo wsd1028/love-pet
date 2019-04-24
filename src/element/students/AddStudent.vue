@@ -24,9 +24,9 @@
 
 <script>
 import { createNamespacedHelpers } from "vuex";
-const { mapActions, mapState } = createNamespacedHelpers("studentModule");
+const { mapActions, mapState } = createNamespacedHelpers("studentsModule");
 export default {
-  computed:{
+  computed: {
     ...mapState(["pagenation"])
   },
   data() {
@@ -51,18 +51,18 @@ export default {
       this.addStudent(data);
       this.$refs[form].resetFields();
       this.dialogFormVisible = false;
-      let page=this.pagenation.curpage;
-      this.getStudents({page});
+      let page = this.pagenation.curpage;
+      this.getStudents({ page });
     }
   }
 };
 </script>
 
 <style scoped>
-.btn{
+.btn {
   text-align: center;
 }
-.div{
+.div {
   display: inline-block;
   margin-right: 14px;
 }

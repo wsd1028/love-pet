@@ -3,6 +3,16 @@ export default {
   namespaced: true,
   state: {
     services: [],
+    service: {
+      name:"",
+      useTime:"",
+      prie:"",
+      waiter:"",
+      schedule:"",
+      serviceTypeId:"",
+      serviceType:{name:""},
+      visible: false
+    },
     waiter: [],
     serviceType: [],
     pagenation: {},
@@ -30,6 +40,12 @@ export default {
     },
     setWaiter(state, waiter) {
       state.waiter = waiter;
+    },
+    setUpdateService(state, service) {
+      state.service = { ...service, visible: true };
+    },
+    setUpdateServiceVis(state, visible) {
+      state.service = { ...state.service, visible };
     }
   },
   actions: {
@@ -78,6 +94,21 @@ export default {
       }).then(res => {
         commit("setWaiter", res.data);
       });
+    },
+    getUpdateService({ commit }, id) {
+      axios({
+        method: "get",
+        url: "/service/getUpdateService/" + id
+      }).then(res => {
+        commit("setUpdateService", res.data);
+      });
+    },
+    updateService({ commit }, data) {
+      axios({
+        method: "put",
+        url: "/service/updateService/" + data._id,
+        data: data
+      }).then(res => {});
     }
   }
 };

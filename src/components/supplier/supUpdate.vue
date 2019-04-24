@@ -1,5 +1,5 @@
 <template>
-  <el-dialog title="修改学生" :visible.sync="students.visible">
+  <el-dialog title="修改供应商" :visible.sync="supplier.visible">
     <el-form>
       <el-form-item label="姓名" :label-width="formLabelWidth">
         <el-input v-model="name" autocomplete="off"></el-input>
@@ -7,8 +7,11 @@
       <el-form-item label="电话" :label-width="formLabelWidth">
         <el-input v-model="phone" autocomplete="off"></el-input>
       </el-form-item>
-    <el-form-item label="地址" :label-width="formLabelWidth">
-        <el-input v-model="address" autocomplete="off"></el-input>
+      <el-form-item label="地址" :label-width="formLabelWidth">
+        <el-input v-model="adress" autocomplete="off"></el-input>
+      </el-form-item>
+       <el-form-item label="法定代表人" :label-width="formLabelWidth">
+        <el-input v-model="pepole" autocomplete="off"></el-input>
       </el-form-item>
     </el-form>
     <div slot="footer" class="btn">
@@ -17,18 +20,17 @@
     </div>
   </el-dialog>
 </template>
-
 <script>
 import { createNamespacedHelpers } from "vuex";
 const { mapActions, mapState, mapMutations } = createNamespacedHelpers(
-  "studentsModule"
+  "supplierModule"
 );
 export default {
   computed: {
     ...mapState(["supplier"]),
     name: {
       set(name) {
-        this.setStudent({
+        this.setSupplier({
           ...this.supplier,
           name
         });
@@ -37,36 +39,47 @@ export default {
         return this.supplier.name;
       }
     },
-    age: {
-      set(age) {
-        this.setStudent({
+    phone: {
+      set(phone) {
+        this.setSupplier({
           ...this.supplier,
-          age
+          phone
         });
       },
       get() {
-        return this.supplier.age;
+        return this.supplier.phone;
       }
     },
-    gender: {
-      set(gender) {
-        this.setStudent({
+    adress: {
+      set(adress) {
+        this.setSupplier({
           ...this.supplier,
-          gender
+          adress
         });
       },
       get() {
-        return this.supplier.gender;
+        return this.supplier.adress;
+      }
+    },
+    pepole: {
+      set(pepole) {
+        this.setSupplier({
+          ...this.supplier,
+          pepole
+        });
+      },
+      get() {
+        return this.supplier.pepole;
       }
     }
   },
   methods: {
-    ...mapMutations(["setStudent", "setUpdateStuVis"]),
-    ...mapActions(["updateStudent", "getStudents"]),
+    ...mapMutations(["setSupplier", "setUpdateStuVis"]),
+    ...mapActions(["updateSupplier", "getSuppliers"]),
     update(id) {
-      this.updateStudent(this.supplier);
+      this.updateSupplier(this.supplier);
       this.setUpdateStuVis(false);
-      this.getStudents();
+      this.getSuppliers();
     }
   },
   data() {
@@ -76,7 +89,6 @@ export default {
   }
 };
 </script>
-
 <style scoped>
 .btn {
   text-align: center;
