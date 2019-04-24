@@ -55,10 +55,13 @@ export default {
         commit("setPagenation", res.data);
       });
     },
-    deleteServiceType({ commit }, id) {
+    deleteServiceType({ commit }, rule = {}) {
+      let id=rule.id;
+      let shopId=rule.shopId;
       axios({
         method: "delete",
-        url: "/service/delete/" + id
+        url: "/service/delete",
+        data: { id, shopId }
       }).then(res => {});
     },
     addServiceType({ commit }, addMess) {
