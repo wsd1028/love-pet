@@ -23,7 +23,6 @@ export default {
     ...mapState(["shops"])
   },
   methods: {
-    // ...mapActions(["getStudents"])
   }
 };
 </script>

@@ -2,6 +2,7 @@
   <div class="div">
     <el-select v-model="type" placeholder="请选择" class="select">
       <el-option label="门店名称" value="name"/>
+      <el-option label="营业执照号码" value="number"/>
       <el-option label="地址" value="address"/>
       <el-option label="法人" value="boss"/>
     </el-select>
@@ -34,7 +35,7 @@ export default {
       let value = this.value;
       this.setSearch({ ...this.searchShop, type });
       this.setSearch({ ...this.searchShop, value });
-      this.getShops({page:1,rows:5, type, value });
+      this.getShops({status:"no",page:1,rows:5, type, value });
     }
   }
 };

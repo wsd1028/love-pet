@@ -16,7 +16,6 @@
       <el-option label="供应商" value="company"/>
       <el-option label="特色说明" value="explain"/>
       <el-option label="价格" value="price"/>
-      <el-option label="图片" value="image"/>
     </el-select>
     <el-input v-model="value" placeholder="请输入内容" class="inputStyle"></el-input>
     <el-button icon="el-icon-search" circle type="primary" @click="search"></el-button>
@@ -24,7 +23,14 @@
 </template>
 
 <script>
+import { createNamespacedHelpers } from "vuex";
+const { mapActions, mapState, mapMutations } = createNamespacedHelpers(
+  "ProModule"
+);
 export default {
+  computed: {
+    ...mapState(["searchRule"])
+  },
   data() {
     return {
       type: "",
@@ -32,11 +38,14 @@ export default {
     };
   },
   methods: {
+    ...mapMutations(["setSearchRule"]),
+    ...mapActions(["getProducts"]),
     search() {
       let type = this.type;
       let value = this.value;
-
-      this.getStudents({ type, value });
+      this.setSearchRule({ ...this.searchRule, type });
+      this.setSearchRule({ ...this.searchRule, value });
+      this.getProducts({ type, value });
     }
   }
 };

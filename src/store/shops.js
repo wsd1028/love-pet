@@ -2,35 +2,40 @@ import axios from "axios";
 export default {
   namespaced: true,
   state: {
+    status: "",
     shops: [],
-    sudit:[],
-    blackList:[],
+    audit: [],
+    blackList: [],
     searchShop: {
       type: "",
       value: ""
     },
-    pagination: {}
-
+    pagination: {},
+    paginationBlack: {}
   },
   mutations: {
     setShops(state, shops) {
       state.shops = shops;
     },
-    setAudit(state,audit){
-        state.audit=audit;
+    setAudit(state, audit) {
+      state.audit = audit;
     },
     setPagination(state, pagination) {
       state.pagination = pagination;
     },
+    setPaginationBlack(state, paginationBlack) {
+      state.paginationBlack = paginationBlack;
+    },
     setSearch(state, searchShop) {
       state.searchShop = searchShop;
     },
-    setBlackList(state,blackList){
-        state.blackList=blackList;
+    setBlackList(state, blackList) {
+      state.blackList = blackList;
     }
   },
   actions: {
     getShops({ commit }, rule = {}) {
+      let status = rule.status || "yes";
       let page = rule.page || 1;
       let rows = rule.rows || 5;
       let type = rule.type || "";
@@ -38,28 +43,26 @@ export default {
       axios({
         method: "get",
         url: "/shopSys",
-        params: { page, rows, type, value }
+        params: { status, page, rows, type, value }
       }).then(res => {
-        // console.log(res.data.rows)
         let arr = res.data.rows;
         let shops = [];
         let audit = [];
         let blackList = [];
         for (let i = 0; i < arr.length; i++) {
-          if (arr[i].status == "yes"&&arr[i].isUse !== "no") {
+          if (arr[i].status == "yes") {
             shops.push(arr[i]);
             commit("setShops", shops);
-          }else if(arr[i].status == "audit"){
-                audit.push(arr[i]);
-                commit("setAudit",audit);
-          }else if (arr[i].isUse == "no") {
-                blackList.push(arr[i]);
-                commit("setBlackList",blackList)
+          }else if (arr[i].status == "audit") {
+            audit.push(arr[i]);
+            commit("setAudit", audit);
+          }else if (arr[i].status == "no") {
+            blackList.push(arr[i]);
+            commit("setBlackList", blackList);
           }
         }
         commit("setPagination", res.data);
-        // console.log(audit);
-        // commit("setShops", res.data.rows);
+        commit("setPaginationBlack", res.data);
       });
     }
   }
