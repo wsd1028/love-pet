@@ -36,7 +36,7 @@
 </template>
 
 <script>
-import { createNamespacedHelpers} from "vuex";
+import { createNamespacedHelpers } from "vuex";
 const { mapActions, mapState, mapMutations } = createNamespacedHelpers(
   "serviceModule"
 );
@@ -49,7 +49,11 @@ export default {
     this.getServiceType({ page: 1, rows: 5, type: "", value: "", shopId });
   },
   methods: {
-    ...mapActions(["getServiceType", "deleteServiceType", "getUpdateServiceType"]),
+    ...mapActions([
+      "getServiceType",
+      "deleteServiceType",
+      "getUpdateServiceType"
+    ]),
     ...mapMutations(["setUpdateServiceTypeVis"]),
     del(id) {
       this.$confirm("此操作将永久删除该服务, 是否继续?", "提示", {
@@ -58,13 +62,16 @@ export default {
         type: "warning"
       })
         .then(() => {
-          this.deleteServiceType(id);
+          this.deleteServiceType({ id, shopId: this.shopId });
           this.getServiceType({
             page: this.pagenation.curpage,
             rows: 5,
             type: "",
             value: "",
             shopId: this.shopId
+          });
+          this.$message.success({
+            message: "删除成功"
           });
         })
         .catch(() => {

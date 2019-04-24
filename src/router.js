@@ -21,12 +21,25 @@ import ShopManager from "./components/ShopManager";
 import Audit from './components/audit'
 import Shops from './components/shops'
 import BlackShops from './components/blackShops'
+import CityMapStatistics from './components/cityMapStatistics'
+import ProductSaleStatistics from './components/productSaleStatistics'
+import ServiceSaleStatistics from './components/serviceSaleStatistics'
+import ServiceSaleroomStatistics from './components/serviceSaleroomStatistics'
+import ProductSaleroomStatistics from './components/productSaleroomStatistics'
+import AllProductSaleroom from './components/allProductSaleroom'
+import AllServiceSaleStatistics from './components/allServiceSaleStatistics'
+
 
 Vue.use(VueRouter);
 const routes = [
   { path: "/", component: Login },
   { path: "/register", component: Register },
-  { path: "/login", component: Login },
+  { path: "/auditShop", component: AuditShop },
+
+  {
+    path: "/login",
+    component: Login
+  },
   { path: "/shopApply", component: ShopApply },
   {
     path: "/manage",
@@ -53,6 +66,15 @@ const routes = [
       { path: "/shopManage/pendingServe", component: PendingServe },
       { path: "/shopManage/allService", component: AllService },
       { path: "/shopManage/serviceType", component: ServiceType },
+      { path: "/shopManage/cityMapStatistics", component: CityMapStatistics },
+      { path: "/shopManage/productSaleStatistics", component: ProductSaleStatistics },
+      { path: "/shopManage/serviceSaleStatistics", component: ServiceSaleStatistics },
+      { path: "/shopManage/serviceSaleroomStatistics", component: ServiceSaleroomStatistics },
+      { path: "/shopManage/productSaleroomStatistics", component: ProductSaleroomStatistics },
+      { path: "/shopManage/allProductSaleroom", component: AllProductSaleroom },
+      { path: "/shopManage/allServiceSaleStatistics", component: AllServiceSaleStatistics },
+
+
     ]
   }
 ];

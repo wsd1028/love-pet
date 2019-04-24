@@ -113,6 +113,10 @@ export default {
       serviceTypeId: ""
     };
   },
+  created() {
+    this.getServiceType({ shopId: this.shopId });
+    this.getWaiter( this.shopId)
+  },
   methods: {
     ...mapActions(["getServices", "getServiceType", "getWaiter","updateService"]),
     ...mapMutations(["setUpdateService", "setUpdateServiceVis"]),
