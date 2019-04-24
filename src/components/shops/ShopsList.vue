@@ -13,7 +13,7 @@
       </el-table-column>
       <el-table-column label="营业执照照片" width="180" align="center">
         <template slot-scope="scope">
-          <img :src="url+scope.row.image" alt />
+          <img style="width:40px;height:60px" :src="url+scope.row.image" alt="">
         </template>
       </el-table-column>
       <el-table-column label="法人" width="100" align="center">
@@ -23,8 +23,7 @@
       </el-table-column>
       <el-table-column label="头像图片" width="180" align="center">
         <template slot-scope="scope">
-        <img :src="url+scope.row.headImg" alt="">
-
+          <img style="width:40px;height:60px" :src="url+scope.row.headImg" alt="">
         </template>
       </el-table-column>
       <el-table-column label="营业特色" width="180" align="center">
@@ -73,7 +72,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(["shops", "blackList", "status"])
+    ...mapState(["shops", "blackList", "status","userId"])
     // ...mapMutations(["setBlackList"])
   },
   created() {
@@ -102,6 +101,15 @@ export default {
             type: "success",
             message: "操作成功!"
           });
+          // axios({
+          //   ul:"/userStatus/"+this.userId,
+          //   method:"put",
+          //   data:{
+          //     status:"no"
+          //   }
+          // }).then((res)=>{
+          //   console.log(res.data)
+          // })
         })
         .catch(() => {
           console.log("shuju", this.shops);
