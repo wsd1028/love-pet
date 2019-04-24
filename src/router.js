@@ -17,12 +17,6 @@ import ShopManage from "./components/shopManage";
 import ShopSys from "./components/shopSys";
 import Supplier from "./components/supplier";
 import UserSys from "./components/userSys";
-<<<<<<< HEAD
-import Audit from "./components/audit";
-import Shops from "./components/shops";
-import BlackShops from "./components/blackShops";
-import AuditShop from './components/auditShop'
-=======
 import ShopManager from "./components/ShopManager";
 import Audit from './components/audit'
 import Shops from './components/shops'
@@ -35,22 +29,17 @@ import ProductSaleroomStatistics from './components/productSaleroomStatistics'
 import AllProductSaleroom from './components/allProductSaleroom'
 import AllServiceSaleStatistics from './components/allServiceSaleStatistics'
 
->>>>>>> 6c5a2f522f9a4121430bd53f96ba8a1e8af55713
 
 Vue.use(VueRouter);
 const routes = [
   { path: "/", component: Manage },
   { path: "/register", component: Register },
-<<<<<<< HEAD
   { path: "/auditShop", component: AuditShop },
 
   {
     path: "/login",
     component: Login
   },
-=======
-  { path: "/login", component: Login },
->>>>>>> 6c5a2f522f9a4121430bd53f96ba8a1e8af55713
   { path: "/shopApply", component: ShopApply },
   {
     path: "/manage",
