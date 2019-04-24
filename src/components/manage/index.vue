@@ -1,19 +1,26 @@
 <template>
   <el-container>
-    <el-header style="display:flex; font-size: 12px; justify-content: space-between;">
+    <el-header style="display:flex; font-size: 12px; justify-content: space-between;" >
       <h1>系统管理</h1>
-      <div>
-        <el-button type="primary" >退出</el-button>
-        <span>吴少冬</span>
+      <div style="margin-top:8px" >
+        <span style="color:black;font-size:16px;font-weight:bold;margin-right:20px;">欢迎: {{name}}</span>
+        <el-button type="primary" plain @click="removeSession" style="font-size:16px;font-weight:bold">退出</el-button>
       </div>
     </el-header>
     <el-container style="height: 500px; border: 1px solid #eee">
       <el-aside width="200px" style="background-color: rgb(238, 241, 246)">
         <el-menu router :default-active="url" :default-openeds="[`${url}`]">
-          <el-menu-item index="/manage/userSys">用户管理</el-menu-item>
+          <el-submenu index="/manage/userSys">
+            <template slot="title">用户管理</template>
+            <el-menu-item-group>
+              <el-menu-item index="/manage/userSys">平台管理员</el-menu-item>
+              <el-menu-item index="/manage/shopManager">门店管理员</el-menu-item>
+            </el-menu-item-group>
+          </el-submenu>
           <el-menu-item index="/manage/petMaster">宠主管理
           </el-menu-item>
-           <el-submenu index="/manage/shopSys">
+
+          <el-submenu index="/manage/shopSys">
             <template slot="title">门店管理</template>
             <el-menu-item-group>
               <el-menu-item index="/manage/shops">营业门店</el-menu-item>
@@ -21,10 +28,7 @@
               <el-menu-item index="/manage/audit">门店审核</el-menu-item>
             </el-menu-item-group>
           </el-submenu>
-
-          <el-menu-item index="/manage/shopSys">门店管理
-          </el-menu-item>
-          <el-menu-item index="/manage/supplier"> <i class="el-icon-printer"></i>供应商管理</el-menu-item>
+          <el-menu-item index="/manage/supplier">供应商管理</el-menu-item>
         </el-menu>
       </el-aside>
       <el-main>
@@ -35,12 +39,45 @@
 </template>
 
 <script>
+import axios from "axios";
 export default {
   data() {
     return {
-      url: this.$router.history.current.path
+      url: this.$router.history.current.path,
+      name: ""
     };
   },
+  created() {
+    this.getSession();
+  },
+  beforeUpdated() {
+    this.getSession();
+  },
+  methods: {
+    getSession() {
+      axios({
+        method: "get",
+        url: "/getSession"
+      }).then(res => {
+        console.log(res.data,"session");
+        if (res.data.name) {
+          if (!this.name) {
+            this.name = res.data.name;
+          }
+        } else {
+          this.$router.push("/login");
+        }
+      });
+    },
+    removeSession() {
+      axios({
+        method: "get",
+        url: "/removeSession"
+      }).then(res => {
+        this.$router.push("/login");
+      });
+    }
+  }
 };
 </script>
 

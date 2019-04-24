@@ -9,9 +9,10 @@ import serviceModule from "./serviceModule.js";
 import allServiceModule from "./allServiceModule.js";
 import orderModule from "./orderModule";
 import usersModule from "./usersModule.js";
-import supplierModule from './supplierModule.js'
+import userSysModule from "./userSysModule.js";
+import supplierModule from "./supplierModule.js";
+import shopManagerModule from "./shopManagerModule.js";
 
-Vue.use(Vuex);
 
 export default new Vuex.Store({
   modules: {
@@ -19,9 +20,11 @@ export default new Vuex.Store({
     shopApply,
     shops,
     ProModule,
-    serviceModule,
     supplierModule,
     allServiceModule,
-    usersModule
+    usersModule,
+    serviceModule,
+    shopManagerModule,
+    userSysModule
   }
 });

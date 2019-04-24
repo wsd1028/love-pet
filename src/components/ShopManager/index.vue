@@ -1,37 +1,35 @@
 <template>
   <div>
-    <AddSysUser></AddSysUser>
     <SearchSysUser></SearchSysUser>
     <UserList></UserList>
     <Page></Page>
-    <UpdateSysUser></UpdateSysUser>
+    <!-- <UpdateSysUser></UpdateSysUser> -->
   </div>
 </template>
 <script>
-import AddSysUser from "./AddSysUser";
 import UserList from "./UserList";
 import Page from "./Page";
 import SearchSysUser from "./SearchSysUser";
 import UpdateSysUser from "./UpdateSysUser";
 import { createNamespacedHelpers } from "vuex";
-const { mapActions } = createNamespacedHelpers("userSysModule");
+const { mapActions } = createNamespacedHelpers("shopManagerModule");
 export default {
-  components: { AddSysUser, UserList, Page, SearchSysUser,UpdateSysUser },
+  components: { UserList, Page, SearchSysUser, UpdateSysUser },
   created() {
     // this.show();
-    this.setUserSys();
+    this.setshopManagers();
   },
   data() {
     return {
-      userSys: [],
-      oneUser: {},
+      shopManagers: [],
+      oneShopManager: {},
       pagation: {}
     };
   },
   methods: {
-    ...mapActions(["setUserSys"]),
-    setOneUser(oneUser) {
-      this.oneUser = oneUser;
+    ...mapActions(["setshopManagers"]),
+    setoneShopManager(oneUser) {
+      this.oneShopManager = oneShopManager;
     }
   }
 };
