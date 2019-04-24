@@ -84,7 +84,13 @@
 </template>
 <script>
 import axios from "axios";
+import { createNamespacedHelpers } from "vuex";
+const { mapActions, mapState, mapMutations } = createNamespacedHelpers("shops");
 export default {
+    computed: {
+    ...mapState(["userId"]),
+    ...mapMutations(["setUserId"])
+  },
   data() {
     var validatePhone = (rule, value, callback) => {
       if (value === "") {
@@ -101,7 +107,6 @@ export default {
       active: 1,
       images:"",
       headImgs:"",
-      userId:"",
       ruleForm: {
         name: "",
         number: "",
@@ -145,6 +150,7 @@ export default {
     };
   },
   methods: {
+
     // getSession(){
     //   axios({
     //     url:"/shopApply/getSession",
@@ -152,7 +158,7 @@ export default {
     //   }).then((res)=>{
     //     if(res.data){
     //       if(!this.shopManager){
-    //         this.userId = res.data._id;
+    // this.setUserId(res.data._id)
     //       }
     //     }
     //   })
@@ -182,6 +188,7 @@ export default {
               type: "success"
             });
             // this.active = 2;
+            this.headImg = this.image = "";
             this.$refs[formName].resetFields();
             let shopsId = res.data._id;
             
