@@ -20,11 +20,14 @@ import UserSys from "./components/userSys";
 import Audit from "./components/audit";
 import Shops from "./components/shops";
 import BlackShops from "./components/blackShops";
+import AuditShop from './components/auditShop'
 
 Vue.use(VueRouter);
 const routes = [
   { path: "/", component: Manage },
   { path: "/register", component: Register },
+  { path: "/auditShop", component: AuditShop },
+
   {
     path: "/login",
     component: Login

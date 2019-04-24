@@ -23,9 +23,6 @@
               <el-menu-item index="/manage/audit">门店审核</el-menu-item>
             </el-menu-item-group>
           </el-submenu>
-
-          <el-menu-item index="/manage/shopSys">门店管理
-          </el-menu-item>
           <el-menu-item index="/manage/supplier">供应商管理</el-menu-item>
         </el-menu>
       </el-aside>
