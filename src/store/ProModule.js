@@ -2,7 +2,6 @@ import axios from "axios";
 export default {
   namespaced: true,
   state: {
-    supplier:[],
     products: [],
     product: {
       name: "",
@@ -30,9 +29,6 @@ export default {
     pagenation: {}
   },
   mutations: {
-    setSupplier(state, supplier){
-      state.supplier=supplier;
-    },
     setProducts(state, products) {
       state.products = products;
     },
@@ -50,14 +46,6 @@ export default {
     },
   },
   actions: {
-    getSupplier({ commit }){
-      axios({
-        method: "get",
-        url: "/product/supplier"
-      }).then(res => {
-        commit("setSupplier", res.data);
-      });
-    },
     getProducts({ commit }, rule = {}) {
       let page = rule.page || 1;
       let rows = rule.rows || 3;
