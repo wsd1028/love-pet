@@ -7,7 +7,7 @@ import Manage from "./components/manage";
 import Sent from "./components/Sent";
 import PendingTrade from "./components/PendingTrade";
 import PendingServe from "./components/PendingServe";
-import AllService  from "./components/allService ";
+import AllService  from "./components/allService";
 import CompletedServe from "./components/completedServe";
 import PetMaster from "./components/petMaster";
 import Product from "./components/product";
