@@ -3,7 +3,7 @@
     <SearchSysUser></SearchSysUser>
     <UserList></UserList>
     <Page></Page>
-    <UpdateSysUser></UpdateSysUser>
+    <!-- <UpdateSysUser></UpdateSysUser> -->
   </div>
 </template>
 <script>

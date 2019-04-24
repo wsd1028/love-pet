@@ -7,8 +7,11 @@
       <el-form-item label="电话" :label-width="formLabelWidth">
         <el-input v-model="phone" autocomplete="off"></el-input>
       </el-form-item>
-    <el-form-item label="地址" :label-width="formLabelWidth">
+      <el-form-item label="地址" :label-width="formLabelWidth">
         <el-input v-model="adress" autocomplete="off"></el-input>
+      </el-form-item>
+       <el-form-item label="法定代表人" :label-width="formLabelWidth">
+        <el-input v-model="pepole" autocomplete="off"></el-input>
       </el-form-item>
     </el-form>
     <div slot="footer" class="btn">
@@ -56,6 +59,17 @@ export default {
       },
       get() {
         return this.supplier.adress;
+      }
+    },
+    pepole: {
+      set(pepole) {
+        this.setSupplier({
+          ...this.supplier,
+          pepole
+        });
+      },
+      get() {
+        return this.supplier.pepole;
       }
     }
   },

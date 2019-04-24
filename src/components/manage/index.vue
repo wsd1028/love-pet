@@ -1,10 +1,10 @@
 <template>
   <el-container>
-    <el-header style="display:flex; font-size: 12px; justify-content: space-between;">
+    <el-header style="display:flex; font-size: 12px; justify-content: space-between;" >
       <h1>系统管理</h1>
-      <div>
-        <el-button type="primary">退出</el-button>
-        <span>吴少冬</span>
+      <div style="margin-top:8px" >
+        <span style="color:black;font-size:16px;font-weight:bold;margin-right:20px;">欢迎: {{name}}</span>
+        <el-button type="primary" plain @click="removeSession" style="font-size:16px;font-weight:bold">退出</el-button>
       </div>
     </el-header>
     <el-container style="height: 500px; border: 1px solid #eee">
@@ -39,11 +39,44 @@
 </template>
 
 <script>
+import axios from "axios";
 export default {
   data() {
     return {
-      url: this.$router.history.current.path
+      url: this.$router.history.current.path,
+      name: ""
     };
+  },
+  created() {
+    this.getSession();
+  },
+  beforeUpdated() {
+    this.getSession();
+  },
+  methods: {
+    getSession() {
+      axios({
+        method: "get",
+        url: "/getSession"
+      }).then(res => {
+        console.log(res.data,"session");
+        if (res.data.name) {
+          if (!this.name) {
+            this.name = res.data.name;
+          }
+        } else {
+          this.$router.push("/login");
+        }
+      });
+    },
+    removeSession() {
+      axios({
+        method: "get",
+        url: "/removeSession"
+      }).then(res => {
+        this.$router.push("/login");
+      });
+    }
   }
 };
 </script>
@@ -53,7 +86,6 @@ export default {
   background-color: #b3c0d1;
   color: #333;
 }
-
 .el-aside {
   color: #333;
 }

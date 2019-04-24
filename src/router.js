@@ -7,6 +7,8 @@ import Manage from "./components/manage";
 import Sent from "./components/Sent";
 import PendingTrade from "./components/PendingTrade";
 import PendingServe from "./components/PendingServe";
+import AuditShop from './components/auditShop'
+
 import CompletedServe from "./components/completedServe";
 import ServiceType from "./components/serviceType";
 import AllService from "./components/allService";
@@ -32,9 +34,14 @@ import AllServiceSaleStatistics from './components/allServiceSaleStatistics'
 
 Vue.use(VueRouter);
 const routes = [
-  { path: "/", component: Manage },
+  { path: "/", component: Login },
   { path: "/register", component: Register },
-  { path: "/login", component: Login },
+  { path: "/auditShop", component: AuditShop },
+
+  {
+    path: "/login",
+    component: Login
+  },
   { path: "/shopApply", component: ShopApply },
   {
     path: "/manage",
