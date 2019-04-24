@@ -3,19 +3,24 @@
     <el-header style="display:flex; font-size: 12px; justify-content: space-between;">
       <h1>系统管理</h1>
       <div>
-        <el-button type="primary" >退出</el-button>
+        <el-button type="primary">退出</el-button>
         <span>吴少冬</span>
       </div>
     </el-header>
     <el-container style="height: 500px; border: 1px solid #eee">
       <el-aside width="200px" style="background-color: rgb(238, 241, 246)">
         <el-menu router :default-active="url" :default-openeds="[`${url}`]">
-          <el-menu-item index="/manage/userSys">用户管理</el-menu-item>
+          <el-submenu index="/manage/userSys">
+            <template slot="title">用户管理</template>
+            <el-menu-item-group>
+              <el-menu-item index="/manage/userSys">平台管理员</el-menu-item>
+              <el-menu-item index="/manage/shopManager">门店管理员</el-menu-item>
+            </el-menu-item-group>
+          </el-submenu>
           <el-menu-item index="/manage/petMaster">宠主管理
           </el-menu-item>
 
-
-           <el-submenu index="/manage/shopSys">
+          <el-submenu index="/manage/shopSys">
             <template slot="title">门店管理</template>
             <el-menu-item-group>
               <el-menu-item index="/manage/shops">营业门店</el-menu-item>
@@ -39,7 +44,7 @@ export default {
     return {
       url: this.$router.history.current.path
     };
-  },
+  }
 };
 </script>
 
