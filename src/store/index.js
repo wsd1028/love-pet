@@ -26,13 +26,7 @@ export default new Vuex.Store({
     supplierModule,
     allServiceModule,
     usersModule,
-
-    ProModule,
-    serviceModule,
-
     userSysModule,
     shopManagerModule,
-    usersModule,
-    userSysModule
   }
 });
