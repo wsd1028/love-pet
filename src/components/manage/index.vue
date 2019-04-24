@@ -13,8 +13,6 @@
           <el-menu-item index="/manage/userSys">用户管理</el-menu-item>
           <el-menu-item index="/manage/petMaster">宠主管理
           </el-menu-item>
-
-
            <el-submenu index="/manage/shopSys">
             <template slot="title">门店管理</template>
             <el-menu-item-group>
@@ -26,7 +24,7 @@
 
           <el-menu-item index="/manage/shopSys">门店管理
           </el-menu-item>
-          <el-menu-item index="/manage/supplier">供应商管理</el-menu-item>
+          <el-menu-item index="/manage/supplier"> <i class="el-icon-printer"></i>供应商管理</el-menu-item>
         </el-menu>
       </el-aside>
       <el-main>
@@ -51,7 +49,6 @@ export default {
   background-color: #b3c0d1;
   color: #333;
 }
-
 .el-aside {
   color: #333;
 }
