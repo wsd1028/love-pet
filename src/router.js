@@ -24,7 +24,7 @@ import BlackShops from './components/blackShops'
 
 Vue.use(VueRouter);
 const routes = [
-  { path: "/", component: Manage },
+  { path: "/", component: Login },
   { path: "/register", component: Register },
   { path: "/login", component: Login },
   { path: "/shopApply", component: ShopApply },
