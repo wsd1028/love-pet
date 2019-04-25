@@ -28,6 +28,7 @@ import ServiceSaleroomStatistics from './components/serviceSaleroomStatistics'
 import ProductSaleroomStatistics from './components/productSaleroomStatistics'
 import AllProductSaleroom from './components/allProductSaleroom'
 import AllServiceSaleStatistics from './components/allServiceSaleStatistics'
+import AuditShop from './components/auditShop'
 
 
 Vue.use(VueRouter);

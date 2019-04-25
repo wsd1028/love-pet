@@ -1,5 +1,5 @@
 <template>
-  <el-table :data="shopManagers" border style="width: 100%">
+  <el-table :data="shopManagers" border style="width: 100%;margin-bottom:5px" >
     <el-table-column prop="realName" label="真实姓名" width="130">
     </el-table-column>
     <el-table-column prop="loginName" label="登录名" width="130">
@@ -30,7 +30,7 @@ const { mapActions, mapState } = createNamespacedHelpers("shopManagerModule");
 export default {
   data() {
     return {
-      centerDialogVisible: false
+      centerDialogVisible: false,
     };
   },
   computed: {

@@ -18,6 +18,10 @@
         <el-button type="primary" @click="submitForm('ruleForm2')">提交</el-button>
         <el-button @click="resetForm('ruleForm2')">重置</el-button>
       </el-form-item>
+      <el-form-item style="float:right">
+        <span>无【门店管理员】账号？点此</span>
+        <a href="javascript:void(0);" @click="register" style="color:red">立即注册</a>
+      </el-form-item>
     </el-form>
   </el-card>
 </template>
@@ -89,10 +93,13 @@ export default {
             }).then(res => {
               console.log(res.data);
               if (res.data.status == 1) {
-                alert("恭喜登录成功!进入系统管理界面");
+                this.$message({
+                  message: "恭喜登录成功! 欢迎进入系统管理界面",
+                  type: "success"
+                });
                 this.$router.push("manage");
               } else {
-                alert("该平台管理员账号不存在，请重新输入");
+                this.$message.error("该账号不存在，请重新输入！");
               }
             });
           } else {
@@ -110,26 +117,36 @@ export default {
                 //有账号
                 if (res.data.status == "null") {
                   //有账户，无店
-                  alert("该账户已注册账号，还未申请开店，进入店铺申请界面");
-                  // this.$router.push("shopApply");
+                  alert(
+                    "该账户已注册账号，还未申请开店，点击【确定】进入店铺申请界面"
+                  );
+                  this.$router.push("shopApply");
                   return;
                 } else if (res.data.status == "yes") {
-                  //有账号，但未开店
-                  alert("该账户已注册账号,有店");
-                  // this.$router.push("shopManage");
+                  //有账号，有店
+                  // alert("该账户已注册账号,有店");
+                  this.$message({
+                    message: "恭喜登录成功! 欢迎进入店家管理界面",
+                    type: "success"
+                  });
+                  this.$router.push("shopManage");
                   return;
                 } else if (res.data.status == "audit") {
                   //有账号，但店铺在申请中
-                  alert("该账户已注册账号,店铺审核中");
-                  // this.$router.push("");
+                  alert("该账户申请的店铺正在审核中。。。");
+                  this.$router.push("auditShop");
                   return;
                 } else {
-                  alert("该账户已注册账号,店铺状态不可用");
+                  this.$message({
+                    showClose: true,
+                    message: "该账号店铺【不可用】",
+                    type: "warning"
+                  });
                 }
               } else {
                 //无账号
-                alert("该平台管理员账号不存在，请注册");
-                // this.$router.push("register");
+                alert("该账号不存在，点击【确定】请立即注册");
+                this.$router.push("register");
               }
             });
           }
@@ -141,6 +158,9 @@ export default {
     },
     resetForm(formName) {
       this.$refs[formName].resetFields();
+    },
+    register() {
+      this.$router.push("register");
     }
   }
 };
