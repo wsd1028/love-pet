@@ -13,6 +13,7 @@ import userSysModule from "./userSysModule.js";
 import supplierModule from "./supplierModule.js";
 import shopManagerModule from "./shopManagerModule.js";
 
+Vue.use(Vuex);
 
 export default new Vuex.Store({
   modules: {

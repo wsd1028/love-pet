@@ -32,14 +32,9 @@ import AuditShop from './components/auditShop'
 
 Vue.use(VueRouter);
 const routes = [
-  { path: "/", component: Login },
+  { path: "/", component: Manage },
   { path: "/register", component: Register },
-  { path: "/auditShop", component: AuditShop },
-
-  {
-    path: "/login",
-    component: Login
-  },
+  { path: "/login", component: Login },
   { path: "/shopApply", component: ShopApply },
   {
     path: "/manage",

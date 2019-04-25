@@ -4,12 +4,12 @@
       <el-option label="供应商" value="name"/>
       <el-option label="电话" value="phone"/>
       <el-option label="地址" value="adress"/>
+      <el-option label="法人代表" value="pepole"/>
     </el-select>
     <el-input v-model="value" placeholder="请输入内容" class="inputStyle"></el-input>
     <el-button icon="el-icon-search" circle type="primary" @click="search"></el-button>
   </div>
 </template>
-
 <script>
 import { createNamespacedHelpers } from "vuex";
 const { mapActions, mapState, mapMutations } = createNamespacedHelpers(
@@ -42,8 +42,10 @@ export default {
 <style scoped>
 .div {
   display: inline-block;
+  display: flex;
 }
 .select {
+  
   width: 94px;
   display: inline-block;
 }
