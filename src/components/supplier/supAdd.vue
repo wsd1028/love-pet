@@ -57,7 +57,6 @@ export default {
         img:""
       },
       formLabelWidth: "120px",
-      
     };
   },
   methods: {
