@@ -2,8 +2,8 @@
     <div>
     <h1>商品总销售额统计</h1>
         <el-radio-group v-model="type" @change="showChart">
-            <el-radio-button label="班级人数统计"></el-radio-button>
-            <el-radio-button label="年龄分布统计"></el-radio-button>
+            <el-radio-button label="月商品总销售额"></el-radio-button>
+            <el-radio-button label="季度商品总销售额"></el-radio-button>
             <el-radio-button label="地图"></el-radio-button>
         </el-radio-group>
         <div class="total" id="myChart" ref="myChart"></div>
