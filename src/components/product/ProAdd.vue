@@ -146,14 +146,12 @@ export default {
         method:"get",
         url:"/login/shopManager/getSession"
       }).then(res=>{
-        // console.log(res)
         let id = res.data._id;
         axios({
           method:"get",
           url:"/product/addPro",
           params:id
         }).then(res=>{
-            //  console.log(id)
           userId =res.data._id;
           let data = { ...this.form };
           this.addProduct(data);
@@ -169,7 +167,6 @@ export default {
       this.form.image = response;
     },
     handleRemove(file, fileList) {
-      console.log(file, fileList);
     },
     handlePictureCardPreview(file) {
       this.dialogImageUrl = file.url;

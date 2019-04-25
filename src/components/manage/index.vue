@@ -60,7 +60,6 @@ export default {
         method: "get",
         url: "/getSession"
       }).then(res => {
-        console.log(res.data,"session");
         if (res.data.name) {
           if (!this.name) {
             this.name = res.data.name;
@@ -87,7 +86,9 @@ export default {
   background-color: #b3c0d1;
   color: #333;
 }
-
+.el-menu{
+  height:100%
+}
 .el-aside {
   color: #333;
 }

@@ -42,7 +42,6 @@ export default {
           url: "/product/getTradeNum",
           method: "get"
         }).then(res => {
-          // console.log(res)
           this.tradeName = [];
           this.tradeNumber = [];
           for (let i = 0; i < res.data.length; i++) {

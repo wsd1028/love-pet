@@ -75,7 +75,6 @@ export default {
     ...mapMutations(["setVisible","setUser"]),
     ...mapActions(["setUsers"]),
     handleEdit( row) {
-     console.log(row);
       this.setVisible(true)
       this.setUsers(row);
        

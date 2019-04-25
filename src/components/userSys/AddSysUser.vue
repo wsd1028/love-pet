@@ -100,7 +100,6 @@ export default {
               pwd: this.form.pwd
             }
           }).then(res => {
-            // this.$emit("show");
             this.setUserSys();
             this.form.name = "";
             this.form.phone = "";

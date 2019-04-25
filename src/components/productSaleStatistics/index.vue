@@ -31,7 +31,6 @@ export default {
   },
   mounted() {
     this.$nextTick(() => {
-      
       axios({
         url: "/login/shopManager/getSession",
         method: "get"
@@ -45,7 +44,6 @@ export default {
   methods: {
     showChart() {
       let myChart = echarts.init(this.$refs.myChart);
-
       if (this.type == "商品销量统计") {
         axios({
           url: "/order/getTradeNum",

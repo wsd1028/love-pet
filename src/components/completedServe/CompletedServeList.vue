@@ -18,7 +18,6 @@ export default {
   },
   created() {
     this.getServes({serve:"completed",id:this.shopId});
-    console.log(this.shopId)
   },
   methods: {
     ...mapActions(["getServes"])

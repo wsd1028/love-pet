@@ -2,7 +2,6 @@
   <el-container>
     <el-header style="display:flex; font-size: 12px; justify-content: space-between;">
       <h1>门店管理 &nbsp ({{shopName}}店)</h1>
-      <!-- <span>{{shopName}}</span> -->
       <div style="margin-top:8px">
         <span style="color:black;font-size:16px;font-weight:bold;margin-right:20px;">欢迎: {{loginName}}</span>
         <el-button type="primary" plain @click="removeSession" style="font-size:16px;font-weight:bold">退出</el-button>
@@ -76,7 +75,6 @@
       </el-aside>
       <el-main>
         <router-view>
-
         </router-view>
       </el-main>
     </el-container>
@@ -147,7 +145,9 @@ export default {
   background-color: #b3c0d1;
   color: #333;
 }
-
+.el-menu{
+  height:100%
+}
 .el-aside {
   color: #333;
 }

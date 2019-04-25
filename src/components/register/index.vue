@@ -167,7 +167,6 @@ export default {
   methods: {
     submitForm(formName) {
       this.$refs[formName].validate(valid => {
-        console.log(this.$refs[formName].model);
         if (valid) {
           axios({
             method: "post",
@@ -187,7 +186,6 @@ export default {
             this.$router.push("login");
           });
         } else {
-          console.log("error submit!!");
           return false;
         }
       });

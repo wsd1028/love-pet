@@ -47,7 +47,6 @@ export default {
         showChart() {
             console.log("chart");
             let myChart = echarts.init(this.$refs.myChart);
-
             if (this.type == "班级人数统计") {
                 axios({
                     url: "/classes/classesTotal",
