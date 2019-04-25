@@ -71,6 +71,12 @@ import axios from "axios";
 import { createNamespacedHelpers } from "vuex";
 const { mapActions, mapState, mapMutations } = createNamespacedHelpers("shops");
 export default {
+  data() {
+    return {
+      url: "/upload/",
+      userId:""
+    };
+  },
   computed: {
     ...mapState(["blackList"])
   },
@@ -88,14 +94,27 @@ export default {
         .then(() => {
           axios({
             url: "/shopSys/" + id,
+            method: "get"
+          }).then(res => {
+           this. userId = res.data.userId;
+          });
+          axios({
+            url: "/shopSys/" + id,
             method: "put",
             data: {
               status: "yes"
             }
           }).then(res => {
-            this.$nextTick(
-            this.getShops({ status: "no" })
-            )
+            this.getShops({ status: "no" });
+             axios({
+              url:"/shopSys/user/"+this.userId,
+              method:"put",
+              data:{
+                status:"yes"
+              }
+            }).then((res)=>{
+              console.log(res.data)
+            });
           });
           this.$message({
             type: "success",

@@ -47,7 +47,6 @@
           <el-input v-model="form.freshDate" autocomplete="off"></el-input>
         </el-form-item>
         <el-form-item label="供应商:" :label-width="formLabelWidth">
-          <!-- <el-input v-model="form.company" autocomplete="off"></el-input> -->
           <el-select v-model="form.company" placeholder="请选择供应商" autocomplete="off" class="select">          
               <el-option v-for="item in supplier" v-bind:key="item._id" :label="item.name" :value="item.name"/>
           </el-select>
@@ -142,6 +141,7 @@ export default {
       this.dialogFormVisible = false;
     },
     add(form) {
+      
       let data = { ...this.form };
       this.addProduct(data);
       this.$refs[form].resetFields();

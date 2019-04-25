@@ -28,8 +28,10 @@
 </template>
 
 <script>
+import axios from 'axios'
+
 import { createNamespacedHelpers } from "vuex";
-const { mapActions, mapState } = createNamespacedHelpers("serviceModule");
+const { mapActions,mapState,mapMutations } = createNamespacedHelpers("serviceModule");
 export default {
   computed: {
     ...mapState(["pagenation", "shopId"])
@@ -82,7 +84,7 @@ export default {
           this.$refs[addForm].resetFields();
           this.dialogFormVisible = false;
           let page = this.pagenation.curpage;
-          this.getServiceType({ page, shopId });
+          this.getServiceType({ page, type: "", value: "",shopId });
         } else {
           this.$message.error("请输入完整的信息");
         }

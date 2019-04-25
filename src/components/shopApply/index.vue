@@ -1,7 +1,7 @@
 <template>
   <div class="body">
     <header>
-      <el-steps :active="1">
+      <el-steps :active="active">
         <el-step title="步骤 1" description="门店信息登记"></el-step>
         <el-step title="步骤 2" description="正在审核中..."></el-step>
         <el-step title="步骤 3" description="审核完成！"></el-step>
@@ -23,36 +23,34 @@
           <el-form-item class="formItem" label="营业执照号码" prop="number">
             <el-input v-model="ruleForm.number"></el-input>
           </el-form-item>
-          <!-- <el-form-item class="formItem" label="营业执照图片" prop="image">
-            <el-upload
-              class="upload-demo"
-              action="https://jsonplaceholder.typicode.com/posts/"
-              :on-preview="handlePreview"
-              :on-remove="handleRemove"
-              :before-remove="beforeRemove"
-              :on-success="handleAvatarSuccess"
-              multiple
-              :limit="3"
-              :on-exceed="handleExceed"
-              :file-list="fileList"
-            >
-              <el-button size="small" type="primary">点击上传</el-button>
-              <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
-            </el-upload>
-          </el-form-item>-->
-          <!-- <el-form-item class="formItem" label="店铺头像" prop="headImg">
+          <el-form-item class="formItem" label="营业执照图片" prop="image">
             <el-upload
               class="avatar-uploader border"
-              action="/upload"
+              action="/shopApply/upload "
+              :show-file-list="false"
+              :on-success="handleAvatarSuccessImage"
+              :before-upload="beforeAvatarUploadImage"
+            >
+              <img v-if="ruleForm.images" :src="ruleForm.images" class="avatar">
+              <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+            </el-upload>
+          </el-form-item>
+          <el-form-item class="formItem" label="店铺头像" prop="headImg">
+            <el-upload
+              class="avatar-uploader border"
+              action="/shopApply/upload "
               :show-file-list="false"
               :on-success="handleAvatarSuccess"
               :before-upload="beforeAvatarUpload"
             >
-              <img v-if="ruleForm.headImg" :src="ruleForm.headImg" class="avatar">
+              <img v-if="ruleForm.headImgs" :src="ruleForm.headImgs" class="avatar">
               <i v-else class="el-icon-plus avatar-uploader-icon"></i>
             </el-upload>
-          </el-form-item> -->
-          <el-form-item class="formItem" label="营业地址" prop="address">
+          </el-form-item>
+          <el-form-item class="formItem" label="营业城市" prop="city">
+            <el-input v-model="ruleForm.city"></el-input>
+          </el-form-item>
+          <el-form-item class="formItem" label="营业详细地址" prop="address">
             <el-input v-model="ruleForm.address"></el-input>
           </el-form-item>
           <el-form-item class="formItem" label="法人" prop="boss">
@@ -75,22 +73,29 @@
             </el-checkbox-group>
           </el-form-item>
           <el-form-item>
-            <el-button type="primary" @click="submitForm('ruleForm')">立即创建</el-button>
+            <el-button type="primary" @click="submitForm('ruleForm')" :plain="true">立即创建</el-button>
             <el-button @click="resetForm('ruleForm')">重置</el-button>
           </el-form-item>
         </el-form>
       </div>
       <div class="right">
-        <span>已有账号？</span>
+        <span>已有店铺？</span>
         <p class="login">立即登录&nbsp;</p>
       </div>
     </section>
   </div>
 </template>
-
 <script>
 import axios from "axios";
+import { createNamespacedHelpers } from "vuex";
+const { mapActions, mapState, mapMutations } = createNamespacedHelpers("shops");
 export default {
+  computed: {
+    ...mapState(["userId"])
+  },
+  created() {
+    this.getSession();
+  },
   data() {
     var validatePhone = (rule, value, callback) => {
       if (value === "") {
@@ -103,30 +108,43 @@ export default {
         }
       }
     };
-    return {
-      fileList: [
-        {
-          name: "food.jpeg",
-          url:
-            "https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100"
-        },
-        {
-          name: "food2.jpeg",
-          url:
-            "https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100"
+    var validateCity = (rule, value, callback) => {
+      if (value === "") {
+        callback(new Error("请输入城市名"));
+      } else {
+        if (/^[\u4e00-\u9fa5]{2,16}$/.test(value)) {
+          callback();
+        } else {
+          callback(new Error("请输入中文城市"));
         }
-      ],
+      }
+    };
+    return {
+      active: 1,
+      // images: "",
+      // headImgs: "",
       ruleForm: {
+        images: "",
+        headImgs: "",
         name: "",
         number: "",
         image: "",
         headImg: "",
+        userId: "",
+        city: "",
+        cityLocation: {
+          longitude: "",
+          latitude: ""
+        },
         address: "",
+        location: {
+          longitude: "",
+          latitude: ""
+        },
         boss: "",
         phone: "",
         feature: []
       },
-
       dialogVisible: false,
       rules: {
         name: [
@@ -137,8 +155,9 @@ export default {
           { required: true, message: "请输入营业执照号码", trigger: "blur" },
           { min: 5, max: 20, message: "长度在 5 到 20 个字符", trigger: "blur" }
         ],
+        city: [{ validator: validateCity, trigger: "blur" }],
         address: [
-          { required: true, message: "请输入营业地址", trigger: "blur" }
+          { required: true, message: "请输入营业详细地址", trigger: "blur" }
         ],
         image: [
           { required: true, message: "请输入营业执照照片", trigger: "blur" }
@@ -160,29 +179,76 @@ export default {
     };
   },
   methods: {
+    ...mapMutations(["setUserId"]),
+    getSession() {
+      axios({
+        url: "/shopApply/getSession",
+        method: "get"
+      }).then(res => {
+        if (res.data) {
+          if (res.data) {
+            this.ruleForm.userId = res.data._id;
+            this.setUserId(res.data._id);
+          } else {
+            console.log("没有session");
+          }
+        }
+      });
+    },
     submitForm(formName) {
+      var map = new BMap.Map("l-map");
+      // // 创建地址解析器实例
+      var myGeo = new BMap.Geocoder();
+      // // 将地址解析结果显示在地图上，并调整地图视野
+      myGeo.getPoint(this.ruleForm.city, point => {
+        console.log(point);
+        this.ruleForm.cityLocation.longitude = point.lng;
+        this.ruleForm.cityLocation.latitude = point.lat;
+      });
+      myGeo.getPoint(this.ruleForm.address, point => {
+        this.ruleForm.location.longitude = point.lng;
+        this.ruleForm.location.latitude = point.lat;
+      });
+      console.log("city", this.ruleForm.cityLocation);
+      console.log("location", this.ruleForm.location);
       this.$refs[formName].validate(valid => {
         if (valid) {
           let feature = this.ruleForm.feature.join(",");
-          console.log(types);
-          // http://api.map.baidu.com/geocoder/v2/?address=地址&output=json&ak=秘钥
-          // axios({
-          //   url:"/shopApply",
-          //   method:"post",
-          //   data:{...this.ruleForm,status:"audit",feature:feature,vipLevel:"1级",commission:"0.5",shopWaiter:[],comment:[]}
-          // }).then((res)=>{
-          //   console.log(res.data)
-          // })
-
-          alert("submit!");
+          axios({
+            url: "/shopApply",
+            method: "post",
+            data: {
+              ...this.ruleForm,
+              status: "audit",
+              feature: feature,
+              vipLevel: "1级",
+              commission: "0.5",
+              shopWaiter: [],
+              comment: []
+            }
+          }).then(res => {
+            this.$message({
+              message: "提交成功！",
+              type: "success"
+            });
+            this.headImg = this.image = "";
+            this.$refs[formName].resetFields();
+            let shopsId = res.data._id;
+            axios({
+              url: "/shopApply/addShops/" + this.userId,
+              method: "put",
+              data: {
+                shopsId: shopsId,
+                status: "audit"
+              }
+            }).then(res => {
+              this.$router.push("auditShop");
+            });
+          });
         } else {
-          console.log(736483);
-          console.log({ ...this.ruleForm });
-          // console.log(this.ruleForm.type);
-          // console.log("headUrl", this.headUrl);
-          // console.log("ruleForm", this.ruleForm);
-          console.log("image", this.ruleForm.image);
-          // console.log("error submit!!");
+          this.$alert("请填写完整的信息", "提示", {
+            confirmButtonText: "确定"
+          });
           return false;
         }
       });
@@ -190,21 +256,40 @@ export default {
     resetForm(formName) {
       this.$refs[formName].resetFields();
     },
-    handleAvatarSuccess(res, file) {
-        this.ruleForm.headImg = URL.createObjectURL(file.raw);
-      },
-      beforeAvatarUpload(file) {
-        const isJPG = file.type === 'image/jpeg';
-        const isLt2M = file.size / 1024 / 1024 < 2;
+    handleAvatarSuccessImage(res, file) {
+      this.ruleForm.image = res;
+      this.ruleForm.images = "/upload/" + res;
+    },
+    beforeAvatarUploadImage(file) {
+      const isJPG = file.type === "image/jpeg";
+      const isLt2M = file.size / 1024 / 1024 < 2;
 
-        if (!isJPG) {
-          this.$message.error('上传头像图片只能是 JPG 格式!');
-        }
-        if (!isLt2M) {
-          this.$message.error('上传头像图片大小不能超过 2MB!');
-        }
-        return isJPG && isLt2M;
+      if (!isJPG) {
+        this.$message.error("上传头像图片只能是 JPG 格式!");
       }
+      if (!isLt2M) {
+        this.$message.error("上传头像图片大小不能超过 2MB!");
+      }
+      return isJPG && isLt2M;
+    },
+    handleAvatarSuccess(res, file, fileList) {
+      this.ruleForm.headImg = res;
+      this.ruleForm.headImgs = "/upload/" + res;
+
+      this.dialogVisible = true;
+    },
+    beforeAvatarUpload(file) {
+      const isJPG = file.type === "image/jpeg";
+      const isLt2M = file.size / 1024 / 1024 < 2;
+
+      if (!isJPG) {
+        this.$message.error("上传头像图片只能是 JPG 格式!");
+      }
+      if (!isLt2M) {
+        this.$message.error("上传头像图片大小不能超过 2MB!");
+      }
+      return isJPG && isLt2M;
+    }
   }
 };
 </script>
@@ -235,7 +320,6 @@ export default {
   color: rgb(0, 157, 255);
 }
 
-
 .border {
   border: 1px dashed #d9d9d9;
   border-radius: 6px;
@@ -243,27 +327,27 @@ export default {
   height: 128px;
 }
 
- .avatar-uploader .el-upload {
-    border: 1px dashed #d9d9d9;
-    border-radius: 6px;
-    cursor: pointer;
-    position: relative;
-    overflow: hidden;
-  }
-  .avatar-uploader .el-upload:hover {
-    border-color: #409EFF;
-  }
-  .avatar-uploader-icon {
-    font-size: 28px;
-    color: #8c939d;
-    width: 128px;
-    height: 128px;
-    line-height: 128px;
-    text-align: center;
-  }
-  .avatar {
-    width: 128px;
-    height: 128px;
-    display: block;
-  }
+.avatar-uploader .el-upload {
+  border: 1px dashed #d9d9d9;
+  border-radius: 6px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+.avatar-uploader .el-upload:hover {
+  border-color: #409eff;
+}
+.avatar-uploader-icon {
+  font-size: 28px;
+  color: #8c939d;
+  width: 128px;
+  height: 128px;
+  line-height: 128px;
+  text-align: center;
+}
+.avatar {
+  width: 128px;
+  height: 128px;
+  display: block;
+}
 </style>
