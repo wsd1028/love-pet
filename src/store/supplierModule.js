@@ -7,8 +7,6 @@ export default {
       name: "",
       phone: "",
       adress: "",
-      pepole:"",
-      img:"",
       id: "",
       visible: false
     },
@@ -70,7 +68,6 @@ export default {
     addSupplier({
       commit
     }, addMess) {
-      console.log("addMess",addMess)
       axios({
         method: "post",
         url: "/supplier/addSuppliers",
@@ -108,9 +105,7 @@ export default {
         data: {
           name: data.name,
           phone: data.phone,
-          adress: data.adress,
-          pepole: data.pepole,
-          img:data.img
+          adress: data.adress
         }
       }).then(res => {});
     }
