@@ -17,7 +17,7 @@ export default {
       type: "",
       value: ""
     },
-    shopId: "5cbae16ce0d4c6dae46facd4"
+    shopId: ""
   },
   mutations: {
     setServiceType(state, serviceType) {
@@ -27,7 +27,7 @@ export default {
       state.pagenation = pagenation;
     },
     setShopId(state, setShopId) {
-      state.setShopId = setShopId;
+      state.shopId = setShopId;
     },
     setSearchRule(state, searchRule) {
       state.searchRule = searchRule;

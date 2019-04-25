@@ -86,6 +86,8 @@
 
 <script>
 import axios from "axios";
+import { createNamespacedHelpers } from "vuex";
+const { mapMutations } = createNamespacedHelpers("shopManageCom");
 export default {
   data() {
     return {
@@ -102,17 +104,17 @@ export default {
     this.getSession();
   },
   methods: {
+    ...mapMutations(["setShopId"]),
     getSession() {
       axios({
         method: "get",
         url: "/login/shopManager/getSession"
       }).then(res => {
-        console.log(res.data, "session");
         if (res.data.loginName) {
           if (!this.loginName) {
             this.loginName = res.data.loginName;
             this.id = res.data.shops.$id;
-            console.log(this.id, "店铺ID");
+            this.setShopId(this.id);
             axios({
               method:"get",
               url:"/login/shop",

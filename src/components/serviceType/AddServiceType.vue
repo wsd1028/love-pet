@@ -28,8 +28,10 @@
 </template>
 
 <script>
+import axios from 'axios'
+
 import { createNamespacedHelpers } from "vuex";
-const { mapActions, mapState } = createNamespacedHelpers("serviceModule");
+const { mapActions,mapState,mapMutations } = createNamespacedHelpers("serviceModule");
 export default {
   computed: {
     ...mapState(["pagenation", "shopId"])

@@ -15,11 +15,15 @@ export default {
       type: "",
       value: ""
     },
+    shopId:"",
     pagenation: {}
   },
   mutations: {
     setStudents(state, students) {
       state.students = students;
+    },
+    setShopId(state, shopId) {
+      state.shopId = shopId;
     },
     setUpdateStuVis(state, visible) {
       state.student = { ...state.student, visible};

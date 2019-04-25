@@ -27,11 +27,7 @@
         </el-form-item>
         <el-form-item label="服务人员:" :label-width="formLabelWidth">
           <el-select v-model="form.waiter" @change="chooseWaiter" placeholder="请选择服务人员">
-            <el-option
-              v-for="item in waiter"
-              :key="item.name"
-              :value="item.name"
-            ></el-option>
+            <el-option v-for="item in waiter" :key="item.name" :value="item.name"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item class="btn">
@@ -44,33 +40,46 @@
 </template>
 
 <script>
+import axios from "axios";
+
 import { createNamespacedHelpers } from "vuex";
-const { mapActions, mapState } = createNamespacedHelpers("allServiceModule");
+const { mapActions, mapState, mapMutations } = createNamespacedHelpers(
+  "allServiceModule"
+);
 export default {
   computed: {
-    ...mapState(["pagenation", "shopId", "serviceType","waiter"])
+    ...mapState(["pagenation", "shopId", "serviceType", "waiter"])
   },
   data() {
     return {
       dialogFormVisible: false,
       serviceTypeId: "",
-      type:"",
+      type: "",
       form: {
         name: "",
-        waiter:"",
-        price:"",
-        useTime:"",
-        schedule:"",
+        waiter: "",
+        price: "",
+        useTime: "",
+        schedule: ""
       },
       formLabelWidth: "120px"
     };
   },
   created() {
-    this.getServiceType({ shopId: this.shopId });
-    this.getWaiter( this.shopId)
+    console.log("Add", this.shopId);
+    let shopId = this.shopId;
+    this.getServiceType({ shopId });
+    this.getWaiter(shopId);
   },
   methods: {
-    ...mapActions(["addServiceType", "getServiceType","addServices","getServices","getWaiter"]),
+    ...mapActions([
+      "addServiceType",
+      "getServiceType",
+      "addServices",
+      "getServices",
+      "getWaiter"
+    ]),
+    ...mapMutations(["setShopId"]),
     chooseType(value) {
       for (let i = 0; i < this.serviceType.length; i++) {
         if (value == this.serviceType[i].name) {
@@ -78,22 +87,22 @@ export default {
         }
       }
     },
-    chooseWaiter(value){
-      this.form.waiter=value;
+    chooseWaiter(value) {
+      this.form.waiter = value;
     },
     addNo(form) {
       this.$refs[form].resetFields();
       this.dialogFormVisible = false;
     },
     add(form) {
-        let shopId = this.shopId;
-        let serviceTypeId = this.serviceTypeId;
-        let data = { ...this.form,shopId,serviceTypeId };
-        this.addServices(data);
-        this.$refs[form].resetFields();
-        this.dialogFormVisible = false;
-        let page = this.pagenation.curpage;
-        this.getServices({ page, shopId });
+      let shopId = this.shopId;
+      let serviceTypeId = this.serviceTypeId;
+      let data = { ...this.form, shopId, serviceTypeId };
+      this.addServices(data);
+      this.$refs[form].resetFields();
+      this.dialogFormVisible = false;
+      let page = this.pagenation.curpage;
+      this.getServices({ page, shopId });
     }
   }
 };
