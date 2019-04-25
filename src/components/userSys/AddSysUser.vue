@@ -1,7 +1,7 @@
 <template>
-  <div>
+  <div class="div">
     <el-button type="primary" plain @click="dialogFormVisible = true">增加管理员</el-button>
-    <el-dialog title="增加平台管理员" :visible.sync="dialogFormVisible" width="550px">
+    <el-dialog title="增加平台管理员" :visible.sync="dialogFormVisible">
       <el-form :model="form" status-icon :rules="rules2" ref="form">
         <el-form-item label="姓名" :label-width="formLabelWidth" prop="name">
           <el-input v-model="form.name" autocomplete="off" style="width:300px"></el-input>
@@ -113,9 +113,10 @@ export default {
 };
 </script>
 
-<style>
-.el-dialog {
-  height: 370px;
+<style scoped>
+.div {
+  display: inline-block;
+  margin-right: 14px;
 }
 </style>
 
