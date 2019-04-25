@@ -133,10 +133,11 @@ export default {
           this.serviceTypeId = this.serviceType[i]._id;
         }
       }
-      let data = { ...this.service, serviceTypeId: this.serviceTypeId };
+      let serviceTypeId=this.serviceTypeId||this.service.serviceType._id
+      let data = { ...this.service, serviceTypeId:serviceTypeId };
       this.updateService(data);
       this.setUpdateServiceVis(false);
-      this.getServices({ page: this.pagenation.curpage, shopId });
+      this.getServices({ page: this.pagenation.curpage,type: "", value: "", shopId });
     }
   },
   data() {

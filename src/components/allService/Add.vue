@@ -66,7 +66,6 @@ export default {
     };
   },
   created() {
-    console.log("Add", this.shopId);
     let shopId = this.shopId;
     this.getServiceType({ shopId });
     this.getWaiter(shopId);
