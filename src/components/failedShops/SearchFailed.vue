@@ -1,24 +1,24 @@
 <template>
   <div class="div">
     <el-select v-model="type" placeholder="请选择" class="select">
-      <el-option label="名称" value="name"/>
-      <el-option label="价格" value="price"/>
-      <el-option label="耗时" value="useTime"/>
-      <el-option label="服务人员" value="waiter"/>
+      <el-option label="门店名称" value="name"/>
+      <el-option label="营业执照号码" value="number"/>
+      <el-option label="地址" value="address"/>
+      <el-option label="法人" value="boss"/>
     </el-select>
     <el-input v-model="value" placeholder="请输入内容" class="inputStyle"></el-input>
-    <el-button icon="el-icon-search" plain type="primary" @click="search">搜索</el-button>
+    <el-button icon="el-icon-search" type="primary" plain @click="search">搜索</el-button>
   </div>
 </template>
-
 <script>
 import { createNamespacedHelpers } from "vuex";
 const { mapActions, mapState, mapMutations } = createNamespacedHelpers(
-  "allServiceModule"
+  "shops"
 );
 export default {
-  computed: {
-    ...mapState(["searchRule", "shopId"])
+
+    computed: {
+    ...mapState(["searchShop"])
   },
   data() {
     return {
@@ -27,15 +27,15 @@ export default {
     };
   },
   methods: {
-    ...mapMutations(["setSearchRule"]),
-    ...mapActions(["getServices"]),
+    ...mapMutations(["setSearch"]),
+    ...mapActions(["getShops"]),
     search() {
+        console.log(123)
       let type = this.type;
       let value = this.value;
-      let shopId = this.shopId;
-      this.setSearchRule({ ...this.searchRule, type });
-      this.setSearchRule({ ...this.searchRule, value });
-      this.getServices({ type, value, shopId });
+      this.setSearch({ ...this.searchShop, type });
+      this.setSearch({ ...this.searchShop, value });
+      this.getShops({status:"failed",page:1,rows:5, type, value });
     }
   }
 };
@@ -44,8 +44,12 @@ export default {
 <style scoped>
 .div {
   display: inline-block;
+  display: flex;
+  width: 500px;
+  margin-bottom: 30px;
 }
 .select {
+  width: 200px;
   display: inline-block;
 }
 .inputStyle {

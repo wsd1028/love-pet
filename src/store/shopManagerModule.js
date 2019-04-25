@@ -33,10 +33,11 @@ export default {
         url: "/shopManager",
         params: { page, rows, type, value }
       }).then(res => {
+        console.log(res);
         commit("setshopManagers", res.data.rows);
         commit("setPagation", res.data);
         // console.log(this.state.pagation,"打印分页数据");
-        console.log(res.data.rows,"打印所有平台管理员");
+        // console.log(res.data.rows,"打印所有平台管理员");
       });
     },
     setoneShopManager({ commit }, id) {

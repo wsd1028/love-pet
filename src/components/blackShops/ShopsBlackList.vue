@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-table :data="blackList" style="width: 100%">
+    <el-table :data="blackList" style="width: 100%" >
       <el-table-column label="门店名称" width="180" align="center">
         <template slot-scope="scope">
           <span style="margin-left: 10px">{{ scope.row.name }}</span>
@@ -13,7 +13,7 @@
       </el-table-column>
       <el-table-column label="营业执照照片" width="180" align="center">
         <template slot-scope="scope">
-          <img style="width:40px;height:60px" :src="url+scope.row.image" alt>
+          <span style="margin-left: 10px">{{ scope.row.image }}</span>
         </template>
       </el-table-column>
       <el-table-column label="法人" width="100" align="center">
@@ -23,7 +23,7 @@
       </el-table-column>
       <el-table-column label="头像图片" width="180" align="center">
         <template slot-scope="scope">
-          <img style="width:40px;height:60px" :src="url+scope.row.headImg" alt>
+          <span style="margin-left: 10px">{{ scope.row.headImg }}</span>
         </template>
       </el-table-column>
       <el-table-column label="营业特色" width="180" align="center">
@@ -73,11 +73,12 @@ const { mapActions, mapState, mapMutations } = createNamespacedHelpers("shops");
 export default {
   data() {
     return {
-      url: "/upload/"
+      url: "/upload/",
+      userId:""
     };
   },
   computed: {
-    ...mapState(["blackList", "userId"])
+    ...mapState(["blackList"])
   },
   created() {
     this.getShops({ status: "no" });
@@ -93,21 +94,27 @@ export default {
         .then(() => {
           axios({
             url: "/shopSys/" + id,
+            method: "get"
+          }).then(res => {
+           this. userId = res.data.userId;
+          });
+          axios({
+            url: "/shopSys/" + id,
             method: "put",
             data: {
               status: "yes"
             }
           }).then(res => {
             this.getShops({ status: "no" });
-            //  axios({
-            //   ul:"/userStatus/"+this.userId,
-            //   method:"put",
-            //   data:{
-            //     status:"yes"
-            //   }
-            // }).then((res)=>{
-            //   console.log(res.data)
-            // })
+             axios({
+              url:"/shopSys/user/"+this.userId,
+              method:"put",
+              data:{
+                status:"yes"
+              }
+            }).then((res)=>{
+              console.log(res.data)
+            });
           });
           this.$message({
             type: "success",

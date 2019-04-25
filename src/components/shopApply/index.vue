@@ -31,7 +31,7 @@
               :on-success="handleAvatarSuccessImage"
               :before-upload="beforeAvatarUploadImage"
             >
-              <img v-if="images" :src="images" class="avatar">
+              <img v-if="ruleForm.images" :src="ruleForm.images" class="avatar">
               <i v-else class="el-icon-plus avatar-uploader-icon"></i>
             </el-upload>
           </el-form-item>
@@ -43,11 +43,14 @@
               :on-success="handleAvatarSuccess"
               :before-upload="beforeAvatarUpload"
             >
-              <img v-if="headImgs" :src="headImgs" class="avatar">
+              <img v-if="ruleForm.headImgs" :src="ruleForm.headImgs" class="avatar">
               <i v-else class="el-icon-plus avatar-uploader-icon"></i>
             </el-upload>
           </el-form-item>
-          <el-form-item class="formItem" label="营业地址" prop="address">
+          <el-form-item class="formItem" label="营业城市" prop="city">
+            <el-input v-model="ruleForm.city"></el-input>
+          </el-form-item>
+          <el-form-item class="formItem" label="营业详细地址" prop="address">
             <el-input v-model="ruleForm.address"></el-input>
           </el-form-item>
           <el-form-item class="formItem" label="法人" prop="boss">
@@ -87,9 +90,11 @@ import axios from "axios";
 import { createNamespacedHelpers } from "vuex";
 const { mapActions, mapState, mapMutations } = createNamespacedHelpers("shops");
 export default {
-    computed: {
-    ...mapState(["userId"]),
-    ...mapMutations(["setUserId"])
+  computed: {
+    ...mapState(["userId"])
+  },
+  created() {
+    this.getSession();
   },
   data() {
     var validatePhone = (rule, value, callback) => {
@@ -103,16 +108,39 @@ export default {
         }
       }
     };
+    var validateCity = (rule, value, callback) => {
+      if (value === "") {
+        callback(new Error("请输入城市名"));
+      } else {
+        if (/^[\u4e00-\u9fa5]{2,16}$/.test(value)) {
+          callback();
+        } else {
+          callback(new Error("请输入中文城市"));
+        }
+      }
+    };
     return {
       active: 1,
-      images:"",
-      headImgs:"",
+      // images: "",
+      // headImgs: "",
       ruleForm: {
+        images: "",
+        headImgs: "",
         name: "",
         number: "",
         image: "",
         headImg: "",
+        userId: "",
+        city: "",
+        cityLocation: {
+          longitude: "",
+          latitude: ""
+        },
         address: "",
+        location: {
+          longitude: "",
+          latitude: ""
+        },
         boss: "",
         phone: "",
         feature: []
@@ -127,8 +155,9 @@ export default {
           { required: true, message: "请输入营业执照号码", trigger: "blur" },
           { min: 5, max: 20, message: "长度在 5 到 20 个字符", trigger: "blur" }
         ],
+        city: [{ validator: validateCity, trigger: "blur" }],
         address: [
-          { required: true, message: "请输入营业地址", trigger: "blur" }
+          { required: true, message: "请输入营业详细地址", trigger: "blur" }
         ],
         image: [
           { required: true, message: "请输入营业执照照片", trigger: "blur" }
@@ -150,31 +179,47 @@ export default {
     };
   },
   methods: {
-
-    // getSession(){
-    //   axios({
-    //     url:"/shopApply/getSession",
-    //     method:"get"
-    //   }).then((res)=>{
-    //     if(res.data){
-    //       if(!this.shopManager){
-    // this.setUserId(res.data._id)
-    //       }
-    //     }
-    //   })
-    // },
+    ...mapMutations(["setUserId"]),
+    getSession() {
+      axios({
+        url: "/shopApply/getSession",
+        method: "get"
+      }).then(res => {
+        if (res.data) {
+          if (res.data) {
+            this.ruleForm.userId = res.data._id;
+            this.setUserId(res.data._id);
+          } else {
+            console.log("没有session");
+          }
+        }
+      });
+    },
     submitForm(formName) {
+      var map = new BMap.Map("l-map");
+      // // 创建地址解析器实例
+      var myGeo = new BMap.Geocoder();
+      // // 将地址解析结果显示在地图上，并调整地图视野
+      myGeo.getPoint(this.ruleForm.city, point => {
+        console.log(point);
+        this.ruleForm.cityLocation.longitude = point.lng;
+        this.ruleForm.cityLocation.latitude = point.lat;
+      });
+      myGeo.getPoint(this.ruleForm.address, point => {
+        this.ruleForm.location.longitude = point.lng;
+        this.ruleForm.location.latitude = point.lat;
+      });
+      console.log("city", this.ruleForm.cityLocation);
+      console.log("location", this.ruleForm.location);
       this.$refs[formName].validate(valid => {
         if (valid) {
           let feature = this.ruleForm.feature.join(",");
-          console.log(111111);
           axios({
             url: "/shopApply",
             method: "post",
             data: {
               ...this.ruleForm,
               status: "audit",
-              location: { longitude: "104.07", latitude: "30.67" },
               feature: feature,
               vipLevel: "1级",
               commission: "0.5",
@@ -182,31 +227,25 @@ export default {
               comment: []
             }
           }).then(res => {
-            console.log(res.data);
             this.$message({
               message: "提交成功！",
               type: "success"
             });
-            // this.active = 2;
             this.headImg = this.image = "";
             this.$refs[formName].resetFields();
             let shopsId = res.data._id;
-            
-            
-          //   axios({
-          //     url: "/shopApply/addShops/" + this.userId,
-          //     method: "post",
-          //     data: {
-          //       shopsId :shopsId,
-          //       status: "audit"
-          //     }
-          //   }).then(res => {
-          //     console.log(232323);
-          //     console.log(res.data);
-          //   });
+            axios({
+              url: "/shopApply/addShops/" + this.userId,
+              method: "put",
+              data: {
+                shopsId: shopsId,
+                status: "audit"
+              }
+            }).then(res => {
+              this.$router.push("auditShop");
+            });
           });
         } else {
-          console.log(736483);
           this.$alert("请填写完整的信息", "提示", {
             confirmButtonText: "确定"
           });
@@ -219,8 +258,7 @@ export default {
     },
     handleAvatarSuccessImage(res, file) {
       this.ruleForm.image = res;
-      this.images = "/upload/" + res;
-      
+      this.ruleForm.images = "/upload/" + res;
     },
     beforeAvatarUploadImage(file) {
       const isJPG = file.type === "image/jpeg";
@@ -236,8 +274,7 @@ export default {
     },
     handleAvatarSuccess(res, file, fileList) {
       this.ruleForm.headImg = res;
-      this.headImgs= "/upload/" + res;
-
+      this.ruleForm.headImgs = "/upload/" + res;
 
       this.dialogVisible = true;
     },

@@ -77,7 +77,7 @@
     </el-table-column>
     <el-table-column align="center" prop="image" label="图片" width="100">
       <template slot-scope="scope">
-        <span style="margin-left: 10px">{{ scope.row.image }}</span>
+        <img :src="url + scope.row.image" alt="" style="width: 120px;height: 120px;">
       </template>
     </el-table-column>
     <el-table-column fixed="right" align="center" label="操作" width="120">
@@ -94,7 +94,8 @@ const { mapActions, mapState } = createNamespacedHelpers("ProModule");
 export default {
   data() {
     return {
-      loading2: true
+      loading2: true,
+      url:"/upload/"
     };
   },
   computed: {

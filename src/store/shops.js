@@ -3,11 +3,9 @@ export default {
   namespaced: true,
   state: {
     status: "",
-    userId:"",
     shops: [],
     audit: [],
     blackList: [],
-    failed:[],
     searchShop: {
       type: "",
       value: ""
@@ -33,13 +31,7 @@ export default {
     },
     setBlackList(state, blackList) {
       state.blackList = blackList;
-    },
-    setFailed(state,failed){
-      state.failed=failed;
-    },
-    setUserId(state,userId){
-      state.userId=userId;
-    },
+    }
   },
   actions: {
     getShops({ commit }, rule = {}) {
@@ -56,7 +48,6 @@ export default {
         let arr = res.data.rows;
         let shops = [];
         let audit = [];
-        let failed = [];
         let blackList = [];
         for (let i = 0; i < arr.length; i++) {
           if (arr[i].status == "yes") {
@@ -70,12 +61,13 @@ export default {
             commit("setBlackList", blackList);
           }else if(arr[i].status == "failed"){
             failed.push(arr[i]);
-            commit("setBlackList", failed);
+            commit("setFailed", failed);
           }
         }
         commit("setPagination", res.data);
         commit("setPaginationBlack", res.data);
       });
-    }
+    },
+    
   }
 };

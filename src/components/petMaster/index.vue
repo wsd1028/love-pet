@@ -57,6 +57,7 @@
         <el-button
           size="mini"
           type="primary"
+          plain
           @click="view(scope.row)"
           >点击查看</el-button>
       </template>
@@ -64,6 +65,7 @@
   <el-table-column label="操作">
       <template slot-scope="scope">
         <el-button
+         plain
           size="mini"
           @click="defriend(scope.row.state,scope.row._id)"
           type="warning"
