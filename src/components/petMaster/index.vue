@@ -47,7 +47,6 @@
       label="积分"
       width="110">
     </el-table-column>
-<<<<<<< HEAD
      <el-table-column label="宠物信息" style="width:140px;">
       <template slot-scope="scope">
         <el-button
@@ -57,12 +56,6 @@
           @click="view(scope.row)"
           >点击查看</el-button>
       </template>
-=======
-    <el-table-column
-        prop="pet"
-      label="宠物信息"
-      width="110">
->>>>>>> 6e75090459973343be85d88fb590da5c3d6ca0c8
     </el-table-column>
   <el-table-column label="操作">
       <template slot-scope="scope">
