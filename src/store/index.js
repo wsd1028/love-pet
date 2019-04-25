@@ -12,6 +12,8 @@ import usersModule from "./usersModule.js";
 import userSysModule from "./userSysModule.js";
 import supplierModule from "./supplierModule.js";
 import shopManagerModule from "./shopManagerModule.js";
+import shopManageCom from "./shopManageCom.js";
+
 
 Vue.use(Vuex);
 
@@ -26,6 +28,7 @@ export default new Vuex.Store({
     usersModule,
     serviceModule,
     shopManagerModule,
-    userSysModule
+    userSysModule,
+    shopManageCom
   }
 });

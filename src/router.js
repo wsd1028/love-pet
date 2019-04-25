@@ -34,7 +34,7 @@ import FailedShops from './components/failedShops'
 
 Vue.use(VueRouter);
 const routes = [
-  { path: "/", component: Manage },
+  { path: "/", component: Login },
   { path: "/register", component: Register },
   { path: "/auditShop", component: AuditShop },
   {
@@ -55,7 +55,6 @@ const routes = [
       { path: "/manage/audit", component: Audit },
       { path: "/manage/blackShops", component: BlackShops },
       { path: "/manage/failedShops", component: FailedShops },
-
     ]
   },
   {

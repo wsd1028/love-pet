@@ -133,7 +133,6 @@ export default {
             shopId
           });
         } else {
-          console.log("错误");
           this.$message.error("请输入完整的信息");
         }
       });

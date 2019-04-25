@@ -7,6 +7,8 @@ export default {
       name: "",
       phone: "",
       adress: "",
+      people:"",
+      img:"",
       id: "",
       visible: false
     },
@@ -105,7 +107,9 @@ export default {
         data: {
           name: data.name,
           phone: data.phone,
-          adress: data.adress
+          adress: data.adress,
+          people:data.people,
+          img:data.img
         }
       }).then(res => {});
     }
