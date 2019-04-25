@@ -13,7 +13,7 @@
       </el-table-column>
       <el-table-column label="营业执照照片" width="180" align="center">
         <template slot-scope="scope">
-          <img style="width:40px;height:60px" :src="url+scope.row.image" alt="">
+          <img style="width:40px;height:60px" :src="url+scope.row.image" alt>
         </template>
       </el-table-column>
       <el-table-column label="法人" width="100" align="center">
@@ -23,7 +23,7 @@
       </el-table-column>
       <el-table-column label="头像图片" width="180" align="center">
         <template slot-scope="scope">
-          <img style="width:40px;height:60px" :src="url+scope.row.headImg" alt="">
+          <img style="width:40px;height:60px" :src="url+scope.row.headImg" alt>
         </template>
       </el-table-column>
       <el-table-column label="营业特色" width="180" align="center">
@@ -68,19 +68,22 @@ const { mapActions, mapState, mapMutations } = createNamespacedHelpers("shops");
 export default {
   data() {
     return {
-      url: "/upload/"
+      url: "/upload/",
+      userId: ""
     };
   },
   computed: {
-    ...mapState(["shops", "blackList", "status","userId"])
+    ...mapState(["shops", "blackList", "status"])
     // ...mapMutations(["setBlackList"])
+  },
+  created() {
+    console.log(this.userId);
   },
   created() {
     this.getShops({ status: "yes" });
   },
   methods: {
     ...mapActions(["getShops"]),
-
     blackShop(id) {
       this.$confirm("是否将该店铺拉入黑名单？", "提示", {
         confirmButtonText: "确定",
@@ -90,26 +93,32 @@ export default {
         .then(() => {
           axios({
             url: "/shopSys/" + id,
+            method: "get"
+          }).then(res => {
+            this.userId = res.data.userId;
+          });
+          axios({
+            url: "/shopSys/" + id,
             method: "put",
             data: {
               status: "no"
             }
           }).then(res => {
             this.getShops({ status: "yes" });
+            axios({
+              url: "/shopSys/user/" + this.userId,
+              method: "put",
+              data: {
+                status: "no"
+              }
+            }).then(res => {
+              console.log(res.data);
+            });
           });
           this.$message({
             type: "success",
             message: "操作成功!"
           });
-          // axios({
-          //   ul:"/userStatus/"+this.userId,
-          //   method:"put",
-          //   data:{
-          //     status:"no"
-          //   }
-          // }).then((res)=>{
-          //   console.log(res.data)
-          // })
         })
         .catch(() => {
           console.log("shuju", this.shops);

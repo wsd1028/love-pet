@@ -6,7 +6,7 @@
         <el-step title="步骤 2" description="正在审核中..."></el-step>
         <el-step title="步骤 3" description="审核完成！"></el-step>
       </el-steps>
-      <div >您的门店正在审核中...</div>
+      <div class="content">您的门店正在审核中...</div>
     </header>
   </div>
 </template>
@@ -18,5 +18,11 @@ export default {};
 <style scoped>
 .body {
   padding: 30px 200px;
+}
+.content{
+  font-size: 30px;
+  color: rgb(87, 84, 84);
+ text-align: center;
+ margin-top:100px 
 }
 </style>

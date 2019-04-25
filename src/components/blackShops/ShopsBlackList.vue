@@ -73,11 +73,12 @@ const { mapActions, mapState, mapMutations } = createNamespacedHelpers("shops");
 export default {
   data() {
     return {
-      url: "/upload/"
+      url: "/upload/",
+      userId:""
     };
   },
   computed: {
-    ...mapState(["blackList", "userId"])
+    ...mapState(["blackList"])
   },
   created() {
     this.getShops({ status: "no" });
@@ -93,21 +94,27 @@ export default {
         .then(() => {
           axios({
             url: "/shopSys/" + id,
+            method: "get"
+          }).then(res => {
+           this. userId = res.data.userId;
+          });
+          axios({
+            url: "/shopSys/" + id,
             method: "put",
             data: {
               status: "yes"
             }
           }).then(res => {
             this.getShops({ status: "no" });
-            //  axios({
-            //   ul:"/userStatus/"+this.userId,
-            //   method:"put",
-            //   data:{
-            //     status:"yes"
-            //   }
-            // }).then((res)=>{
-            //   console.log(res.data)
-            // })
+             axios({
+              url:"/shopSys/user/"+this.userId,
+              method:"put",
+              data:{
+                status:"yes"
+              }
+            }).then((res)=>{
+              console.log(res.data)
+            });
           });
           this.$message({
             type: "success",

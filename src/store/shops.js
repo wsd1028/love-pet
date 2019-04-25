@@ -70,12 +70,13 @@ export default {
             commit("setBlackList", blackList);
           }else if(arr[i].status == "failed"){
             failed.push(arr[i]);
-            commit("setBlackList", failed);
+            commit("setFailed", failed);
           }
         }
         commit("setPagination", res.data);
         commit("setPaginationBlack", res.data);
       });
-    }
+    },
+    
   }
 };

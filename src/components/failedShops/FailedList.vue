@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-table :data="audit" style="width: 100%">
+    <el-table :data="failed" style="width: 100%">
       <el-table-column label="门店名称" width="180" align="center">
         <template slot-scope="scope">
           <span style="margin-left: 10px">{{ scope.row.name }}</span>
@@ -36,17 +36,25 @@
           <span style="margin-left: 10px" align="center">{{ scope.row.phone }}</span>
         </template>
       </el-table-column>
+      <el-table-column label="VIP等级" width="100" align="center">
+        <template slot-scope="scope">
+          <span style="margin-left: 10px">{{ scope.row.vipLevel }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="佣金比例" width="100" align="center">
+        <template slot-scope="scope">
+          <span style="margin-left: 10px">{{ scope.row.commission }}%</span>
+        </template>
+      </el-table-column>
       <el-table-column label="门店地址" width="250" align="center">
         <template slot-scope="scope">
           <span style="margin-left: 10px">{{ scope.row.address }}</span>
-          <img src alt>
         </template>
       </el-table-column>
 
-      <el-table-column label="操作" width="300" fixed="right" align="center">
+      <el-table-column label="操作" width="150" fixed="right" align="center">
         <template slot-scope="scope">
-          <el-button type="primary" plain icon="el-icon-edit" @click="blackShop(scope.row._id)">通过审核</el-button>
-          <el-button type="primary" plain icon="el-icon-edit" @click="failed(scope.row._id)">不通过审核</el-button>
+          <el-button type="danger" plain icon="el-icon-delete" @click="auditShop(scope.row._id)">通过审核</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -65,17 +73,16 @@ export default {
     };
   },
   computed: {
-    ...mapState(["audit"])
+    ...mapState(["shops", "failed"])
     // ...mapMutations(["setBlackList"])
   },
   created() {
-    this.getShops({ status: "audit" });
+    this.getShops({ status: "failed" });
   },
   methods: {
     ...mapActions(["getShops"]),
-
-    blackShop(id) {
-      this.$confirm("是否通过该店铺的审核？", "提示", {
+    auditShop(id) {
+      this.$confirm("是否将通过该店铺的审核？", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
         type: "warning"
@@ -85,7 +92,7 @@ export default {
             url: "/shopSys/" + id,
             method: "get"
           }).then(res => {
-           this. userId = res.data.userId;
+            this.userId = res.data.userId;
           });
           axios({
             url: "/shopSys/" + id,
@@ -94,63 +101,34 @@ export default {
               status: "yes"
             }
           }).then(res => {
+            this.getShops({ status: "failed" });
             axios({
-              url:"/shopSys/user/"+this.userId,
-              method:"put",
-              data:{
-                status:"yes"
+              url: "/shopSys/user/" + this.userId,
+              method: "put",
+              data: {
+                status: "yes"
               }
-            }).then((res)=>{
-              console.log(res.data)
+            }).then(res => {
+              console.log(res.data);
             });
-            this.getShops({ status: "audit" });
-            this.$message({
-              type: "success",
-              message: "通过成功!"
-            });
+          });
+          this.$message({
+            type: "success",
+            message: "操作成功!"
           });
         })
         .catch(() => {
+          console.log("shuju", this.shops);
+
           this.$message({
             type: "info",
-            message: "已取消通过"
+            message: "取消操作!"
           });
         });
-    },
-    failed(id) {
-      console.log(666);
-      axios({
-            url: "/shopSys/" + id,
-            method: "get"
-          }).then(res => {
-           this. userId = res.data.userId;
-          });
-      axios({
-        url: "/shopSys/" + id,
-        method: "put",
-        data: {
-          status: "failed"
-        }
-      }).then(res => {
-        this.getShops({ status: "failed" });
-        axios({
-              url:"/shopSys/user/"+this.userId,
-              method:"put",
-              data:{
-                status:"failed"
-              }
-            }).then((res)=>{
-              console.log(res.data)
-            });
-      });
-      this.$message({
-        type: "success",
-        message: "审核不通过!"
-      });
     }
   }
 };
 </script>
 
-<style>
+<style scoped>
 </style>

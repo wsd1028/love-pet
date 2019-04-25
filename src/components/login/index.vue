@@ -116,7 +116,7 @@ export default {
                 } else if (res.data.status == "yes") {
                   //有账号，但未开店
                   alert("该账户已注册账号,有店");
-                  // this.$router.push("shopManage");
+                  this.$router.push("shopManage");
                   return;
                 } else if (res.data.status == "audit") {
                   //有账号，但店铺在申请中
