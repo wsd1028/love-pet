@@ -19,26 +19,19 @@ import "echarts/lib/component/title";
 import "echarts/lib/component/legend";
 import "echarts/extension/bmap/bmap";
 import axios from "axios";
+
 export default {
   data() {
     return {
       type: "商品销量统计",
       tradeName: [],
       tradeNumber: [],
-      zoom: 0,
-      id: ""
+      zoom: 0
     };
   },
   mounted() {
     this.$nextTick(() => {
-      
-      axios({
-        url: "/login/shopManager/getSession",
-        method: "get"
-      }).then(res => {
-        this.id = res.data.shops.$id;
-        this.showChart();
-      });
+      this.showChart();
     });
   },
 
@@ -49,8 +42,7 @@ export default {
       if (this.type == "商品销量统计") {
         axios({
           url: "/order/getTradeNum",
-          method: "get",
-          params: { id: this.id }
+          method: "get"
         }).then(res => {
           this.tradeName = [];
           this.tradeNumber = [];

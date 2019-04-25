@@ -14,10 +14,11 @@ import { createNamespacedHelpers } from "vuex";
 const { mapActions, mapState } = createNamespacedHelpers("orderModule");
 export default {
   computed: {
-    ...mapState(["serves", "pagenation"])
+    ...mapState(["serves", "pagenation","shopId"])
   },
   created() {
-    this.getServes({serve:"completed"});
+    this.getServes({serve:"completed",id:this.shopId});
+    console.log(this.shopId)
   },
   methods: {
     ...mapActions(["getServes"])

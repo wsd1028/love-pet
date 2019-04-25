@@ -81,6 +81,7 @@
   </div>
 </template>
 <script>
+import axios from "axios"
 import { createNamespacedHelpers } from "vuex";
 const { mapActions, mapState } = createNamespacedHelpers("ProModule");
 export default {
@@ -132,7 +133,6 @@ export default {
   },
   created() {
     this.getSupplier();
-    console.log(this.supplier);
   },
   methods: {
     ...mapActions(["addProduct", "getProducts", "getSupplier"]),
@@ -141,13 +141,28 @@ export default {
       this.dialogFormVisible = false;
     },
     add(form) {
-      
-      let data = { ...this.form };
-      this.addProduct(data);
-      this.$refs[form].resetFields();
-      this.dialogFormVisible = false;
-      let page = this.pagenation.curpage;
-      this.getProducts({ page });
+      let userId ="";
+      axios({
+        method:"get",
+        url:"/login/shopManager/getSession"
+      }).then(res=>{
+        // console.log(res)
+        let id = res.data._id;
+        axios({
+          method:"get",
+          url:"/product/addPro",
+          params:id
+        }).then(res=>{
+            //  console.log(id)
+          userId =res.data._id;
+          let data = { ...this.form };
+          this.addProduct(data);
+          this.$refs[form].resetFields();
+          this.dialogFormVisible = false;
+          let page = this.pagenation.curpage;
+          this.getProducts({ page });
+        })
+      })
     },
     handleAvatarSuccess(response, file, fileList) {
       this.dialogImageUrl = "/upload/" + response;

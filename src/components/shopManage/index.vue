@@ -34,11 +34,11 @@
               <el-menu-item-group>
                 <el-menu-item index="/shopManage/sent">
                   <i class="el-icon-circle-check"></i>
-                  <span>已发货</span>
+                  <span>已完成</span>
                 </el-menu-item>
                 <el-menu-item index="/shopManage/pendingTrade">
                   <i class="el-icon-loading"></i>
-                  <span>未发货</span>
+                  <span>未完成</span>
                 </el-menu-item>
               </el-menu-item-group>
             </el-submenu>
