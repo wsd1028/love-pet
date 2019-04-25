@@ -133,7 +133,6 @@ export default {
   },
   created() {
     this.getSupplier();
-    console.log(this.supplier);
   },
   methods: {
     ...mapActions(["addProduct", "getProducts", "getSupplier"]),
@@ -147,12 +146,12 @@ export default {
         method:"get",
         url:"/login/shopManager/getSession"
       }).then(res=>{
-        console.log(res)
+        // console.log(res)
         let id = res.data._id;
         axios({
           method:"get",
           url:"/product/addPro",
-          params:{id}
+          params:id
         }).then(res=>{
             //  console.log(id)
           userId =res.data._id;
