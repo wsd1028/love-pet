@@ -59,12 +59,9 @@ export default {
           }else if (arr[i].status == "no") {
             blackList.push(arr[i]);
             commit("setBlackList", blackList);
-<<<<<<< HEAD
           }else if(arr[i].status == "failed"){
             failed.push(arr[i]);
             commit("setFailed", failed);
-=======
->>>>>>> 95b399d33e08a9c9f7eebfb8d0c246133cea3d66
           }
         }
         commit("setPagination", res.data);
