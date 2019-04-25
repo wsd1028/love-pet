@@ -26,6 +26,7 @@
               <el-menu-item index="/manage/shops">营业门店</el-menu-item>
               <el-menu-item index="/manage/blackShops">黑名单门店</el-menu-item>
               <el-menu-item index="/manage/audit">门店审核</el-menu-item>
+              <el-menu-item index="/manage/failedShops">未通过门店</el-menu-item>
             </el-menu-item-group>
           </el-submenu>
           <el-menu-item index="/manage/supplier">供应商管理</el-menu-item>
