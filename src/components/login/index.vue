@@ -78,7 +78,6 @@ export default {
         // console.log(this.$refs[formName].model.role); //选择的是哪个角色
         if (valid) {
           if (this.$refs[formName].model.role == "manager") {
-            //平台管理员
             axios({
               method: "post",
               url: "/login",
@@ -97,14 +96,14 @@ export default {
             });
           } else {
             //店铺管理员
+            //店家已申请店铺
+            let phone = this.$refs[formName].model.phone;
+            let pwd = this.$refs[formName].model.pwd;
             axios({
-              method: "post",
-              url: "/login/shopManagerLogin",
-              data: {
-                phone: this.$refs[formName].model.phone,
-                pwd: this.$refs[formName].model.pwd
-              }
+              method: "get",
+              url: "/login/shopUsers"
             }).then(res => {
+<<<<<<< HEAD
               console.log(res.data);
               if (res.data) {
                 //有账号
@@ -125,13 +124,30 @@ export default {
                   return;
                 } else {
                   alert("该账户已注册账号,店铺状态不可用");
+=======
+              for (let i = 0; i < res.data.length; i++) {
+                if (res.data[i].phone == phone && res.data[i].pwd == pwd) {
+                  //已申请账户
+                  console.log(res.data[i]);
+                  if (res.data[i].shops.$id) {
+                    //有账户，有店
+                    alert("已开店，进入门店管理界面");
+                    this.$router.push("shopSys");
+                    return;
+                  } else {
+                    //有账号，但未开店
+                    alert("该账户已注册账号，还未申请开店，进入店铺申请界面");
+                    this.$router.push("shopApply");
+                    return;
+                  }
+>>>>>>> 95b399d33e08a9c9f7eebfb8d0c246133cea3d66
                 }
-              } else {
-                //无账号
-                alert("该平台管理员账号不存在，请注册");
-                // this.$router.push("register");
               }
+              alert("店家未注册，进入注册界面");
+              this.$router.push("register");
             });
+
+            //店家未申请店铺
           }
         } else {
           console.log("error submit!!");

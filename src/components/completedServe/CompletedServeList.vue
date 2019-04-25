@@ -5,7 +5,7 @@
     <el-table-column align="center" prop="users.phone" label="用户电话" width="180"></el-table-column>
     <el-table-column align="center" prop="type" label="服务名称" width="180"></el-table-column>
     <el-table-column align="center" prop="time" label="服务时间" width="250"></el-table-column>
-    <el-table-column align="center" prop="evaluate" label="服务评价" width="450"></el-table-column>
+    <el-table-column align="center" prop="comment" label="服务评价" width="450"></el-table-column>
   </el-table>
 </template>
 

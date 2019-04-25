@@ -1,7 +1,7 @@
 <template>
   <div class="body">
     <header>
-      <el-steps :active="active">
+      <el-steps :active="1">
         <el-step title="步骤 1" description="门店信息登记"></el-step>
         <el-step title="步骤 2" description="正在审核中..."></el-step>
         <el-step title="步骤 3" description="审核完成！"></el-step>
@@ -23,22 +23,27 @@
           <el-form-item class="formItem" label="营业执照号码" prop="number">
             <el-input v-model="ruleForm.number"></el-input>
           </el-form-item>
-          <el-form-item class="formItem" label="营业执照图片" prop="image">
+          <!-- <el-form-item class="formItem" label="营业执照图片" prop="image">
             <el-upload
-              class="avatar-uploader border"
-              action="/shopApply/upload "
-              :show-file-list="false"
-              :on-success="handleAvatarSuccessImage"
-              :before-upload="beforeAvatarUploadImage"
+              class="upload-demo"
+              action="https://jsonplaceholder.typicode.com/posts/"
+              :on-preview="handlePreview"
+              :on-remove="handleRemove"
+              :before-remove="beforeRemove"
+              :on-success="handleAvatarSuccess"
+              multiple
+              :limit="3"
+              :on-exceed="handleExceed"
+              :file-list="fileList"
             >
               <img v-if="ruleForm.images" :src="ruleForm.images" class="avatar">
               <i v-else class="el-icon-plus avatar-uploader-icon"></i>
             </el-upload>
-          </el-form-item>
-          <el-form-item class="formItem" label="店铺头像" prop="headImg">
+          </el-form-item>-->
+          <!-- <el-form-item class="formItem" label="店铺头像" prop="headImg">
             <el-upload
               class="avatar-uploader border"
-              action="/shopApply/upload "
+              action="/upload"
               :show-file-list="false"
               :on-success="handleAvatarSuccess"
               :before-upload="beforeAvatarUpload"
@@ -73,22 +78,21 @@
             </el-checkbox-group>
           </el-form-item>
           <el-form-item>
-            <el-button type="primary" @click="submitForm('ruleForm')" :plain="true">立即创建</el-button>
+            <el-button type="primary" @click="submitForm('ruleForm')">立即创建</el-button>
             <el-button @click="resetForm('ruleForm')">重置</el-button>
           </el-form-item>
         </el-form>
       </div>
       <div class="right">
-        <span>已有店铺？</span>
+        <span>已有账号？</span>
         <p class="login">立即登录&nbsp;</p>
       </div>
     </section>
   </div>
 </template>
+
 <script>
 import axios from "axios";
-import { createNamespacedHelpers } from "vuex";
-const { mapActions, mapState, mapMutations } = createNamespacedHelpers("shops");
 export default {
   computed: {
     ...mapState(["userId"])
@@ -145,6 +149,7 @@ export default {
         phone: "",
         feature: []
       },
+
       dialogVisible: false,
       rules: {
         name: [
@@ -282,14 +287,14 @@ export default {
       const isJPG = file.type === "image/jpeg";
       const isLt2M = file.size / 1024 / 1024 < 2;
 
-      if (!isJPG) {
-        this.$message.error("上传头像图片只能是 JPG 格式!");
+        if (!isJPG) {
+          this.$message.error('上传头像图片只能是 JPG 格式!');
+        }
+        if (!isLt2M) {
+          this.$message.error('上传头像图片大小不能超过 2MB!');
+        }
+        return isJPG && isLt2M;
       }
-      if (!isLt2M) {
-        this.$message.error("上传头像图片大小不能超过 2MB!");
-      }
-      return isJPG && isLt2M;
-    }
   }
 };
 </script>
@@ -320,6 +325,7 @@ export default {
   color: rgb(0, 157, 255);
 }
 
+
 .border {
   border: 1px dashed #d9d9d9;
   border-radius: 6px;
@@ -327,27 +333,27 @@ export default {
   height: 128px;
 }
 
-.avatar-uploader .el-upload {
-  border: 1px dashed #d9d9d9;
-  border-radius: 6px;
-  cursor: pointer;
-  position: relative;
-  overflow: hidden;
-}
-.avatar-uploader .el-upload:hover {
-  border-color: #409eff;
-}
-.avatar-uploader-icon {
-  font-size: 28px;
-  color: #8c939d;
-  width: 128px;
-  height: 128px;
-  line-height: 128px;
-  text-align: center;
-}
-.avatar {
-  width: 128px;
-  height: 128px;
-  display: block;
-}
-</style>
+ .avatar-uploader .el-upload {
+    border: 1px dashed #d9d9d9;
+    border-radius: 6px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+  }
+  .avatar-uploader .el-upload:hover {
+    border-color: #409EFF;
+  }
+  .avatar-uploader-icon {
+    font-size: 28px;
+    color: #8c939d;
+    width: 128px;
+    height: 128px;
+    line-height: 128px;
+    text-align: center;
+  }
+  .avatar {
+    width: 128px;
+    height: 128px;
+    display: block;
+  }
+ </style>
