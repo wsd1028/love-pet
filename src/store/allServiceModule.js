@@ -20,7 +20,7 @@ export default {
       type: "",
       value: ""
     },
-    shopId: "5cbae16ce0d4c6dae46facd4"
+    shopId: ""
   },
   mutations: {
     setServices(state, services) {
@@ -33,7 +33,7 @@ export default {
       state.pagenation = pagenation;
     },
     setShopId(state, setShopId) {
-      state.setShopId = setShopId;
+      state.shopId = setShopId;
     },
     setSearchRule(state, searchRule) {
       state.searchRule = searchRule;
@@ -93,6 +93,7 @@ export default {
         url: "/service/getWaiter/" + id
       }).then(res => {
         commit("setWaiter", res.data);
+        commit("setShopId",id);
       });
     },
     getUpdateService({ commit }, id) {

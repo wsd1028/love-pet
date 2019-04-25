@@ -1,5 +1,4 @@
 <template>
-  <!-- <div class="div"> -->
   <el-dialog title="修改" :visible.sync="product.visible">
     <el-form>
       <el-form-item label="商品名称:" :label-width="formLabelWidth">
@@ -33,7 +32,6 @@
         <el-input v-model="country" autocomplete="off"></el-input>
       </el-form-item>
       <el-form-item label="出厂日期:" :label-width="formLabelWidth">
-        <!-- <el-input v-model="date" autocomplete="off"></el-input> -->
         <el-date-picker
           type="date"
           placeholder="选择日期"
@@ -48,9 +46,9 @@
       </el-form-item>
       <el-form-item label="供应商:" :label-width="formLabelWidth">
         <el-input v-model="company" autocomplete="off"></el-input>
-        <!-- <el-select v-model="company" placeholder="请选择供应商" autocomplete="off" class="select">
-            <el-option label value="山东猫粮有限公司"/>
-        </el-select>-->
+          <!-- <el-select v-model="company" placeholder="请选择供应商" autocomplete="off" class="select">          
+              <el-option v-for="item in supplier" v-bind:key="item._id" :label="item.name" :value="item.name"/>
+          </el-select> -->
       </el-form-item>
       <el-form-item label="特色说明:" :label-width="formLabelWidth">
         <el-input v-model="explain" autocomplete="off"></el-input>
@@ -77,7 +75,6 @@
       </el-form-item>
     </el-form>
   </el-dialog>
-  <!-- </div> -->
 </template>
 <script>
 import { createNamespacedHelpers } from "vuex";
@@ -107,7 +104,6 @@ export default {
       },
       dialogImageUrl: "",
       pictureImg:"/upload/"
-      // dialogVisible: false
     };
   },
   computed: {

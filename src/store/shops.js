@@ -59,11 +59,15 @@ export default {
           }else if (arr[i].status == "no") {
             blackList.push(arr[i]);
             commit("setBlackList", blackList);
+          }else if(arr[i].status == "failed"){
+            failed.push(arr[i]);
+            commit("setFailed", failed);
           }
         }
         commit("setPagination", res.data);
         commit("setPaginationBlack", res.data);
       });
-    }
+    },
+    
   }
 };

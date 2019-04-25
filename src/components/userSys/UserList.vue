@@ -1,5 +1,5 @@
 <template>
-  <el-table :data="userSys" border style="width: 100%">
+  <el-table :data="userSys" border style="width: 100%;margin-bottom:5px" >
     <el-table-column prop="name" label="姓名" width="180">
     </el-table-column>
     <el-table-column prop="phone" label="电话" width="180">
