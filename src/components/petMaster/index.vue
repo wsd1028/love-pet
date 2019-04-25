@@ -36,6 +36,11 @@
         prop="headImg"
       label="头像"
       width="110">
+      <template slot-scope="scope">
+        <div style="width:50px;height:50px;overflow:hidden; border-radius:60px;margin:0 auto">
+          <img :src="src+scope.row.headImg" width="50px" height="50px">
+        </div>
+      </template>
     </el-table-column>
     <el-table-column
         prop="address"
@@ -47,25 +52,31 @@
       label="积分"
       width="110">
     </el-table-column>
-    <el-table-column
-        prop="pet"
-      label="宠物信息"
-      width="110">
+     <el-table-column label="宠物信息" style="width:140px;">
+      <template slot-scope="scope">
+        <el-button
+          size="mini"
+          type="primary"
+          plain
+          @click="view(scope.row)"
+          >点击查看</el-button>
+      </template>
     </el-table-column>
   <el-table-column label="操作">
       <template slot-scope="scope">
         <el-button
+         plain
           size="mini"
-          @click="defriend()"
-          type="danger"
+          @click="defriend(scope.row.state,scope.row._id)"
+          type="warning"
           :class="[scope.row.state==0?'classA':'classB']"
           >拉黑</el-button>
         <el-button
-        style="display:none"
+      
           size="mini"
           type="success"
            :class="[scope.row.state==1?'classA':'classB']"
-          @click="cancelRachel()"
+          @click="cancelKey(scope.row.state,scope.row._id)"
            >取消拉黑</el-button>
       </template>
     </el-table-column>
@@ -101,7 +112,8 @@ export default {
       cur_page: 1,
       values: "",
       classA: "classA",
-      classB: "classB"
+      classB: "classB",
+       src: "http://192.168.43.178:3000/upload/"
     };
   },
   created() {
@@ -110,14 +122,7 @@ export default {
   computed: {
     ...mapState(["petMaster", "visible", "petMasterinfor"]),
     ...mapState({ pagination: state => state.pagination })
-    // blacklist:{
-    //   set(blacklist){
-    //     this.setPetMasterinfor({
-    //          ...this.petMasterinfor,
-
-    //     })
-    //   }
-    // }
+  
   },
   watch: {
     "search.value"() {
@@ -134,26 +139,70 @@ export default {
       console.log(this.type, this.value);
       this.setPetMaster({ type: this.type, value: this.value });
     },
-    defriend() {
-      this.$alert("是否拉黑此用户?", "提示", {
-        showCancelButton: true,
+   defriend(state, id) {
+      console.log(id);
+ 
+      this.$confirm("拉黑该用户，是否继续？", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
-        callback: action => {
-          this.$message({
-            message: `已拉黑`
-          });
-        }
+        type: "warning"
+      }).then(() => {
+        state=0
+        axios({
+          method: "put",
+          url: "/petMaster/" + id,
+          data: {
+            id,
+            state
+          }
+        }).then(res => {
+          console.log(state);
+          this.setPetMaster({page:this.cur_page});
+        });
       });
     },
+    cancelKey(state, id) {
+      
+      this.$confirm("取消拉黑，是否继续？", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      }).then(() => {
+       state=1
+        axios({
+          method: "put",
+          url: "/petMaster/" + id,
+          data: {
+            id,
+            state
+          }
+        }).then(res => {
+          this.setPetMaster({page:this.cur_page});
+        });
+      });
+    },
+    view(row) {
+      console.log(row);
+      const h = this.$createElement;
+      this.$msgbox({
+        title: "宠物信息",
+        message: h("p",null, [
+          h("div", { style: "text-align:center" },'宠物名：'+row.pet[0].name),
+          h("div", { style: "text-align:center" },'类别：'+row.pet[0].type),
+          h("div", { style: "text-align:center" },'品类：'+row.pet[0].kind),
+          h("div", { style: "text-align:center" },'颜色：'+row.pet[0].color),
+          h("div", { style: "text-align:center" },'出生日期：'+row.pet[0].birthday),
+          h("div", { style: "text-align:center" },'性格：'+row.pet[0].trait),
+        ]),
+        confirmButtonText: '确定',
+      })
+    },
     handleSizeChange(val) {
-      // console.log("ok")
-      // console.log(`每页 ${val} 条`);
+      
       this.setPetMaster({ rows: val });
     },
     handleCurrentChange(val) {
-      // console.log("进来了")
-      // console.log(`当前页: ${val}`);
+      
       this.cur_page = val;
       this.setPetMaster({ page: val });
     }
@@ -164,8 +213,10 @@ export default {
 <style scoped>
 .classA {
   display: none;
+  margin:0 auto;
 }
 .classB {
   display: block;
+  margin:0 auto;
 }
 </style>

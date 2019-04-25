@@ -23,11 +23,7 @@ import { mapState, mapGetters, mapMutations, mapActions } from "vuex";
 export default {
   data() {
     return {
-      type: "班级人数统计",
-      classAxisData: [],
-      classSeriesData: [],
-      ageAxisData: [],
-      ageSeriesData: [],
+      type: "地图",
       shopsCountData: [],
       shopsData: [],
       zoom: 0
@@ -40,9 +36,7 @@ export default {
   },
   methods: {
     showChart() {
-      console.log("chart");
       let myChart = echarts.init(this.$refs.myChart);
-
       axios({
         url: "/service/counts",
         method: "get"
@@ -86,59 +80,6 @@ export default {
     }
   },
   computed: {
-    classesOptions() {
-      return {
-        title: {
-          text: "班级人数的统计图"
-        },
-        tooltip: {},
-        xAxis: {
-          data: this.classAxisData
-        },
-        yAxis: {},
-        series: [
-          {
-            name: "人数",
-            type: "bar",
-            data: this.classSeriesData
-          }
-        ]
-      };
-    },
-    ageOpitons() {
-      return {
-        title: {
-          text: "各个阶段年龄分布",
-          subtext: "纯属虚构",
-          x: "center"
-        },
-        tooltip: {
-          trigger: "item",
-          formatter: "{a} <br/>{b} : {c} ({d}%)"
-        },
-        legend: {
-          orient: "vertical",
-          left: "left",
-          data: this.ageAxisData
-        },
-        series: [
-          {
-            name: "访问来源",
-            type: "pie",
-            radius: "55%",
-            center: ["50%", "60%"],
-            data: this.ageSeriesData,
-            itemStyle: {
-              emphasis: {
-                shadowBlur: 10,
-                shadowOffsetX: 0,
-                shadowColor: "rgba(0, 0, 0, 0.5)"
-              }
-            }
-          }
-        ]
-      };
-    },
     mapOptions() {
       return {
         title: {

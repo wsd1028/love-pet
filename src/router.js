@@ -28,13 +28,19 @@ import ServiceSaleroomStatistics from './components/serviceSaleroomStatistics'
 import ProductSaleroomStatistics from './components/productSaleroomStatistics'
 import AllProductSaleroom from './components/allProductSaleroom'
 import AllServiceSaleStatistics from './components/allServiceSaleStatistics'
+import AuditShop from './components/auditShop'
+import FailedShops from './components/failedShops'
 
 
 Vue.use(VueRouter);
 const routes = [
   { path: "/", component: Manage },
   { path: "/register", component: Register },
-  { path: "/login", component: Login },
+  { path: "/auditShop", component: AuditShop },
+  {
+    path: "/login",
+    component: Login
+  },
   { path: "/shopApply", component: ShopApply },
   {
     path: "/manage",
@@ -48,6 +54,8 @@ const routes = [
       { path: "/manage/shops", component: Shops },
       { path: "/manage/audit", component: Audit },
       { path: "/manage/blackShops", component: BlackShops },
+      { path: "/manage/failedShops", component: FailedShops },
+
     ]
   },
   {
