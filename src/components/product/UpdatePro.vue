@@ -1,66 +1,83 @@
 <template>
-  <div class="div">
-    <el-dialog title="修改" :visible.sync="product.visible">
-      <el-form>
-        <el-form-item label="商品名称:" :label-width="formLabelWidth">
-          <el-input v-model="name" autocomplete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="商品类型:" :label-width="formLabelWidth">
-          <el-input v-model="type" autocomplete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="采购数量:" :label-width="formLabelWidth">
-          <el-input v-model="totalNum" autocomplete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="材质:" :label-width="formLabelWidth">
-          <el-input v-model="material" autocomplete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="适用规格:" :label-width="formLabelWidth">
-          <el-input v-model="petSize" autocomplete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="专属规格:" :label-width="formLabelWidth">
-          <el-input v-model="petType" autocomplete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="包装规格:" :label-width="formLabelWidth">
-          <el-input v-model="weight" autocomplete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="口味:" :label-width="formLabelWidth">
-          <el-input v-model="taste" autocomplete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="功效:" :label-width="formLabelWidth">
-          <el-input v-model="effect" autocomplete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="产地:" :label-width="formLabelWidth">
-          <el-input v-model="country" autocomplete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="出厂日期:" :label-width="formLabelWidth">
-          <el-input v-model="date" autocomplete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="保质期:" :label-width="formLabelWidth">
-          <el-input v-model="freshDate" autocomplete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="供应商:" :label-width="formLabelWidth">
-          <el-input v-model="company" autocomplete="off"></el-input>
-          <!-- <el-select v-model="company" placeholder="请选择供应商" autocomplete="off" class="select">
+  <!-- <div class="div"> -->
+  <el-dialog title="修改" :visible.sync="product.visible">
+    <el-form>
+      <el-form-item label="商品名称:" :label-width="formLabelWidth">
+        <el-input v-model="name" autocomplete="off"></el-input>
+      </el-form-item>
+      <el-form-item label="商品类型:" :label-width="formLabelWidth">
+        <el-input v-model="type" autocomplete="off"></el-input>
+      </el-form-item>
+      <el-form-item label="采购数量:" :label-width="formLabelWidth">
+        <el-input v-model="totalNum" autocomplete="off"></el-input>
+      </el-form-item>
+      <el-form-item label="材质:" :label-width="formLabelWidth">
+        <el-input v-model="material" autocomplete="off"></el-input>
+      </el-form-item>
+      <el-form-item label="适用规格:" :label-width="formLabelWidth">
+        <el-input v-model="petSize" autocomplete="off"></el-input>
+      </el-form-item>
+      <el-form-item label="专属规格:" :label-width="formLabelWidth">
+        <el-input v-model="petType" autocomplete="off"></el-input>
+      </el-form-item>
+      <el-form-item label="包装规格:" :label-width="formLabelWidth">
+        <el-input v-model="weight" autocomplete="off"></el-input>
+      </el-form-item>
+      <el-form-item label="口味:" :label-width="formLabelWidth">
+        <el-input v-model="taste" autocomplete="off"></el-input>
+      </el-form-item>
+      <el-form-item label="功效:" :label-width="formLabelWidth">
+        <el-input v-model="effect" autocomplete="off"></el-input>
+      </el-form-item>
+      <el-form-item label="产地:" :label-width="formLabelWidth">
+        <el-input v-model="country" autocomplete="off"></el-input>
+      </el-form-item>
+      <el-form-item label="出厂日期:" :label-width="formLabelWidth">
+        <!-- <el-input v-model="date" autocomplete="off"></el-input> -->
+        <el-date-picker
+          type="date"
+          placeholder="选择日期"
+          v-model="date"
+          value-format="yyyy-MM-dd"
+          style="width: 100%;"
+          prop="date1"
+        ></el-date-picker>
+      </el-form-item>
+      <el-form-item label="保质期:" :label-width="formLabelWidth">
+        <el-input v-model="freshDate" autocomplete="off"></el-input>
+      </el-form-item>
+      <el-form-item label="供应商:" :label-width="formLabelWidth">
+        <el-input v-model="company" autocomplete="off"></el-input>
+        <!-- <el-select v-model="company" placeholder="请选择供应商" autocomplete="off" class="select">
             <el-option label value="山东猫粮有限公司"/>
-          </el-select> -->
-        </el-form-item>
-        <el-form-item label="特色说明:" :label-width="formLabelWidth">
-          <el-input v-model="explain" autocomplete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="价格:" :label-width="formLabelWidth">
-          <el-input v-model="price" autocomplete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="图片:" :label-width="formLabelWidth">
-          <el-input v-model="image" autocomplete="off"></el-input>
-        </el-form-item>
+        </el-select>-->
+      </el-form-item>
+      <el-form-item label="特色说明:" :label-width="formLabelWidth">
+        <el-input v-model="explain" autocomplete="off"></el-input>
+      </el-form-item>
+      <el-form-item label="价格:" :label-width="formLabelWidth">
+        <el-input v-model="price" autocomplete="off"></el-input>
+      </el-form-item>
+      <el-form-item label="图片:" :label-width="formLabelWidth">
+        <el-upload
+          action="/product/upload"
+          list-type="picture-card"
+          :on-success="handleAvatarSuccess"
+          :on-preview="handlePictureCardPreview"
+          :on-remove="handleRemove"
+        >
+          <img v-if="pictureImg" :src="pictureImg+product.image"  style="width: 150px;height: 150px;" alt>
+          <i v-else class="el-icon-plus"></i>
+        </el-upload>
+      </el-form-item>
 
-        <el-form-item class="btn">
-          <el-button @click="setUpdateProVis(false)">取 消</el-button>
-          <el-button type="primary" @click="update(product._id)">确 定</el-button>
-        </el-form-item>
-      </el-form>
-    </el-dialog>
-  </div>
+      <el-form-item class="btn">
+        <el-button @click="setUpdateProVis(false)">取 消</el-button>
+        <el-button type="primary" @click="update(product._id)">确 定</el-button>
+      </el-form-item>
+    </el-form>
+  </el-dialog>
+  <!-- </div> -->
 </template>
 <script>
 import { createNamespacedHelpers } from "vuex";
@@ -68,6 +85,31 @@ const { mapActions, mapState, mapMutations } = createNamespacedHelpers(
   "ProModule"
 );
 export default {
+  data() {
+    return {
+      formLabelWidth: "90px",
+      rules: {
+        name: [
+          {
+            required: true,
+            message: "请输入内容",
+            trigger: "blur"
+          }
+        ],
+        date1: [
+          {
+            type: "date",
+            required: true,
+            message: "请选择日期",
+            trigger: "change"
+          }
+        ]
+      },
+      dialogImageUrl: "",
+      pictureImg:"/upload/"
+      // dialogVisible: false
+    };
+  },
   computed: {
     ...mapState(["product"]),
     name: {
@@ -254,12 +296,18 @@ export default {
       this.updateProduct(this.product);
       this.setUpdateProVis(false);
       this.getProducts();
+    },
+    handleAvatarSuccess(response, file, fileList) {
+      this.dialogImageUrl = "/upload/" + response;
+      this.image = response;
+    },
+    handleRemove(file, fileList) {
+      console.log(file, fileList);
+    },
+    handlePictureCardPreview(file) {
+      this.dialogImageUrl = file.url;
+      this.dialogVisible = true;
     }
-  },
-  data() {
-    return {
-      formLabelWidth: "90px"
-    };
   }
 };
 </script>
