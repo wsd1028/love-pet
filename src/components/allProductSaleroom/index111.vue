@@ -1,7 +1,8 @@
 <template>
   <div>
     <el-radio-group v-model="type" @change="showChart">
-      <el-radio-button label="近六月商品销售额"></el-radio-button>
+      <el-radio-button label="商品销量统计"></el-radio-button>
+      <el-radio-button label="服务销量统计"></el-radio-button>
     </el-radio-group>
     <div class="total" id="myChart" ref="myChart"></div>
   </div>
@@ -18,7 +19,6 @@ import "echarts/lib/component/title";
 import "echarts/lib/component/legend";
 import "echarts/extension/bmap/bmap";
 import axios from "axios";
-import { mapState, mapGetters, mapMutations, mapActions } from "vuex";
 
 export default {
   data() {
@@ -34,15 +34,16 @@ export default {
       this.showChart();
     });
   },
+
   methods: {
     showChart() {
       let myChart = echarts.init(this.$refs.myChart);
-      if (this.type == "近六月商品销售额") {
+
+      if (this.type == "商品销量统计") {
         axios({
-          url: "/product/getTradeNum",
+          url: "/order/getTradeNum",
           method: "get"
         }).then(res => {
-          // console.log(res)
           this.tradeName = [];
           this.tradeNumber = [];
           for (let i = 0; i < res.data.length; i++) {
@@ -61,6 +62,15 @@ export default {
           }
           myChart.setOption(this.tradeOptions, true);
         });
+      } else {
+        axios({
+          url: "/order/getTradeNum",
+          method: "get"
+        }).then(res => {
+          // this.classAxisData = res.data.axisData;
+          // this.classSeriesData = res.data.seriesData;
+          // myChart.serveOpitons(this.classesOptions, true);
+        });
       }
     }
   },
@@ -68,7 +78,7 @@ export default {
     tradeOptions() {
       return {
         title: {
-          text: "近六月商品销售额"
+          text: "商品销量的统计图"
         },
         tooltip: {},
         xAxis: {
@@ -83,6 +93,25 @@ export default {
           }
         ]
       };
+    },
+    serveOpitons() {
+      return {
+        title: {
+          text: "商品销量的统计图"
+        },
+        tooltip: {},
+        xAxis: {
+          data: this.classAxisData
+        },
+        yAxis: {},
+        series: [
+          {
+            name: "数量",
+            type: "bar",
+            data: this.classSeriesData
+          }
+        ]
+      };
     }
   }
 };
@@ -93,3 +122,4 @@ export default {
   height: 500px;
 }
 </style>
+

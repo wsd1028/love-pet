@@ -80,10 +80,10 @@
         <img :src="url + scope.row.image" alt="" style="width: 120px;height: 120px;">
       </template>
     </el-table-column>
-    <el-table-column fixed="right" align="center" label="操作" width="120">
+    <el-table-column fixed="right" align="center" label="操作" width="170">
       <template slot-scope="scope">
-        <el-button type="primary" icon="el-icon-edit" circle @click="handleEdit(scope.row._id)"></el-button>
-        <el-button type="danger" icon="el-icon-delete" circle @click="handleDelete(scope.row._id)"></el-button>
+        <el-button type="primary" icon="el-icon-edit" plain @click="handleEdit(scope.row._id)"></el-button>
+        <el-button type="danger" icon="el-icon-delete" plain @click="handleDelete(scope.row._id)"></el-button>
       </template>
     </el-table-column>
   </el-table>
