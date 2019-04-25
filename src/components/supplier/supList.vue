@@ -2,7 +2,7 @@
   <el-table :data="suppliers" style="width: 100%;" class="el1">
     <el-table-column label="供应商" row-key="_id" width="150" style=" ">
       <template slot-scope="scope">
-        <span>{{ scope.row.name }}</span>
+        <span style="margin-left: 10px">{{ scope.row.name }}</span>
       </template>
     </el-table-column>
     <el-table-column label="电话" width="150">
@@ -39,8 +39,7 @@ const { mapActions, mapState } = createNamespacedHelpers("supplierModule");
 export default {
   data() {
     return {
-      loading2: true,
-      url: "/upload/"
+      loading2: true
     };
   },
   created() {
@@ -51,7 +50,7 @@ export default {
     ...mapState(["suppliers", "pagenation"])
   },
   methods: {
-    ...mapActions(["getSuppliers", "deleteSupplier", "getUpdateSupplier"]),
+    ...mapActions(["getSuppliers","deleteSupplier","getUpdateSupplier"]),
     open2(id) {
       this.$confirm("此操作将永久删除此管理商户, 是否继续?", "提示", {
         confirmButtonText: "确定",
@@ -69,8 +68,8 @@ export default {
           });
         });
     },
-    handleEdit(id) {
-      console.log("刚认识修改");
+      handleEdit(id) {
+        console.log("刚认识修改")
       this.getUpdateSupplier(id);
     }
   }
@@ -78,7 +77,7 @@ export default {
 </script>
 
 <style scoped>
-.el1 {
-  text-align: center;
+.el1{
+  text-align: center
 }
 </style>

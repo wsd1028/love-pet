@@ -2,11 +2,11 @@ import axios from "axios";
 export default {
   namespaced: true,
   state: {
-    suppliers: [],
-    supplier: {
+    students: [],
+    student: {
       name: "",
-      phone: "",
-      adress: "",
+      age: "",
+      gender: "",
       id: "",
       visible: false
     },
@@ -18,20 +18,14 @@ export default {
     pagenation: {}
   },
   mutations: {
-    setSuppliers(state, suppliers) {
-      state.suppliers = suppliers;
+    setStudents(state, students) {
+      state.students = students;
     },
     setUpdateStuVis(state, visible) {
-      state.supplier = {
-        ...state.supplier,
-        visible
-      };
+      state.student = { ...state.student, visible};
     },
-    setSupplier(state, supplier) {
-      state.supplier = {
-        ...supplier,
-        visible: true
-      };
+    setStudent(state, student) {
+      state.student = { ...student, visible: true };
     },
     setSearchRule(state, searchRule) {
       state.searchRule = searchRule;
@@ -44,68 +38,58 @@ export default {
     }
   },
   actions: {
-    getSuppliers({
-      commit
-    }, rule = {}) {
+    getStudents({ commit }, rule = {}) {
       let page = rule.page || 1;
       let rows = rule.rows || 5;
       let type = rule.type || "";
       let value = rule.value || "";
       axios({
         method: "get",
-        url: "/supplier",
-        params: {
-          page,
-          rows,
-          type,
-          value
-        }
+        url: "/students",
+        params: { page, rows, type, value }
       }).then(res => {
-        commit("setSuppliers", res.data.rows);
+        commit("setStudents", res.data.rows);
         commit("setPagenation", res.data);
       });
     },
-    addSupplier({
-      commit
-    }, addMess) {
+    addStudent({ commit }, addMess) {
       axios({
         method: "post",
-        url: "/supplier/addSuppliers",
+        url: "/students/addStu",
         data: addMess
       }).then(res => {});
     },
-    deleteSupplier({
-      commit
-    }, id) {
+    deleteStudent({ commit }, id) {
+        console.log(rows)
       axios({
         method: "delete",
-        url: "/supplier/delete/" + id
+        url: "/students/delete/" + id
       }).then(res => {});
     },
-    getUpdateSupplier({ commit },id) {
+    getUpdateStudent({ commit }, id) {
       axios({
         method: "get",
-        url: "/supplier/"+id
+        url: "/students/" + id
       }).then(res => {
-        commit("setSupplier", res.data);
+        commit("setStudent", res.data);
       });
     },
-    // removeSession({ commit }) {
-    //   axios({
-    //     method: "get",
-    //     url: "/removeSession"
-    //   }).then(res => {
-    //     commit("setUserName", "");
-    //   });
-    // },
-    updateSupplier({ commit }, data) {
+    removeSession({ commit }) {
+      axios({
+        method: "get",
+        url: "/removeSession"
+      }).then(res => {
+        commit("setUserName", "");
+      });
+    },
+    updateStudent({ commit }, data) {
       axios({
         method: "put",
-        url: "/supplier/" + data._id,
+        url: "/students/" + data._id,
         data: {
           name: data.name,
-          phone: data.phone,
-          adress: data.adress
+          age: data.age,
+          gender: data.gender
         }
       }).then(res => {});
     }
