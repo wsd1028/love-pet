@@ -3,8 +3,8 @@
     <el-table-column align="center" prop="_id" label="订单号" width="300"></el-table-column>
     <el-table-column align="center" prop="name" label="用户姓名" width="150"></el-table-column>
     <el-table-column align="center" prop="phone" label="用户电话" width="180"></el-table-column>
-    <el-table-column align="center" prop="tradeName" label="商品名称" width="150"></el-table-column>
-    <el-table-column align="center" prop="price" label="商品价格(元)" width="100"></el-table-column>
+    <el-table-column align="center" prop="products.name" label="商品名称" width="150"></el-table-column>
+    <el-table-column align="center" prop="products.totalNum" label="商品价格(元)" width="100"></el-table-column>
     <el-table-column align="center" prop="number" label="商品数量" width="100"></el-table-column>
     <el-table-column align="center" prop="address" label="收货地址" width="300"></el-table-column>
     <el-table-column align="center" prop="status" label="订单状态" width="120"></el-table-column>
