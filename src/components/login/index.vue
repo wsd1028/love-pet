@@ -147,10 +147,6 @@ export default {
             });
           }
         } else {
-<<<<<<< HEAD
-          // console.log("error submit!!");
-=======
->>>>>>> 472c240f471d4ade5498b09d0de1ae7b058da7b2
           return false;
         }
       });
