@@ -107,7 +107,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(["product"]),
+    ...mapState(["product","shopId"]),
     name: {
       set(name) {
         this.setProduct({
@@ -289,9 +289,10 @@ export default {
     ...mapMutations(["setProduct", "setUpdateProVis"]),
     ...mapActions(["updateProduct", "getProducts"]),
     update(id) {
+      let shopId=this.shopId;
       this.updateProduct(this.product);
       this.setUpdateProVis(false);
-      this.getProducts();
+      this.getProducts({shopId});
     },
     handleAvatarSuccess(response, file, fileList) {
       this.dialogImageUrl = "/upload/" + response;

@@ -1,12 +1,10 @@
 <template>
   <div>
-    <el-radio-group v-model="type" @change="showChart">
-      <el-radio-button label="近六月商品销售额"></el-radio-button>
-    </el-radio-group>
     <div class="total" id="myChart" ref="myChart"></div>
   </div>
 </template>
 <script>
+import axios from "axios";
 import echarts from "echarts/lib/echarts";
 // 引入柱状图
 import "echarts/lib/chart/bar";
@@ -17,18 +15,16 @@ import "echarts/lib/component/tooltip";
 import "echarts/lib/component/title";
 import "echarts/lib/component/legend";
 import "echarts/extension/bmap/bmap";
-import axios from "axios";
-import { mapState, mapGetters, mapMutations, mapActions } from "vuex";
 
 export default {
   data() {
     return {
-      type: "商品销量统计",
-      tradeName: [],
-      tradeNumber: [],
-      zoom: 0
+      shopId: "",
+      date: [],
+      count: []
     };
   },
+
   mounted() {
     this.$nextTick(() => {
       this.showChart();
@@ -37,31 +33,67 @@ export default {
   methods: {
     showChart() {
       let myChart = echarts.init(this.$refs.myChart);
-      if (this.type == "近六月商品销售额") {
+      axios({
+        url: "/login/shopManager/getSession",
+        method: "get"
+      }).then(res => {
+        this.shopId = res.data.shops.$id;
+        let shopId = this.shopId;
         axios({
-          url: "/product/getTradeNum",
-          method: "get"
+          method: "get",
+          url: "/product/orders",
+          params: { shopId }
         }).then(res => {
-          // console.log(res)
-          this.tradeName = [];
-          this.tradeNumber = [];
-          for (let i = 0; i < res.data.length; i++) {
-            for (let j = 0; j < res.data[i].product.length; j++) {
-              if ((i = res.data.length - 1)) {
-                this.tradeName.push(res.data[i].product[j].name);
-              }
+          let data = res.data;
+          var date = new Date();
+          let month = date.getMonth() + 1; //获取当前月份
+          let year = date.getFullYear();
+          var arry = new Array();
+          for (let i = 0; i < 6; i++) {
+            month = month - 1;
+            if (month <= 0) {
+              year = year - 1;
+              month = month + 12;
             }
+
+            arry[i] = year + "年" + month + "月";
           }
-          for (let i = 0; i < res.data[0].product.length; i++) {
-            let num = 0;
-            for (let j = 0; j < res.data.length; j++) {
-              num += res.data[j].product[i].number;
+          this.date = arry;
+          var arr = [
+            { value: 0 },
+            { value: 0 },
+            { value: 0 },
+            { value: 0 },
+            { value: 0 },
+            { value: 0 }
+          ];
+
+          data.forEach(item => {
+            if (item.date.includes(arry[0])) {
+              arr[0].value +=
+                parseInt(item.products.price) * parseInt(item.number);
+            } else if (item.date.includes(arry[1])) {
+              arr[1].value +=
+                parseInt(item.products.price) * parseInt(item.number);
+            } else if (item.date.includes(arry[2])) {
+              arr[2].value +=
+                parseInt(item.products.price) * parseInt(item.number);
+            } else if (item.date.includes(arry[3])) {
+              arr[3].value +=
+                parseInt(item.products.price) * parseInt(item.number);
+            } else if (item.date.includes(arry[4])) {
+              arr[4].value +=
+                parseInt(item.products.price) * parseInt(item.number);
+            } else if (item.date.includes(arry[5])) {
+              arr[5].value +=
+                parseInt(item.products.price) * parseInt(item.number);
             }
-            this.tradeNumber.push(num);
-          }
+          });
+          this.count = arr;
+          console.log("arr", this.count);
           myChart.setOption(this.tradeOptions, true);
         });
-      }
+      });
     }
   },
   computed: {
@@ -70,18 +102,39 @@ export default {
         title: {
           text: "近六月商品销售额"
         },
-        tooltip: {},
-        xAxis: {
-          data: this.tradeName
+        tooltip: {
+          trigger: "axis",
+          axisPointer: {
+            // 坐标轴指示器，坐标轴触发有效
+            type: "shadow" // 默认为直线，可选为：'line' | 'shadow'
+          }
         },
-        yAxis: {},
+        xAxis: [
+          {
+            type: "category",
+            data: this.date,
+            axisTick: {
+              alignWithLabel: true
+            }
+          }
+        ],
+        yAxis: {
+          type: "value"
+        },
         series: [
           {
-            name: "数量",
+            name: "销售额",
             type: "bar",
-            data: this.tradeNumber
+            data: this.count,
+            barWidth: "50%"
           }
-        ]
+        ],
+        grid: {
+          left: "3%",
+          right: "4%",
+          bottom: "3%",
+          containLabel: true
+        }
       };
     }
   }

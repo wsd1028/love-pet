@@ -80,10 +80,10 @@
         <img :src="url + scope.row.image" alt="" style="width: 120px;height: 120px;">
       </template>
     </el-table-column>
-    <el-table-column fixed="right" align="center" label="操作" width="170">
+    <el-table-column fixed="right" align="center" label="操作" width="230">
       <template slot-scope="scope">
-        <el-button type="primary" icon="el-icon-edit" plain @click="handleEdit(scope.row._id)"></el-button>
-        <el-button type="danger" icon="el-icon-delete" plain @click="handleDelete(scope.row._id)"></el-button>
+        <el-button type="primary" icon="el-icon-edit" plain @click="handleEdit(scope.row._id)">修改</el-button>
+        <el-button type="danger" icon="el-icon-delete" plain @click="handleDelete(scope.row._id)">删除</el-button>
       </template>
     </el-table-column>
   </el-table>
@@ -99,10 +99,11 @@ export default {
     };
   },
   computed: {
-    ...mapState(["products", "pagenation"])
+    ...mapState(["products", "pagenation","shopId"])
   },
   created() {
-    this.getProducts();
+    let shopId=this.shopId;
+    this.getProducts({shopId});
   },
   methods: {
     ...mapActions(["deleteProduct", "getProducts", "getUpdateProduct"]),

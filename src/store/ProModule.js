@@ -2,7 +2,7 @@ import axios from "axios";
 export default {
   namespaced: true,
   state: {
-    supplier:[],
+    supplier: [],
     products: [],
     product: {
       name: "",
@@ -23,6 +23,7 @@ export default {
       image: "",
       visible: false
     },
+    shopId: "",
     searchRule: {
       type: "",
       value: ""
@@ -30,17 +31,26 @@ export default {
     pagenation: {}
   },
   mutations: {
-    setSupplier(state, supplier){
-      state.supplier=supplier;
+    setSupplier(state, supplier) {
+      state.supplier = supplier;
     },
     setProducts(state, products) {
       state.products = products;
     },
+    setShopId(state, shopId) {
+      state.shopId = shopId;
+    },
     setUpdateProVis(state, visible) {
-      state.product = { ...state.product, visible };
+      state.product = {
+        ...state.product,
+        visible
+      };
     },
     setProduct(state, product) {
-      state.product = { ...product, visible: true };
+      state.product = {
+        ...product,
+        visible: true
+      };
     },
     setSearchRule(state, searchRule) {
       state.searchRule = searchRule;
@@ -50,7 +60,9 @@ export default {
     },
   },
   actions: {
-    getSupplier({ commit }){
+    getSupplier({
+      commit
+    }) {
       axios({
         method: "get",
         url: "/product/supplier"
@@ -58,7 +70,10 @@ export default {
         commit("setSupplier", res.data);
       });
     },
-    getProducts({ commit }, rule = {}) {
+    getProducts({
+      commit
+    }, rule = {}) {
+      let shopId=rule.shopId;
       let page = rule.page || 1;
       let rows = rule.rows || 3;
       let type = rule.type || "";
@@ -70,7 +85,7 @@ export default {
           page,
           rows,
           type,
-          value
+          value,shopId
         }
       }).then(res => {
         commit("setProducts", res.data.rows);
@@ -78,7 +93,9 @@ export default {
       });
     },
     // 增加
-    addProduct({ commit }, addMess) {
+    addProduct({
+      commit
+    }, addMess) {
       axios({
         method: "post",
         url: "/product/addPro",
@@ -86,16 +103,20 @@ export default {
       }).then(res => {});
     },
     //删除
-    deleteProduct({ commit }, id) {
+    deleteProduct({
+      commit
+    }, id) {
       axios({
         method: "delete",
         url: "/product/delete/" + id
       }).then(res => {
-          
+
       });
     },
     //获取修改哪一行数据
-    getUpdateProduct({ commit }, id) {
+    getUpdateProduct({
+      commit
+    }, id) {
       axios({
         method: "get",
         url: "/product/" + id
@@ -104,7 +125,9 @@ export default {
       });
     },
     //修改
-    updateProduct({ commit }, data) {
+    updateProduct({
+      commit
+    }, data) {
       axios({
         method: "put",
         url: "/product/" + data._id,

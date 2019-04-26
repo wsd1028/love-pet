@@ -114,6 +114,7 @@ export default {
           if (!this.loginName) {
             this.loginName = res.data.loginName;
             this.id = res.data.shops.$id;
+            console.log("shopid", res.data)
             this.setShopId(this.id);
             axios({
               method:"get",

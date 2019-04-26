@@ -47,8 +47,13 @@
           <el-input v-model="form.freshDate" autocomplete="off"></el-input>
         </el-form-item>
         <el-form-item label="供应商:" :label-width="formLabelWidth">
-          <el-select v-model="form.company" placeholder="请选择供应商" autocomplete="off" class="select">          
-              <el-option v-for="item in supplier" v-bind:key="item._id" :label="item.name" :value="item.name"/>
+          <el-select v-model="form.company" placeholder="请选择供应商" autocomplete="off" class="select">
+            <el-option
+              v-for="item in supplier"
+              v-bind:key="item._id"
+              :label="item.name"
+              :value="item.name"
+            />
           </el-select>
         </el-form-item>
         <el-form-item label="特色说明:" :label-width="formLabelWidth">
@@ -81,12 +86,12 @@
   </div>
 </template>
 <script>
-import axios from "axios"
+import axios from "axios";
 import { createNamespacedHelpers } from "vuex";
 const { mapActions, mapState } = createNamespacedHelpers("ProModule");
 export default {
   computed: {
-    ...mapState(["pagenation", "supplier"])
+    ...mapState(["pagenation", "supplier", "shopId"])
   },
   data() {
     return {
@@ -141,28 +146,13 @@ export default {
       this.dialogFormVisible = false;
     },
     add(form) {
-      let userId ="";
-      axios({
-        method:"get",
-        url:"/login/shopManager/getSession"
-      }).then(res=>{
-        // console.log(res)
-        let id = res.data._id;
-        axios({
-          method:"get",
-          url:"/product/addPro",
-          params:id
-        }).then(res=>{
-            //  console.log(id)
-          userId =res.data._id;
-          let data = { ...this.form };
-          this.addProduct(data);
-          this.$refs[form].resetFields();
-          this.dialogFormVisible = false;
-          let page = this.pagenation.curpage;
-          this.getProducts({ page });
-        })
-      })
+      let shopId = this.shopId;
+      let data = { ...this.form,shopId };
+      this.addProduct(data);
+      this.$refs[form].resetFields();
+      this.dialogFormVisible = false;
+      let page = this.pagenation.curpage;
+      this.getProducts({ page,shopId });
     },
     handleAvatarSuccess(response, file, fileList) {
       this.dialogImageUrl = "/upload/" + response;
