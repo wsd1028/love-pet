@@ -76,8 +76,6 @@ export default {
     ...mapState(["shops", "blackList", "status"])
   },
   created() {
-  },
-  created() {
     this.getShops({ status: "yes" });
   },
   methods: {

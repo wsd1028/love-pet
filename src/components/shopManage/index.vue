@@ -1,7 +1,7 @@
 <template>
   <el-container>
     <el-header style="display:flex; font-size: 12px; justify-content: space-between;">
-      <h1>门店管理 &nbsp ({{shopName}}店)</h1>
+      <h1>门店管理 &nbsp; ({{shopName}}店)</h1>
       <div style="margin-top:8px">
         <span style="color:black;font-size:16px;font-weight:bold;margin-right:20px;">欢迎: {{loginName}}</span>
         <el-button type="primary" plain @click="removeSession" style="font-size:16px;font-weight:bold">退出</el-button>

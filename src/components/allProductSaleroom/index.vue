@@ -1,11 +1,5 @@
 <template>
   <div>
-    <el-radio-group v-model="value" @change="showChart">
-      <el-radio-button label="月总销售额"></el-radio-button>
-      <el-radio-button label="季度总销售额"></el-radio-button>
-      <el-radio-button label="年总销售额"></el-radio-button>
-      <!-- <el-radio-button label="服务总销售额"></el-radio-button> -->
-    </el-radio-group>
     <div class="total" id="myChart" ref="myChart"></div>
   </div>
 </template>
@@ -26,10 +20,8 @@ let data = new FormData();
 export default {
   data() {
     return {
-      value: "",
-      tradeName: [],
-      tradeNumber: [],
-      zoom: 0
+      date: [],
+      count: []
     };
   },
   mounted() {
@@ -40,142 +32,126 @@ export default {
   methods: {
     showChart() {
       let myChart = echarts.init(this.$refs.myChart);
-      if (this.type == "商品销量统计") {
-        axios({
-          url: "/allProductSaleroom/getTradeNum",
-          method: "get"
-        }).then(res => {
-          this.tradeName = [];
-          this.tradeNumber = [];
-          for (let i = 0; i < res.data.length; i++) {
-            for (let j = 0; j < res.data[i].product.length; j++) {
-              if ((i = res.data.length - 1)) {
-                this.tradeName.push(res.data[i].product[j].name);
-              }
-            }
+      axios({
+        method: "get",
+        url: "/order/getTradeNum"
+      }).then(res => {
+        let data = res.data;
+        var date = new Date();
+        let month = date.getMonth() + 1; //获取当前月份
+        let year = date.getFullYear();
+        var arry = new Array();
+        for (let i = 0; i < 12; i++) {
+          month = month - 1;
+          if (month <= 0) {
+            year = year - 1;
+            month = month + 12;
           }
-          for (let i = 0; i < res.data[0].product.length; i++) {
-            let num = 0;
-            for (let j = 0; j < res.data.length; j++) {
-              num += res.data[j].product[i].number;
-            }
-            this.tradeNumber.push(num);
+          arry[i] = year + "年" + month + "月";
+        }
+        this.date = arry;
+        var arr = [
+          { value: 0 },
+          { value: 0 },
+          { value: 0 },
+          { value: 0 },
+          { value: 0 },
+          { value: 0 },
+          { value: 0 },
+          { value: 0 },
+          { value: 0 },
+          { value: 0 },
+          { value: 0 },
+          { value: 0 }
+        ];
+        this.count = arr;
+        data.forEach(item => {
+          if (item.date.includes(arry[0])) {
+            arr[0].value +=
+              parseInt(item.products.price) * parseInt(item.number);
+          } else if (item.date.includes(arry[1])) {
+            arr[1].value +=
+              parseInt(item.products.price) * parseInt(item.number);
+          } else if (item.date.includes(arry[2])) {
+            arr[2].value +=
+              parseInt(item.products.price) * parseInt(item.number);
+          } else if (item.date.includes(arry[3])) {
+            arr[3].value +=
+              parseInt(item.products.price) * parseInt(item.number);
+          } else if (item.date.includes(arry[4])) {
+            arr[4].value +=
+              parseInt(item.products.price) * parseInt(item.number);
+          } else if (item.date.includes(arry[5])) {
+            arr[5].value +=
+              parseInt(item.products.price) * parseInt(item.number);
+          } else if (item.date.includes(arry[6])) {
+            arr[6].value +=
+              parseInt(item.products.price) * parseInt(item.number);
+          } else if (item.date.includes(arry[7])) {
+            arr[7].value +=
+              parseInt(item.products.price) * parseInt(item.number);
+          } else if (item.date.includes(arry[8])) {
+            arr[8].value +=
+              parseInt(item.products.price) * parseInt(item.number);
+          } else if (item.date.includes(arry[9])) {
+            arr[9].value +=
+              parseInt(item.products.price) * parseInt(item.number);
+          } else if (item.date.includes(arry[10])) {
+            arr[10].value +=
+              parseInt(item.products.price) * parseInt(item.number);
+          } else if (item.date.includes(arry[11])) {
+            arr[11].value +=
+              parseInt(item.products.price) * parseInt(item.number);
           }
-          myChart.setOption(this.tradeOptions, true);
         });
-      } else {
-        axios({
-          url: "/allProductSaleroom/getTradeNum",
-          method: "get"
-        }).then(res => {
-          // this.classAxisData = res.data.axisData;
-          // this.classSeriesData = res.data.seriesData;
-          // myChart.serveOpitons(this.classesOptions, true);
-        });
-      }
+        myChart.setOption(this.options, true);
+      });
+    }
+  },
 
-      if (this.value == "季度总销售额") {
-        myChart.setOption({
-          title: {
-            text: "商品销售额统计"
-          },
-          tooltip: {
-            trigger: "axis",
-            axisPointer: {
-              type: "cross",
-              label: {
-                backgroundColor: "#6a7985"
-              }
+  computed: {
+    options() {
+      return {
+        color: ["#3398DB"],
+        title: {
+          text: "商品总销售额统计"
+        },
+        tooltip: {
+          trigger: "axis",
+          axisPointer: {
+            // 坐标轴指示器，坐标轴触发有效
+            type: "shadow" // 默认为直线，可选为：'line' | 'shadow'
+          }
+        },
+        grid: {
+          left: "3%",
+          right: "4%",
+          bottom: "3%",
+          containLabel: true
+        },
+        xAxis: [
+          {
+            type: "category",
+            data: this.date,
+            axisTick: {
+              alignWithLabel: true
             }
-          },
-          legend: {
-            data: ["每个季度销售额"]
-          },
-          toolbox: {
-            feature: {
-              saveAsImage: {}
-            }
-          },
-          grid: {
-            left: "3%",
-            right: "4%",
-            bottom: "3%",
-            containLabel: true
-          },
-          xAxis: [
-            {
-              type: "category",
-              boundaryGap: false,
-              data: ["第一季度", "第二季度", "第三季度", "第四季度"]
-            }
-          ],
-          yAxis: [
-            {
-              type: "value"
-            }
-          ],
-          series: [
-            {
-              name: "每个季度销售额",
-              type: "line",
-              stack: "总量",
-              areaStyle: {},
-              data: [250, 256, 10, 600]
-            }
-          ]
-        });
-      }
-      if (this.value == "年总销售额") {
-        myChart.setOption({
-          title: {
-            text: "商品销售额统计"
-          },
-          tooltip: {
-            trigger: "axis",
-            axisPointer: {
-              type: "cross",
-              label: {
-                backgroundColor: "#6a7985"
-              }
-            }
-          },
-          legend: {
-            data: ["每年销售额"]
-          },
-          toolbox: {
-            feature: {
-              saveAsImage: {}
-            }
-          },
-          grid: {
-            left: "3%",
-            right: "4%",
-            bottom: "3%",
-            containLabel: true
-          },
-          xAxis: [
-            {
-              type: "category",
-              boundaryGap: false,
-              data: ["2016年", "2017年", "2018年", "2019年"]
-            }
-          ],
-          yAxis: [
-            {
-              type: "value"
-            }
-          ],
-          series: [
-            {
-              name: "每年销售额",
-              type: "line",
-              stack: "总量",
-              areaStyle: {},
-              data: [0, 232, 0, 0]
-            }
-          ]
-        });
-      }
+          }
+        ],
+        yAxis: [
+          {
+            type: "value"
+          }
+        ],
+        series: [
+          {
+            name: "销售总额",
+            type: "bar",
+            barWidth: "40%",
+            data: this.count
+          }
+        ]
+      };
     }
   }
 };
