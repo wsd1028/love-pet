@@ -78,8 +78,6 @@ export default {
   methods: {
     submitForm(formName) {
       this.$refs[formName].validate(valid => {
-        // console.log(this.$refs[formName].model);
-        // console.log(this.$refs[formName].model.role); //选择的是哪个角色
         if (valid) {
           if (this.$refs[formName].model.role == "manager") {
             //平台管理员
@@ -91,7 +89,6 @@ export default {
                 pwd: this.$refs[formName].model.pwd
               }
             }).then(res => {
-              // console.log(res.data);
               if (res.data.status == 1) {
                 this.$message({
                   message: "恭喜登录成功! 欢迎进入系统管理界面",
@@ -112,7 +109,6 @@ export default {
                 pwd: this.$refs[formName].model.pwd
               }
             }).then(res => {
-              // console.log(res.data);
               if (res.data) {
                 //有账号
                 if (res.data.status == "null") {
@@ -151,7 +147,10 @@ export default {
             });
           }
         } else {
+<<<<<<< HEAD
           // console.log("error submit!!");
+=======
+>>>>>>> 472c240f471d4ade5498b09d0de1ae7b058da7b2
           return false;
         }
       });

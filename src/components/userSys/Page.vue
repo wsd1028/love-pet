@@ -14,7 +14,6 @@ export default {
   methods: {
     ...mapActions(["setUserSys"]),
     prev(val) {
-      // console.log(val);
       this.setUserSys({
         page: val - 1
       });
@@ -25,7 +24,6 @@ export default {
       });
     },
     change(current) {
-      // console.log(current);
       this.setUserSys({
         page: current,
         rows: this.pagation.eachpage

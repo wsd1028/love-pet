@@ -55,7 +55,6 @@ const routes = [
       { path: "/manage/audit", component: Audit },
       { path: "/manage/blackShops", component: BlackShops },
       { path: "/manage/failedShops", component: FailedShops },
-
     ]
   },
   {

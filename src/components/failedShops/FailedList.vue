@@ -74,7 +74,6 @@ export default {
   },
   computed: {
     ...mapState(["shops", "failed"])
-    // ...mapMutations(["setBlackList"])
   },
   created() {
     this.getShops({ status: "failed" });

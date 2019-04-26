@@ -11,7 +11,7 @@
         <el-input v-model="adress" autocomplete="off"></el-input>
       </el-form-item>
        <el-form-item label="法定代表人" :label-width="formLabelWidth">
-        <el-input v-model="pepole" autocomplete="off"></el-input>
+        <el-input v-model="people" autocomplete="off"></el-input>
       </el-form-item>
     </el-form>
     <div slot="footer" class="btn">
@@ -61,15 +61,15 @@ export default {
         return this.supplier.adress;
       }
     },
-    pepole: {
-      set(pepole) {
+    people: {
+      set(people) {
         this.setSupplier({
           ...this.supplier,
-          pepole
+          people
         });
       },
       get() {
-        return this.supplier.pepole;
+        return this.supplier.people;
       }
     }
   },

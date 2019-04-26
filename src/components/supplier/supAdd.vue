@@ -13,7 +13,7 @@
           <el-input v-model="form.adress" autocomplete="off" placeholder="请输入您的地址"></el-input>
         </el-form-item>
         <el-form-item label="法定代表人" :label-width="formLabelWidth">
-          <el-input v-model="form.pepole" autocomplete="off" placeholder="请输入法定代表人姓名"></el-input>
+          <el-input v-model="form.people" autocomplete="off" placeholder="请输入法定代表人姓名"></el-input>
         </el-form-item>
         <el-form-item label="上传营业执照" :label-width="formLabelWidth">
           <el-upload
@@ -30,8 +30,8 @@
           </el-dialog>
         </el-form-item>
         <el-form-item class="btn">
-          <el-button @click="addNo('addForm')">取 消</el-button>
-          <el-button type="primary" @click="add('addForm')">确 定</el-button>
+          <el-button plain @click="addNo('addForm')">取 消</el-button>
+          <el-button type="primary" plain @click="add('addForm')">确 定</el-button>
         </el-form-item>
       </el-form>
     </el-dialog>
@@ -53,7 +53,7 @@ export default {
         name: "",
         phone: "",
         adress: "",
-        pepole: "",
+        people: "",
         img:""
       },
       formLabelWidth: "120px",
@@ -64,10 +64,8 @@ export default {
     handIeAvatarSuccess(response, file, fileList) {
       this.dialogImageUrl = "/upload/" + response;
       this.form.img = response;
-      console.log("response",response)
     },
     handleRemove(file, fileList) {
-      console.log(file, fileList);
     },
     handlePictureCardPreview(file) {
       this.dialogImageUrl = file.url;
@@ -80,7 +78,6 @@ export default {
     },
     add(form) {
       let data = { ...this.form };
-      console.log("pcaddMess",data)
       this.addSupplier(data);
       this.$refs[form].resetFields();
       this.dialogFormVisible = false;
