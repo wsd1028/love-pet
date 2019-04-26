@@ -1,7 +1,7 @@
 <template>
   <el-container>
     <el-header style="display:flex; font-size: 12px; justify-content: space-between;">
-      <h1>门店管理 &nbsp ({{shopName}}店)</h1>
+      <h1>门店管理 &nbsp; ({{shopName}}店)</h1>
       <!-- <span>{{shopName}}</span> -->
       <div style="margin-top:8px">
         <span style="color:black;font-size:16px;font-weight:bold;margin-right:20px;">欢迎: {{loginName}}</span>
@@ -107,12 +107,12 @@ export default {
         method: "get",
         url: "/login/shopManager/getSession"
       }).then(res => {
-        console.log(res.data, "session");
+        // console.log(res.data, "session");
         if (res.data.loginName) {
           if (!this.loginName) {
             this.loginName = res.data.loginName;
             this.id = res.data.shops.$id;
-            console.log(this.id, "店铺ID");
+            // console.log(this.id, "店铺ID");
             axios({
               method:"get",
               url:"/login/shop",

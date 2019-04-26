@@ -113,7 +113,6 @@ export default {
                 status:"yes"
               }
             }).then((res)=>{
-              console.log(res.data)
             });
           });
           this.$message({

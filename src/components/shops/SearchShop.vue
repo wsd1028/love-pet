@@ -30,7 +30,6 @@ export default {
     ...mapMutations(["setSearch"]),
     ...mapActions(["getShops"]),
     search() {
-        console.log(123)
       let type = this.type;
       let value = this.value;
       this.setSearch({ ...this.searchShop, type });

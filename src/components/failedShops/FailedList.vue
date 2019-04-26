@@ -109,7 +109,6 @@ export default {
                 status: "yes"
               }
             }).then(res => {
-              console.log(res.data);
             });
           });
           this.$message({
@@ -118,8 +117,6 @@ export default {
           });
         })
         .catch(() => {
-          console.log("shuju", this.shops);
-
           this.$message({
             type: "info",
             message: "取消操作!"

@@ -91,7 +91,7 @@ export default {
                 pwd: this.$refs[formName].model.pwd
               }
             }).then(res => {
-              console.log(res.data);
+              // console.log(res.data);
               if (res.data.status == 1) {
                 this.$message({
                   message: "恭喜登录成功! 欢迎进入系统管理界面",
@@ -112,7 +112,7 @@ export default {
                 pwd: this.$refs[formName].model.pwd
               }
             }).then(res => {
-              console.log(res.data);
+              // console.log(res.data);
               if (res.data) {
                 //有账号
                 if (res.data.status == "null") {
@@ -151,7 +151,7 @@ export default {
             });
           }
         } else {
-          console.log("error submit!!");
+          // console.log("error submit!!");
           return false;
         }
       });
