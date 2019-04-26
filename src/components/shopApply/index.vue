@@ -201,7 +201,6 @@ export default {
       var myGeo = new BMap.Geocoder();
       // // 将地址解析结果显示在地图上，并调整地图视野
       myGeo.getPoint(this.ruleForm.city, point => {
-        console.log(point);
         this.ruleForm.cityLocation.longitude = point.lng;
         this.ruleForm.cityLocation.latitude = point.lat;
       });
@@ -209,8 +208,6 @@ export default {
         this.ruleForm.location.longitude = point.lng;
         this.ruleForm.location.latitude = point.lat;
       });
-      console.log("city", this.ruleForm.cityLocation);
-      console.log("location", this.ruleForm.location);
       this.$refs[formName].validate(valid => {
         if (valid) {
           let feature = this.ruleForm.feature.join(",");

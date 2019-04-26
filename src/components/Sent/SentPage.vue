@@ -16,7 +16,7 @@ import { createNamespacedHelpers } from "vuex";
 const { mapActions, mapState } = createNamespacedHelpers("orderModule");
 export default {
   computed: {
-    ...mapState(["pagenation", "searchRule"])
+    ...mapState(["pagenation", "searchRule", "shopId"])
   },
   methods: {
     ...mapActions(["getTrades"]),
@@ -24,7 +24,8 @@ export default {
       let type = this.searchRule.type || "";
       let value = this.searchRule.value || "";
       let trade = "sent";
-      this.getTrades({ page, type, value, trade });
+      let id = this.shopId;
+      this.getTrades({ page, type, value, trade, id });
     }
   }
 };

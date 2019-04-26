@@ -74,10 +74,8 @@ export default {
   },
   computed: {
     ...mapState(["shops", "blackList", "status"])
-    // ...mapMutations(["setBlackList"])
   },
   created() {
-    console.log(this.userId);
   },
   created() {
     this.getShops({ status: "yes" });
@@ -112,7 +110,6 @@ export default {
                 status: "no"
               }
             }).then(res => {
-              console.log(res.data);
             });
           });
           this.$message({

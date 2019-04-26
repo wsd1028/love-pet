@@ -21,14 +21,14 @@ import { createNamespacedHelpers } from "vuex";
 const { mapActions, mapState } = createNamespacedHelpers("orderModule");
 export default {
   computed: {
-    ...mapState(["serves", "pagenation"])
+    ...mapState(["serves", "pagenation", "shopId"])
   },
   created() {
-    this.getServes({ serve: "pending" });
+    this.getServes({ serve: "pending", id: this.shopId });
   },
   methods: {
     ...mapActions(["getServes"]),
-    change(id) {
+    change(cid) {
       this.$confirm("是否确定完成该订单?", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
@@ -38,9 +38,9 @@ export default {
           if (action == "confirm") {
             axios({
               method: "put",
-              url: "/order/serve/" + id
+              url: "/order/serve/" + cid
             }).then(res => {
-              this.getServes({ serve: "pending" });
+              this.getServes({ serve: "pending", id: this.shopId  });
               this.$message({
                 type: "success",
                 message: "操作成功!"

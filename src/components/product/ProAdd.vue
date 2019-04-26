@@ -159,7 +159,6 @@ export default {
       this.form.image = response;
     },
     handleRemove(file, fileList) {
-      console.log(file, fileList);
     },
     handlePictureCardPreview(file) {
       this.dialogImageUrl = file.url;

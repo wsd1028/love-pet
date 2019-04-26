@@ -17,7 +17,6 @@
     </el-table-column>
     <el-table-column label="操作">
       <template slot-scope="scope">
-        <!-- <el-button type="primary" plain size="mini" @click="handleEdit(scope.$index, scope.row)" >修改</el-button> -->
         <el-button size="mini" type="danger" plain @click="handleDelete(scope.$index, scope.row)">删除</el-button>
       </template>
     </el-table-column>
@@ -39,12 +38,10 @@ export default {
   methods: {
     ...mapActions(["setshopManagers", "setVisible", "setoneShopManager"]),
     handleEdit(index, row) {
-      // console.log(index, row);
       this.setVisible(true);
       this.setoneShopManager(row._id);
     },
     handleDelete(index, row) {
-      // console.log(index, row);
       this.centerDialogVisible = true;
       let id = row._id;
       this.$confirm("此操作将永久删除该条数据, 是否继续?", "提示", {

@@ -136,12 +136,9 @@ export default {
       this.type = e;
     },
     searchBtn() {
-      console.log(this.type, this.value);
       this.setPetMaster({ type: this.type, value: this.value });
     },
    defriend(state, id) {
-      console.log(id);
- 
       this.$confirm("拉黑该用户，是否继续？", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
@@ -156,7 +153,6 @@ export default {
             state
           }
         }).then(res => {
-          console.log(state);
           this.setPetMaster({page:this.cur_page});
         });
       });
@@ -182,7 +178,6 @@ export default {
       });
     },
     view(row) {
-      console.log(row);
       const h = this.$createElement;
       this.$msgbox({
         title: "宠物信息",
@@ -198,11 +193,9 @@ export default {
       })
     },
     handleSizeChange(val) {
-      
       this.setPetMaster({ rows: val });
     },
     handleCurrentChange(val) {
-      
       this.cur_page = val;
       this.setPetMaster({ page: val });
     }
