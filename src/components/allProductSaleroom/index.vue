@@ -1,18 +1,13 @@
 <template>
-    <div>
-    <h1>商品总销售额统计</h1>
-        <el-radio-group v-model="type" @change="showChart">
-            <el-radio-button label="班级人数统计"></el-radio-button>
-            <el-radio-button label="年龄分布统计"></el-radio-button>
-            <el-radio-button label="地图"></el-radio-button>
-        </el-radio-group>
-        <div class="total" id="myChart" ref="myChart"></div>
-    </div>
+  <div>
+    <div class="total" id="myChart" ref="myChart"></div>
+  </div>
 </template>
 <script>
 import echarts from "echarts/lib/echarts";
+import axios from "axios";
 // 引入柱状图
-import "echarts/lib/chart/bar"
+import "echarts/lib/chart/bar";
 import "echarts/lib/chart/pie";
 import "echarts/lib/chart/scatter";
 // 引入提示框和标题组件
@@ -20,380 +15,150 @@ import "echarts/lib/component/tooltip";
 import "echarts/lib/component/title";
 import "echarts/lib/component/legend";
 import "echarts/extension/bmap/bmap";
-import axios from "axios";
 import { mapState, mapGetters, mapMutations, mapActions } from "vuex";
-
+let data = new FormData();
 export default {
-    data() {
-        return {
-            type: "班级人数统计",
-            classAxisData: [],
-            classSeriesData: [],
-            ageAxisData: [],
-            ageSeriesData: [],
-            shopsCountData: [],
-            shopsData: [],
-            zoom: 0
-        };
-    },
-    mounted() {
-        this.$nextTick(() => {
-            this.showChart();
+  data() {
+    return {
+      date: [],
+      count: []
+    };
+  },
+  mounted() {
+    this.$nextTick(() => {
+      this.showChart();
+    });
+  },
+  methods: {
+    showChart() {
+      let myChart = echarts.init(this.$refs.myChart);
+      axios({
+        method: "get",
+        url: "/order/getTradeNum"
+      }).then(res => {
+        let data = res.data;
+        var date = new Date();
+        let month = date.getMonth() + 1; //获取当前月份
+        let year = date.getFullYear();
+        var arry = new Array();
+        for (let i = 0; i < 12; i++) {
+          month = month - 1;
+          if (month <= 0) {
+            year = year - 1;
+            month = month + 12;
+          }
+          arry[i] = year + "年" + month + "月";
+        }
+        this.date = arry;
+        var arr = [
+          { value: 0 },
+          { value: 0 },
+          { value: 0 },
+          { value: 0 },
+          { value: 0 },
+          { value: 0 },
+          { value: 0 },
+          { value: 0 },
+          { value: 0 },
+          { value: 0 },
+          { value: 0 },
+          { value: 0 }
+        ];
+        this.count = arr;
+        data.forEach(item => {
+          if (item.date.includes(arry[0])) {
+            arr[0].value +=
+              parseInt(item.products.price) * parseInt(item.number);
+          } else if (item.date.includes(arry[1])) {
+            arr[1].value +=
+              parseInt(item.products.price) * parseInt(item.number);
+          } else if (item.date.includes(arry[2])) {
+            arr[2].value +=
+              parseInt(item.products.price) * parseInt(item.number);
+          } else if (item.date.includes(arry[3])) {
+            arr[3].value +=
+              parseInt(item.products.price) * parseInt(item.number);
+          } else if (item.date.includes(arry[4])) {
+            arr[4].value +=
+              parseInt(item.products.price) * parseInt(item.number);
+          } else if (item.date.includes(arry[5])) {
+            arr[5].value +=
+              parseInt(item.products.price) * parseInt(item.number);
+          } else if (item.date.includes(arry[6])) {
+            arr[6].value +=
+              parseInt(item.products.price) * parseInt(item.number);
+          } else if (item.date.includes(arry[7])) {
+            arr[7].value +=
+              parseInt(item.products.price) * parseInt(item.number);
+          } else if (item.date.includes(arry[8])) {
+            arr[8].value +=
+              parseInt(item.products.price) * parseInt(item.number);
+          } else if (item.date.includes(arry[9])) {
+            arr[9].value +=
+              parseInt(item.products.price) * parseInt(item.number);
+          } else if (item.date.includes(arry[10])) {
+            arr[10].value +=
+              parseInt(item.products.price) * parseInt(item.number);
+          } else if (item.date.includes(arry[11])) {
+            arr[11].value +=
+              parseInt(item.products.price) * parseInt(item.number);
+          }
         });
-    },
-
-    methods: {
-        showChart() {
-            console.log("chart");
-            let myChart = echarts.init(this.$refs.myChart);
-
-            if (this.type == "班级人数统计") {
-                axios({
-                    url: "/classes/classesTotal",
-                    method: "get"
-                }).then(res => {
-                    this.classAxisData = res.data.axisData;
-                    this.classSeriesData = res.data.seriesData;
-                    myChart.setOption(this.classesOptions, true);
-                });
-            } else if (this.type == "年龄分布统计") {
-                axios({
-                    url: "/students/ageTotal",
-                    method: "get"
-                }).then(res => {
-                    this.ageAxisData = res.data.axisData;
-                    this.ageSeriesData = res.data.seriesData;
-                    myChart.setOption(this.ageOpitons, true);
-                    console.log(this.ageAxisData, this.ageSeriesData);
-                });
-            } else {
-                axios({
-                    url: "/shops/counts",
-                    method: "get"
-                }).then(res => {
-                    this.shopsCountData = res.data;
-                    myChart.setOption(this.mapOptions, true);
-                });
-                myChart.on("finished", () => {
-                    // 从echarts对象中获取bmap对象
-                    var bmap = myChart
-                        .getModel()
-                        .getComponent("bmap")
-                        .getBMap();
-
-                    // 设置最小缩放值
-                    bmap.setMinZoom(5);
-                    // 设置最大缩放值
-                    // bmap.setMaxZoom(15);
-                    // 缩放结束后的事件
-                    bmap.addEventListener("zoomend", e => {
-                        let zoom = this.zoom;
-                        this.zoom = bmap.getZoom();
-                        // 打印出当前缩放值
-                        if (zoom < bmap.getZoom() && bmap.getZoom() == 10) {
-                            axios({
-                                url: "/shops",
-                                method: "get"
-                            }).then(res => {
-                                this.shopsData = res.data;
-                                let options = this.mapOptions;
-                                options.bmap.zoom = 10;
-                                myChart.setOption(this.mapOptions, false);
-                            });
-                        } else if (
-                            zoom > bmap.getZoom() &&
-                            bmap.getZoom() <= 10
-                        ) {
-                            this.shopsData = [];
-                            let options = this.mapOptions;
-                            myChart.setOption(this.mapOptions, false);
-                        }
-                    });
-                });
-            }
-        }
-    },
-    computed: {
-        classesOptions() {
-            return {
-                title: {
-                    text: "班级人数的统计图"
-                },
-                tooltip: {},
-                xAxis: {
-                    data: this.classAxisData
-                },
-                yAxis: {},
-                series: [
-                    {
-                        name: "人数",
-                        type: "bar",
-                        data: this.classSeriesData
-                    }
-                ]
-            };
-        },
-        ageOpitons() {
-            return {
-                title: {
-                    text: "各个阶段年龄分布",
-                    subtext: "纯属虚构",
-                    x: "center"
-                },
-                tooltip: {
-                    trigger: "item",
-                    formatter: "{a} <br/>{b} : {c} ({d}%)"
-                },
-                legend: {
-                    orient: "vertical",
-                    left: "left",
-                    data: this.ageAxisData
-                },
-                series: [
-                    {
-                        name: "访问来源",
-                        type: "pie",
-                        radius: "55%",
-                        center: ["50%", "60%"],
-                        data: this.ageSeriesData,
-                        itemStyle: {
-                            emphasis: {
-                                shadowBlur: 10,
-                                shadowOffsetX: 0,
-                                shadowColor: "rgba(0, 0, 0, 0.5)"
-                            }
-                        }
-                    }
-                ]
-            };
-        },
-        mapOptions() {
-            return {
-                title: {
-                    text: "全国门店统计",
-                    left: "center",
-                    textStyle: {
-                        color: "#fff"
-                    }
-                },
-                tooltip: {
-                    trigger: "item"
-                },
-                bmap: {
-                    center: [104.072259, 30.663403],
-                    zoom: 5,
-                    roam: true,
-                    mapStyle: {
-                        styleJson: [
-                            {
-                                featureType: "water",
-                                elementType: "all",
-                                stylers: {
-                                    color: "#044161"
-                                }
-                            },
-                            {
-                                featureType: "land",
-                                elementType: "all",
-                                stylers: {
-                                    color: "#004981"
-                                }
-                            },
-                            {
-                                featureType: "boundary",
-                                elementType: "geometry",
-                                stylers: {
-                                    color: "#064f85"
-                                }
-                            },
-                            {
-                                featureType: "railway",
-                                elementType: "all",
-                                stylers: {
-                                    visibility: "off"
-                                }
-                            },
-                            {
-                                featureType: "highway",
-                                elementType: "geometry",
-                                stylers: {
-                                    color: "#004981"
-                                }
-                            },
-                            {
-                                featureType: "highway",
-                                elementType: "geometry.fill",
-                                stylers: {
-                                    color: "#005b96",
-                                    lightness: 1
-                                }
-                            },
-                            {
-                                featureType: "highway",
-                                elementType: "labels",
-                                stylers: {
-                                    visibility: "off"
-                                }
-                            },
-                            {
-                                featureType: "arterial",
-                                elementType: "geometry",
-                                stylers: {
-                                    color: "#004981"
-                                }
-                            },
-                            {
-                                featureType: "arterial",
-                                elementType: "geometry.fill",
-                                stylers: {
-                                    color: "#00508b"
-                                }
-                            },
-                            {
-                                featureType: "poi",
-                                elementType: "all",
-                                stylers: {
-                                    visibility: "off"
-                                }
-                            },
-                            {
-                                featureType: "green",
-                                elementType: "all",
-                                stylers: {
-                                    color: "#056197",
-                                    visibility: "off"
-                                }
-                            },
-                            {
-                                featureType: "subway",
-                                elementType: "all",
-                                stylers: {
-                                    visibility: "off"
-                                }
-                            },
-                            {
-                                featureType: "manmade",
-                                elementType: "all",
-                                stylers: {
-                                    visibility: "on"
-                                }
-                            },
-                            {
-                                featureType: "local",
-                                elementType: "all",
-                                stylers: {
-                                    visibility: "on"
-                                }
-                            },
-                            {
-                                featureType: "arterial",
-                                elementType: "labels",
-                                stylers: {
-                                    visibility: "on"
-                                }
-                            },
-                            {
-                                featureType: "boundary",
-                                elementType: "geometry.fill",
-                                stylers: {
-                                    color: "#029fd4"
-                                }
-                            },
-                            {
-                                featureType: "building",
-                                elementType: "all",
-                                stylers: {
-                                    color: "#1a5787"
-                                }
-                            },
-                            {
-                                featureType: "city",
-                                elementType: "labels",
-                                stylers: {
-                                    visibility: "off"
-                                }
-                            },
-                            {
-                                featureType: "district",
-                                elementType: "labels",
-                                stylers: {
-                                    visibility: "off"
-                                }
-                            },
-                            {
-                                featureType: "town",
-                                elementType: "labels",
-                                stylers: {
-                                    visibility: "off"
-                                }
-                            }
-                        ]
-                    }
-                },
-                series: [
-                    {
-                        name: "门店数",
-                        type: "scatter",
-                        coordinateSystem: "bmap",
-                        data: this.shopsCountData,
-                        symbolSize: function(val) {
-                            return val[2] * 2;
-                        },
-                        // label: {
-                        //     show: true,
-                        //     formatter: function(params) {
-                        //         return params.data[3];
-                        //     }
-                        // },
-                        itemStyle: {
-                            normal: {
-                                color: "#ddb926"
-                            }
-                        },
-                        tooltip: {
-                            formatter: function(params, ticket, callback) {
-                                return (
-                                    "城市：" +
-                                    params.data[3] +
-                                    "<br>门店数：" +
-                                    params.data[2]
-                                );
-                            }
-                        }
-                    },
-                    {
-                        name: "门店位置",
-                        type: "scatter",
-                        coordinateSystem: "bmap",
-                        data: this.shopsData,
-                        symbol: "pin",
-                        symbolSize: 20,
-                        itemStyle: {
-                            normal: {
-                                color: "red"
-                            }
-                        },
-                        tooltip: {
-                            formatter: function(params, ticket, callback) {
-                                return (
-                                    "店铺名称：" +
-                                    params.data[2] +
-                                    "<br>地址：" +
-                                    params.data[3]
-                                );
-                            }
-                        }
-                    }
-                ]
-            };
-        }
+        myChart.setOption(this.options, true);
+      });
     }
+  },
+
+  computed: {
+    options() {
+      return {
+        color: ["#3398DB"],
+        title: {
+          text: "商品总销售额统计"
+        },
+        tooltip: {
+          trigger: "axis",
+          axisPointer: {
+            // 坐标轴指示器，坐标轴触发有效
+            type: "shadow" // 默认为直线，可选为：'line' | 'shadow'
+          }
+        },
+        grid: {
+          left: "3%",
+          right: "4%",
+          bottom: "3%",
+          containLabel: true
+        },
+        xAxis: [
+          {
+            type: "category",
+            data: this.date,
+            axisTick: {
+              alignWithLabel: true
+            }
+          }
+        ],
+        yAxis: [
+          {
+            type: "value"
+          }
+        ],
+        series: [
+          {
+            name: "销售总额",
+            type: "bar",
+            barWidth: "40%",
+            data: this.count
+          }
+        ]
+      };
+    }
+  }
 };
 </script>
 <style scoped>
 .total {
-    width: 100%;
-    height: 500px;
+  width: 100%;
+  height: 500px;
 }
 </style>
-

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="div">
     <el-button type="primary" plain @click="dialogFormVisible = true">增加管理员</el-button>
     <el-dialog title="增加平台管理员" :visible.sync="dialogFormVisible" width="550px" style="font-weight:bold;">
       <el-form :model="form" status-icon :rules="rules2" ref="form" style="height:230px">
@@ -100,7 +100,6 @@ export default {
               pwd: this.form.pwd
             }
           }).then(res => {
-            // this.$emit("show");
             this.setUserSys();
             this.form.name = "";
             this.form.phone = "";
@@ -114,6 +113,5 @@ export default {
 </script>
 
 <style scoped>
-
 </style>
 

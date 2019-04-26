@@ -3,7 +3,7 @@
     <el-table-column align="center" fixed prop="_id" label="订单号" width="350"></el-table-column>
     <el-table-column align="center" prop="users.name" label="用户姓名" width="180"></el-table-column>
     <el-table-column align="center" prop="users.phone" label="用户电话" width="180"></el-table-column>
-    <el-table-column align="center" prop="type" label="服务名称" width="180"></el-table-column>
+    <el-table-column align="center" prop="service.name" label="服务名称" width="180"></el-table-column>
     <el-table-column align="center" prop="date" label="服务日期" width="250"></el-table-column>
     <el-table-column align="center" prop="time" label="预约时间" width="250"></el-table-column>
     <el-table-column align="center" label="操作" width="180">
@@ -21,14 +21,14 @@ import { createNamespacedHelpers } from "vuex";
 const { mapActions, mapState } = createNamespacedHelpers("orderModule");
 export default {
   computed: {
-    ...mapState(["serves", "pagenation"])
+    ...mapState(["serves", "pagenation", "shopId"])
   },
   created() {
-    this.getServes({ serve: "pending" });
+    this.getServes({ serve: "pending", id: this.shopId });
   },
   methods: {
     ...mapActions(["getServes"]),
-    change(id) {
+    change(cid) {
       this.$confirm("是否确定完成该订单?", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
@@ -38,9 +38,9 @@ export default {
           if (action == "confirm") {
             axios({
               method: "put",
-              url: "/order/serve/" + id
+              url: "/order/serve/" + cid
             }).then(res => {
-              this.getServes({ serve: "pending" });
+              this.getServes({ serve: "pending", id: this.shopId  });
               this.$message({
                 type: "success",
                 message: "操作成功!"

@@ -30,12 +30,10 @@ export default {
   methods: {
     ...mapActions(["setUserSys", "setVisible", "setOneUser"]),
     handleEdit(index, row) {
-      // console.log(index, row);
       this.setVisible(true);
       this.setOneUser(row._id);
     },
     handleDelete(index, row) {
-      // console.log(index, row);
       this.centerDialogVisible = true;
       let id = row._id;
       this.$confirm("此操作将永久删除该条数据, 是否继续?", "提示", {

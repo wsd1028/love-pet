@@ -189,9 +189,7 @@ export default {
           if (res.data) {
             this.ruleForm.userId = res.data._id;
             this.setUserId(res.data._id);
-          } else {
-            console.log("没有session");
-          }
+          } 
         }
       });
     },
@@ -199,58 +197,56 @@ export default {
       var map = new BMap.Map("l-map");
       // // 创建地址解析器实例
       var myGeo = new BMap.Geocoder();
-      // // 将地址解析结果显示在地图上，并调整地图视野
+      // getPoint根据地址生成经纬度
       myGeo.getPoint(this.ruleForm.city, point => {
-        console.log(point);
         this.ruleForm.cityLocation.longitude = point.lng;
         this.ruleForm.cityLocation.latitude = point.lat;
-      });
-      myGeo.getPoint(this.ruleForm.address, point => {
-        this.ruleForm.location.longitude = point.lng;
-        this.ruleForm.location.latitude = point.lat;
-      });
-      console.log("city", this.ruleForm.cityLocation);
-      console.log("location", this.ruleForm.location);
-      this.$refs[formName].validate(valid => {
-        if (valid) {
-          let feature = this.ruleForm.feature.join(",");
-          axios({
-            url: "/shopApply",
-            method: "post",
-            data: {
-              ...this.ruleForm,
-              status: "audit",
-              feature: feature,
-              vipLevel: "1级",
-              commission: "0.5",
-              shopWaiter: [],
-              comment: []
+        myGeo.getPoint(this.ruleForm.address, point => {
+          this.ruleForm.location.longitude = point.lng;
+          this.ruleForm.location.latitude = point.lat;
+          this.$refs[formName].validate(valid => {
+            if (valid) {
+
+              let feature = this.ruleForm.feature.join(",");
+              axios({
+                url: "/shopApply",
+                method: "post",
+                data: {
+                  ...this.ruleForm,
+                  status: "audit",
+                  feature: feature,
+                  vipLevel: "1级",
+                  commission: "0.5",
+                  shopWaiter: [],
+                  comment: []
+                }
+              }).then(res => {
+                this.$message({
+                  message: "提交成功！",
+                  type: "success"
+                });
+                this.headImg = this.image = "";
+                this.$refs[formName].resetFields();
+                let shopsId = res.data._id;
+                axios({
+                  url: "/shopApply/addShops/" + this.userId,
+                  method: "put",
+                  data: {
+                    shopsId: shopsId,
+                    status: "audit"
+                  }
+                }).then(res => {
+                  this.$router.push("auditShop");
+                });
+              });
+            } else {
+              this.$alert("请填写完整的信息", "提示", {
+                confirmButtonText: "确定"
+              });
+              return false;
             }
-          }).then(res => {
-            this.$message({
-              message: "提交成功！",
-              type: "success"
-            });
-            this.headImg = this.image = "";
-            this.$refs[formName].resetFields();
-            let shopsId = res.data._id;
-            axios({
-              url: "/shopApply/addShops/" + this.userId,
-              method: "put",
-              data: {
-                shopsId: shopsId,
-                status: "audit"
-              }
-            }).then(res => {
-              this.$router.push("auditShop");
-            });
           });
-        } else {
-          this.$alert("请填写完整的信息", "提示", {
-            confirmButtonText: "确定"
-          });
-          return false;
-        }
+        });
       });
     },
     resetForm(formName) {

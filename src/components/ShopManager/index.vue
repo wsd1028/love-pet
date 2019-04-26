@@ -16,7 +16,6 @@ const { mapActions } = createNamespacedHelpers("shopManagerModule");
 export default {
   components: { UserList, Page, SearchSysUser, UpdateSysUser },
   created() {
-    // this.show();
     this.setshopManagers();
   },
   data() {
