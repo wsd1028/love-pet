@@ -1,8 +1,7 @@
 <template>
   <el-container>
     <el-header style="display:flex; font-size: 12px; justify-content: space-between;">
-      <h1>门店管理 &nbsp ({{shopName}}店)</h1>
-      <!-- <span>{{shopName}}</span> -->
+      <h1>门店管理 &nbsp; ({{shopName}}店)</h1>
       <div style="margin-top:8px">
         <span style="color:black;font-size:16px;font-weight:bold;margin-right:20px;">欢迎: {{loginName}}</span>
         <el-button type="primary" plain @click="removeSession" style="font-size:16px;font-weight:bold">退出</el-button>
@@ -34,11 +33,11 @@
               <el-menu-item-group>
                 <el-menu-item index="/shopManage/sent">
                   <i class="el-icon-circle-check"></i>
-                  <span>已发货</span>
+                  <span>已完成</span>
                 </el-menu-item>
                 <el-menu-item index="/shopManage/pendingTrade">
                   <i class="el-icon-loading"></i>
-                  <span>未发货</span>
+                  <span>未完成</span>
                 </el-menu-item>
               </el-menu-item-group>
             </el-submenu>
@@ -76,7 +75,6 @@
       </el-aside>
       <el-main>
         <router-view>
-
         </router-view>
       </el-main>
     </el-container>
@@ -114,6 +112,7 @@ export default {
           if (!this.loginName) {
             this.loginName = res.data.loginName;
             this.id = res.data.shops.$id;
+            console.log("shopid", res.data)
             this.setShopId(this.id);
             axios({
               method:"get",
@@ -147,7 +146,9 @@ export default {
   background-color: #b3c0d1;
   color: #333;
 }
-
+.el-menu{
+  height:100%
+}
 .el-aside {
   color: #333;
 }

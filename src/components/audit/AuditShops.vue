@@ -99,7 +99,6 @@ export default {
                 status:"yes"
               }
             }).then((res)=>{
-              console.log(res.data)
             });
             this.getShops({ status: "audit" });
             this.$message({
@@ -117,7 +116,6 @@ export default {
         });
     },
     failed(id) {
-      console.log(666);
       axios({
             url: "/shopSys/" + id,
             method: "get"
@@ -139,7 +137,6 @@ export default {
                 status:"failed"
               }
             }).then((res)=>{
-              console.log(res.data)
             });
       });
       this.$message({

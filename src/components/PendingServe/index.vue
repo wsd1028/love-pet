@@ -10,19 +10,26 @@
 
 <script>
 import PendingServeSearch from "./PendingServeSearch";
-import PendingServeList from './PendingServeList'
-import PendingServePage from './PendingServePage'
+import PendingServeList from "./PendingServeList";
+import PendingServePage from "./PendingServePage";
+import { createNamespacedHelpers } from "vuex";
+const { mapState } = createNamespacedHelpers("shopManageCom");
+const { mapMutations } = createNamespacedHelpers("orderModule");
 export default {
   components: {
     PendingServeSearch,
     PendingServeList,
     PendingServePage
   },
-  methods: {
+  created() {
+    let shopId = this.shopId;
+    this.setShopId(shopId);
   },
-  data() {
-    return {
-    };
+  computed: {
+    ...mapState(["shopId"])
+  },
+  methods: {
+    ...mapMutations(["setShopId"])
   }
 };
 </script>

@@ -29,7 +29,7 @@ const { mapActions, mapState, mapMutations } = createNamespacedHelpers(
 );
 export default {
   computed: {
-    ...mapState(["searchRule"])
+    ...mapState(["searchRule","shopId"])
   },
   data() {
     return {
@@ -43,9 +43,10 @@ export default {
     search() {
       let type = this.type;
       let value = this.value;
+      let shopId=this.shopId;
       this.setSearchRule({ ...this.searchRule, type });
       this.setSearchRule({ ...this.searchRule, value });
-      this.getProducts({ type, value });
+      this.getProducts({ type, value,shopId });
     }
   }
 };

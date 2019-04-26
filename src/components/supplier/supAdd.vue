@@ -64,10 +64,8 @@ export default {
     handIeAvatarSuccess(response, file, fileList) {
       this.dialogImageUrl = "/upload/" + response;
       this.form.img = response;
-      console.log("response",response)
     },
     handleRemove(file, fileList) {
-      console.log(file, fileList);
     },
     handlePictureCardPreview(file) {
       this.dialogImageUrl = file.url;
@@ -80,7 +78,6 @@ export default {
     },
     add(form) {
       let data = { ...this.form };
-      console.log("pcaddMess",data)
       this.addSupplier(data);
       this.$refs[form].resetFields();
       this.dialogFormVisible = false;

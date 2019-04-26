@@ -70,7 +70,6 @@ export default {
         });
     },
     handleEdit(id) {
-      console.log("刚认识修改");
       this.getUpdateSupplier(id);
     }
   }

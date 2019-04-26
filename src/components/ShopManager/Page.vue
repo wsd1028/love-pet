@@ -14,7 +14,6 @@ export default {
   methods: {
     ...mapActions(["shopManagers"]),
     prev(val) {
-      // console.log(val);
       this.shopManagers({
         page: val - 1
       });
@@ -25,7 +24,6 @@ export default {
       });
     },
     change(current) {
-      // console.log(current);
       this.shopManagers({
         page: current,
         rows: this.pagation.eachpage

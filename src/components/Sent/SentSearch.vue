@@ -25,7 +25,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(["searchRule"])
+    ...mapState(["searchRule", "shopId"])
   },
   methods: {
     ...mapMutations(["setSearchRule"]),
@@ -34,12 +34,12 @@ export default {
       let type = this.type;
       let value = this.value;
       let trade = "sent";
+      let id = this.shopId;
       this.setSearchRule({ ...this.searchRule, type });
       this.setSearchRule({ ...this.searchRule, value });
-      this.getTrades({ type, value, trade });
+      this.getTrades({ type, value, trade, id });
     }
   }
-  
 };
 </script>
 
