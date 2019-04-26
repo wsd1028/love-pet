@@ -167,7 +167,6 @@ export default {
   methods: {
     submitForm(formName) {
       this.$refs[formName].validate(valid => {
-        console.log(this.$refs[formName].model);
         if (valid) {
           axios({
             method: "post",
@@ -180,11 +179,13 @@ export default {
               realName: this.$refs[formName].model.realName
             }
           }).then(res => {
-            alert("恭喜注册成功！");
+            this.$message({
+              message: "恭喜注册成功，欢迎进入登录界面",
+              type: "success"
+            });
             this.$router.push("login");
           });
         } else {
-          console.log("error submit!!");
           return false;
         }
       });

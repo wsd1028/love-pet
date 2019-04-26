@@ -18,7 +18,6 @@ const { mapActions } = createNamespacedHelpers("userSysModule");
 export default {
   components: { AddSysUser, UserList, Page, SearchSysUser,UpdateSysUser },
   created() {
-    // this.show();
     this.setUserSys();
   },
   data() {

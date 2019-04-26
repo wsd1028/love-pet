@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-table :data="blackList" style="width: 100%" >
+    <el-table :data="failed" style="width: 100%">
       <el-table-column label="门店名称" width="180" align="center">
         <template slot-scope="scope">
           <span style="margin-left: 10px">{{ scope.row.name }}</span>
@@ -13,7 +13,7 @@
       </el-table-column>
       <el-table-column label="营业执照照片" width="180" align="center">
         <template slot-scope="scope">
-          <span style="margin-left: 10px">{{ scope.row.image }}</span>
+          <img style="width:40px;height:60px" :src="url+scope.row.image" alt>
         </template>
       </el-table-column>
       <el-table-column label="法人" width="100" align="center">
@@ -23,7 +23,7 @@
       </el-table-column>
       <el-table-column label="头像图片" width="180" align="center">
         <template slot-scope="scope">
-          <span style="margin-left: 10px">{{ scope.row.headImg }}</span>
+          <img style="width:40px;height:60px" :src="url+scope.row.headImg" alt>
         </template>
       </el-table-column>
       <el-table-column label="营业特色" width="180" align="center">
@@ -54,12 +54,7 @@
 
       <el-table-column label="操作" width="150" fixed="right" align="center">
         <template slot-scope="scope">
-          <el-button
-            type="primary"
-            plain
-            icon="el-icon-edit"
-            @click="recoverShop(scope.row._id)"
-          >恢复门店</el-button>
+          <el-button type="danger" plain icon="el-icon-delete" @click="auditShop(scope.row._id)">通过审核</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -74,19 +69,19 @@ export default {
   data() {
     return {
       url: "/upload/",
-      userId:""
+      userId: ""
     };
   },
   computed: {
-    ...mapState(["blackList"])
+    ...mapState(["shops", "failed"])
   },
   created() {
-    this.getShops({ status: "no" });
+    this.getShops({ status: "failed" });
   },
   methods: {
     ...mapActions(["getShops"]),
-    recoverShop(id) {
-      this.$confirm("是否将该店铺恢复为正常营业？", "提示", {
+    auditShop(id) {
+      this.$confirm("是否将通过该店铺的审核？", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
         type: "warning"
@@ -96,7 +91,7 @@ export default {
             url: "/shopSys/" + id,
             method: "get"
           }).then(res => {
-           this. userId = res.data.userId;
+            this.userId = res.data.userId;
           });
           axios({
             url: "/shopSys/" + id,
@@ -105,14 +100,14 @@ export default {
               status: "yes"
             }
           }).then(res => {
-            this.getShops({ status: "no" });
-             axios({
-              url:"/shopSys/user/"+this.userId,
-              method:"put",
-              data:{
-                status:"yes"
+            this.getShops({ status: "failed" });
+            axios({
+              url: "/shopSys/user/" + this.userId,
+              method: "put",
+              data: {
+                status: "yes"
               }
-            }).then((res)=>{
+            }).then(res => {
             });
           });
           this.$message({
@@ -123,7 +118,7 @@ export default {
         .catch(() => {
           this.$message({
             type: "info",
-            message: "已取消"
+            message: "取消操作!"
           });
         });
     }

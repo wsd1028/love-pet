@@ -1,6 +1,6 @@
 <template>
 
-<div style="margin-top: 15px;">
+<div style="margin-bottom:5px">
   <el-input placeholder="请输入内容" v-model="input5" class="input-with-select">
     <el-select v-model="select" slot="prepend" placeholder="请选择" class="select">
       <el-option label="姓名" value="name"></el-option>

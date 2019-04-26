@@ -28,7 +28,6 @@ export default {
       this.type = e;
     },
     searchBtn() {
-      console.log(this.type, this.value);
       this.setUsers({type:this.type, value:this.value});
      
     }

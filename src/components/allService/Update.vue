@@ -43,7 +43,7 @@ const { mapActions, mapState, mapMutations } = createNamespacedHelpers(
 );
 export default {
   computed: {
-    ...mapState(["service", "shopId", "serviceType", "waiter","pagenation"]),
+    ...mapState(["service", "shopId", "serviceType", "waiter", "pagenation"]),
     name: {
       set(name) {
         this.setUpdateService({
@@ -114,11 +114,17 @@ export default {
     };
   },
   created() {
-    this.getServiceType({ shopId: this.shopId });
-    this.getWaiter( this.shopId)
+    let shopId = this.shopId;
+    this.getServiceType({ shopId });
+    this.getWaiter(shopId);
   },
   methods: {
-    ...mapActions(["getServices", "getServiceType", "getWaiter","updateService"]),
+    ...mapActions([
+      "getServices",
+      "getServiceType",
+      "getWaiter",
+      "updateService"
+    ]),
     ...mapMutations(["setUpdateService", "setUpdateServiceVis"]),
     update(id) {
       let shopId = this.shopId;
@@ -127,10 +133,11 @@ export default {
           this.serviceTypeId = this.serviceType[i]._id;
         }
       }
-    let data={...this.service,serviceTypeId:this.serviceTypeId}
-        this.updateService(data);
-        this.setUpdateServiceVis(false);
-        this.getServices({ page: this.pagenation.curpage, shopId });
+      let serviceTypeId=this.serviceTypeId||this.service.serviceType._id
+      let data = { ...this.service, serviceTypeId:serviceTypeId };
+      this.updateService(data);
+      this.setUpdateServiceVis(false);
+      this.getServices({ page: this.pagenation.curpage,type: "", value: "", shopId });
     }
   },
   data() {

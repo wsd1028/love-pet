@@ -56,6 +56,12 @@ import axios from "axios";
 import { createNamespacedHelpers } from "vuex";
 const { mapActions, mapState, mapMutations } = createNamespacedHelpers("shops");
 export default {
+  data() {
+    return {
+      url: "/upload/",
+      userId: ""
+    };
+  },
   computed: {
     ...mapState(["audit"])
     // ...mapMutations(["setBlackList"])
@@ -75,16 +81,30 @@ export default {
         .then(() => {
           axios({
             url: "/shopSys/" + id,
+            method: "get"
+          }).then(res => {
+           this. userId = res.data.userId;
+          });
+          axios({
+            url: "/shopSys/" + id,
             method: "put",
             data: {
               status: "yes"
             }
           }).then(res => {
-            this.getShops({status:"audit"});
-          });
-          this.$message({
-            type: "success",
-            message: "通过成功!"
+            axios({
+              url:"/shopSys/user/"+this.userId,
+              method:"put",
+              data:{
+                status:"yes"
+              }
+            }).then((res)=>{
+            });
+            this.getShops({ status: "audit" });
+            this.$message({
+              type: "success",
+              message: "通过成功!"
+            });
           });
         })
         .catch(() => {
@@ -94,6 +114,35 @@ export default {
             message: "已取消通过"
           });
         });
+    },
+    failed(id) {
+      axios({
+            url: "/shopSys/" + id,
+            method: "get"
+          }).then(res => {
+           this. userId = res.data.userId;
+          });
+      axios({
+        url: "/shopSys/" + id,
+        method: "put",
+        data: {
+          status: "failed"
+        }
+      }).then(res => {
+        this.getShops({ status: "failed" });
+        axios({
+              url:"/shopSys/user/"+this.userId,
+              method:"put",
+              data:{
+                status:"failed"
+              }
+            }).then((res)=>{
+            });
+      });
+      this.$message({
+        type: "success",
+        message: "审核不通过!"
+      });
     }
   }
 };
