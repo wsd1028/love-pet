@@ -91,7 +91,7 @@ import { createNamespacedHelpers } from "vuex";
 const { mapActions, mapState, mapMutations } = createNamespacedHelpers("shops");
 export default {
   computed: {
-    ...mapState(["userId"])
+    // ...mapState(["userId"])
   },
   created() {
     this.getSession();
@@ -121,8 +121,6 @@ export default {
     };
     return {
       active: 1,
-      // images: "",
-      // headImgs: "",
       ruleForm: {
         images: "",
         headImgs: "",
@@ -179,17 +177,14 @@ export default {
     };
   },
   methods: {
-    ...mapMutations(["setUserId"]),
     getSession() {
       axios({
         url: "/shopApply/getSession",
         method: "get"
       }).then(res => {
         if (res.data) {
-          if (res.data) {
-            this.ruleForm.userId = res.data._id;
-            this.setUserId(res.data._id);
-          } 
+          console.log(res.data._id);
+          this.ruleForm.userId = res.data._id;
         }
       });
     },
@@ -198,55 +193,56 @@ export default {
       // // 创建地址解析器实例
       var myGeo = new BMap.Geocoder();
       // getPoint根据地址生成经纬度
-      myGeo.getPoint(this.ruleForm.city, point => {
-        this.ruleForm.cityLocation.longitude = point.lng;
-        this.ruleForm.cityLocation.latitude = point.lat;
-        myGeo.getPoint(this.ruleForm.address, point => {
-          this.ruleForm.location.longitude = point.lng;
-          this.ruleForm.location.latitude = point.lat;
-          this.$refs[formName].validate(valid => {
-            if (valid) {
-
-              let feature = this.ruleForm.feature.join(",");
-              axios({
-                url: "/shopApply",
-                method: "post",
-                data: {
-                  ...this.ruleForm,
-                  status: "audit",
-                  feature: feature,
-                  vipLevel: "1级",
-                  commission: "0.5",
-                  shopWaiter: [],
-                  comment: []
-                }
-              }).then(res => {
-                this.$message({
-                  message: "提交成功！",
-                  type: "success"
-                });
-                this.headImg = this.image = "";
-                this.$refs[formName].resetFields();
-                let shopsId = res.data._id;
+      this.$refs[formName].validate(valid => {
+        if (valid) {
+          this.ruleForm.address = this.ruleForm.city + this.ruleForm.address;
+          myGeo.getPoint(this.ruleForm.city, point => {
+            this.ruleForm.cityLocation.longitude = point.lng;
+            this.ruleForm.cityLocation.latitude = point.lat;
+            myGeo.getPoint(this.ruleForm.address, point => {
+              this.ruleForm.location.longitude = point.lng;
+              this.ruleForm.location.latitude = point.lat;
+                let feature = this.ruleForm.feature.join(",");
                 axios({
-                  url: "/shopApply/addShops/" + this.userId,
-                  method: "put",
+                  url: "/shopApply",
+                  method: "post",
                   data: {
-                    shopsId: shopsId,
-                    status: "audit"
+                    ...this.ruleForm,
+                    status: "audit",
+                    address: this.ruleForm.city + this.ruleFormaddress,
+                    feature: feature,
+                    vipLevel: "1级",
+                    commission: "0.5",
+                    shopWaiter: [],
+                    comment: []
                   }
                 }).then(res => {
-                  this.$router.push("auditShop");
+                  this.$message({
+                    message: "提交成功！",
+                    type: "success"
+                  });
+                  this.headImg = this.image = "";
+                  let shopsId = res.data._id;
+                  axios({
+                    url: "/shopApply/addShops/" + this.ruleForm.userId,
+                    method: "put",
+                    data: {
+                      shopsId: shopsId,
+                      status: "audit"
+                    }
+                  }).then(res => {
+                  this.$refs[formName].resetFields();
+                    this.$router.push("auditShop");
+                  });
                 });
-              });
-            } else {
-              this.$alert("请填写完整的信息", "提示", {
-                confirmButtonText: "确定"
-              });
-              return false;
-            }
+            });
           });
-        });
+        } else {
+          this.$alert("请填写完整的信息", "提示", {
+            confirmButtonText: "确定"
+          });
+          return false;
+        }
       });
     },
     resetForm(formName) {
