@@ -103,21 +103,26 @@ export default {
               method: "get",
               url: "/login/shopUsers"
             }).then(res => {
-              for (let i = 0; i < res.data.length; i++) {
-                if (res.data[i].phone == phone && res.data[i].pwd == pwd) {
-                  //已申请账户
-                  console.log(res.data[i]);
-                  if (res.data[i].shops.$id) {
-                    //有账户，有店
-                    alert("已开店，进入门店管理界面");
-                    this.$router.push("shopSys");
-                    return;
-                  } else {
-                    //有账号，但未开店
-                    alert("该账户已注册账号，还未申请开店，进入店铺申请界面");
-                    this.$router.push("shopApply");
-                    return;
-                  }
+              console.log(res.data);
+              if (res.data) {
+                //有账号
+                if (res.data.status == "null") {
+                  //有账户，无店
+                  alert("该账户已注册账号，还未申请开店，进入店铺申请界面");
+                  // this.$router.push("shopApply");
+                  return;
+                } else if (res.data.status == "yes") {
+                  //有账号，但未开店
+                  alert("该账户已注册账号,有店");
+                  this.$router.push("shopManage");
+                  return;
+                } else if (res.data.status == "audit") {
+                  //有账号，但店铺在申请中
+                  alert("该账户已注册账号,店铺审核中");
+                  // this.$router.push("");
+                  return;
+                } else {
+                  alert("该账户已注册账号,店铺状态不可用");
                 }
               }
               alert("店家未注册，进入注册界面");
