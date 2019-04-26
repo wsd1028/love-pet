@@ -42,9 +42,10 @@
         </template>
       </el-table-column>
 
-      <el-table-column label="操作" width="150" fixed="right" align="center">
+      <el-table-column label="操作" width="300" fixed="right" align="center">
         <template slot-scope="scope">
-          <el-button type="primary" plain icon="el-icon-edit" @click="blackShop(scope.row._id)">通过审核</el-button>
+          <el-button type="primary" plain @click="blackShop(scope.row._id)">通过审核</el-button>
+          <el-button type="primary" plain @click="failed(scope.row._id)">不通过审核</el-button>
         </template>
       </el-table-column>
     </el-table>
