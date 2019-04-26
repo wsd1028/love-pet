@@ -34,18 +34,7 @@ export default {
       serveData: [],
       numbers: [],
       sales: []
-      // Jan: 1,
-      // Feb: 2,
-      // Mar: 3,
-      // Apr: 0,
-      // May: 5,
-      // June: 6,
-      // July: 7,
-      // Aug: 8,
-      // Spet: 9,
-      // Obc: 10,
-      // Nov: 11,
-      // Oec: 12
+      
     };
   },
   methods: {
@@ -80,7 +69,7 @@ export default {
             
             this.sales.push(sales);
             
-            console.log(this.sales);
+            // console.log(this.sales);
           }
             
             //   for(let i in res.data){
