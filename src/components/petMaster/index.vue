@@ -113,7 +113,7 @@ export default {
       values: "",
       classA: "classA",
       classB: "classB",
-       src: "http://192.168.43.178:3000/upload/"
+       src: "http://localhost:3000/upload/"
     };
   },
   created() {
