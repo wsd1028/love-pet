@@ -77,7 +77,7 @@
     </el-table-column>
     <el-table-column align="center" prop="image" label="图片" width="100">
       <template slot-scope="scope">
-        <img :src="url + scope.row.image" alt="" style="width: 120px;height: 120px;">
+        <img :src="url + scope.row.image" alt style="width: 120px;height: 120px;">
       </template>
     </el-table-column>
     <el-table-column fixed="right" align="center" label="操作" width="230">
@@ -89,45 +89,54 @@
   </el-table>
 </template>
 <script>
+import axios from 'axios'
 import { createNamespacedHelpers } from "vuex";
 const { mapActions, mapState } = createNamespacedHelpers("ProModule");
 export default {
   data() {
     return {
       loading2: true,
-      url:"/upload/"
+      url: "/upload/"
     };
   },
   computed: {
-    ...mapState(["products", "pagenation","shopId"])
+    ...mapState(["products", "pagenation", "shopId"])
   },
   created() {
-    let shopId=this.shopId;
-    this.getProducts({shopId});
+    let shopId = this.shopId;
+    this.getProducts({ shopId });
   },
   methods: {
-    ...mapActions(["deleteProduct", "getProducts", "getUpdateProduct"]),
+    ...mapActions(["getProducts", "getUpdateProduct"]),
     handleDelete(id) {
       this.$confirm("此操作将永久删除该商品, 是否继续?", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
         type: "warning"
       })
-        .then(() => {
-          this.deleteProduct(id);
-          this.getProducts({ page: this.pagenation.curpage });
+        .then(action => {
+          console.log(action)
+          if (action == "confirm") {
+            axios({
+              method: "delete",
+              url: "/product/delete/" + id
+            }).then(res => {
+              this.getProducts({shopId :this.shopId});
+              this.$message({
+                type: "success",
+                message: "删除成功"
+              });
+            });
+          }
         })
-        .then(() => {
-          this.$message({
-            type: "success",
-            message: "删除成功"
-          });
-        })
-        .catch(() => {
-          this.$message({
+        .catch(err => {
+          if(err== "cancel"){
+            this.$message({
             type: "info",
             message: "已取消删除"
           });
+          }
+          
         });
     },
     handleEdit(id) {

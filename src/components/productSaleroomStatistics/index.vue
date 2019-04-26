@@ -55,7 +55,6 @@ export default {
               year = year - 1;
               month = month + 12;
             }
-
             arry[i] = year + "年" + month + "月";
           }
           this.date = arry;
@@ -99,6 +98,7 @@ export default {
   computed: {
     tradeOptions() {
       return {
+        color: ["#3398DB"],
         title: {
           text: "近六月商品销售额"
         },

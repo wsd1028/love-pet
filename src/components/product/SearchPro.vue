@@ -18,7 +18,7 @@
       <el-option label="价格" value="price"/>
     </el-select>
     <el-input v-model="value" placeholder="请输入内容" class="inputStyle"></el-input>
-    <el-button icon="el-icon-search" circle type="primary" @click="search"></el-button>
+    <el-button icon="el-icon-search" plain type="primary" @click="search"></el-button>
   </div>
 </template>
 

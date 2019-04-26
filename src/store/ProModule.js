@@ -85,7 +85,8 @@ export default {
           page,
           rows,
           type,
-          value,shopId
+          value,
+          shopId
         }
       }).then(res => {
         commit("setProducts", res.data.rows);
@@ -101,17 +102,6 @@ export default {
         url: "/product/addPro",
         data: addMess
       }).then(res => {});
-    },
-    //删除
-    deleteProduct({
-      commit
-    }, id) {
-      axios({
-        method: "delete",
-        url: "/product/delete/" + id
-      }).then(res => {
-
-      });
     },
     //获取修改哪一行数据
     getUpdateProduct({

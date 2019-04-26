@@ -144,6 +144,24 @@ export default {
     addNo(form) {
       this.$refs[form].resetFields();
       this.dialogFormVisible = false;
+      this.form = {
+        name: "",
+        type: "",
+        totalNum: "",
+        material: "",
+        petSize: "",
+        petType: "",
+        weight: "",
+        taste: "",
+        effect: "",
+        country: "",
+        date: "",
+        freshDate: "",
+        company: "",
+        explain: "",
+        price: "",
+        image: ""
+      }       
     },
     add(form) {
       let shopId = this.shopId;
@@ -153,6 +171,24 @@ export default {
       this.dialogFormVisible = false;
       let page = this.pagenation.curpage;
       this.getProducts({ page,shopId });
+      this.form = {
+        name: "",
+        type: "",
+        totalNum: "",
+        material: "",
+        petSize: "",
+        petType: "",
+        weight: "",
+        taste: "",
+        effect: "",
+        country: "",
+        date: "",
+        freshDate: "",
+        company: "",
+        explain: "",
+        price: "",
+        image: ""
+      }
     },
     handleAvatarSuccess(response, file, fileList) {
       this.dialogImageUrl = "/upload/" + response;
